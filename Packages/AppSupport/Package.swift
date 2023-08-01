@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "AppSupport",
-    platforms: [.iOS(.v16), .watchOS(.v9)],
+    platforms: [.iOS(.v16), .macOS(.v13), .watchOS(.v9)],
     products: [
         .library(
             name: "AppSupport",
@@ -18,6 +18,11 @@ let package = Package(
     ],
     targets: [
         .target(name: "AppUI", dependencies: ["Core"]),
-        .target(name: "AppSupport", dependencies: ["Core", "AppUI"]),
+        .target(name: "MacUI", dependencies: ["Core", "AppUI"]),
+        .target(name: "AppSupport", dependencies: [
+            "Core",
+            "AppUI",
+            .target(name: "MacUI", condition: .when(platforms: [.macOS])),
+        ]),
     ]
 )

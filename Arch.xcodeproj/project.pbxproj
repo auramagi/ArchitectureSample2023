@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		A31AFA172A787E3500874E78 /* ArchWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA162A787E3500874E78 /* ArchWatchApp.swift */; };
 		A31AFA1B2A787E3600874E78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A31AFA1A2A787E3600874E78 /* Assets.xcassets */; };
-		A31AFA212A787E3600874E78 /* ArchWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A31AFA212A787E3600874E78 /* ArchWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A31AFA2D2A787EB100874E78 /* MyIntentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA2C2A787EB100874E78 /* MyIntentExtension.swift */; };
 		A31AFA2F2A787EB100874E78 /* MyIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA2E2A787EB100874E78 /* MyIntent.swift */; };
-		A31AFA332A787EB100874E78 /* MyIntent.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = A31AFA2A2A787EB100874E78 /* MyIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A31AFA332A787EB100874E78 /* MyIntent.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = A31AFA2A2A787EB100874E78 /* MyIntent.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A31AFA4C2A7888EF00874E78 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31AFA4B2A7888EF00874E78 /* WidgetKit.framework */; };
 		A31AFA4E2A7888EF00874E78 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31AFA4D2A7888EF00874E78 /* SwiftUI.framework */; };
 		A31AFA512A7888EF00874E78 /* MyWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA502A7888EF00874E78 /* MyWidgetBundle.swift */; };
@@ -20,7 +20,7 @@
 		A31AFA562A7888EF00874E78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A31AFA552A7888EF00874E78 /* Assets.xcassets */; };
 		A31AFA582A7888EF00874E78 /* MyWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA542A7888EF00874E78 /* MyWidget.intentdefinition */; };
 		A31AFA592A7888EF00874E78 /* MyWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA542A7888EF00874E78 /* MyWidget.intentdefinition */; };
-		A31AFA5C2A7888EF00874E78 /* MyWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A31AFA4A2A7888EF00874E78 /* MyWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A31AFA5C2A7888EF00874E78 /* MyWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A31AFA4A2A7888EF00874E78 /* MyWidgetExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A31AFA662A78890600874E78 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31AFA4B2A7888EF00874E78 /* WidgetKit.framework */; };
 		A31AFA672A78890600874E78 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31AFA4D2A7888EF00874E78 /* SwiftUI.framework */; };
 		A31AFA6A2A78890600874E78 /* MyWidgetWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA692A78890600874E78 /* MyWidgetWatch.swift */; };
@@ -530,16 +530,19 @@
 /* Begin PBXTargetDependency section */
 		A31AFA202A787E3600874E78 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = A31AFA132A787E3500874E78 /* ArchWatch Watch App */;
 			targetProxy = A31AFA1F2A787E3600874E78 /* PBXContainerItemProxy */;
 		};
 		A31AFA322A787EB100874E78 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = A31AFA292A787EB100874E78 /* MyIntent */;
 			targetProxy = A31AFA312A787EB100874E78 /* PBXContainerItemProxy */;
 		};
 		A31AFA5B2A7888EF00874E78 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = A31AFA492A7888EF00874E78 /* MyWidgetExtension */;
 			targetProxy = A31AFA5A2A7888EF00874E78 /* PBXContainerItemProxy */;
 		};
@@ -921,6 +924,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -953,6 +959,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
