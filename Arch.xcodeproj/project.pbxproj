@@ -1,0 +1,1045 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A31AFA172A787E3500874E78 /* ArchWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA162A787E3500874E78 /* ArchWatchApp.swift */; };
+		A31AFA1B2A787E3600874E78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A31AFA1A2A787E3600874E78 /* Assets.xcassets */; };
+		A31AFA212A787E3600874E78 /* ArchWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A31AFA2D2A787EB100874E78 /* MyIntentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA2C2A787EB100874E78 /* MyIntentExtension.swift */; };
+		A31AFA2F2A787EB100874E78 /* MyIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA2E2A787EB100874E78 /* MyIntent.swift */; };
+		A31AFA332A787EB100874E78 /* MyIntent.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = A31AFA2A2A787EB100874E78 /* MyIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A31AFA4C2A7888EF00874E78 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31AFA4B2A7888EF00874E78 /* WidgetKit.framework */; };
+		A31AFA4E2A7888EF00874E78 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31AFA4D2A7888EF00874E78 /* SwiftUI.framework */; };
+		A31AFA512A7888EF00874E78 /* MyWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA502A7888EF00874E78 /* MyWidgetBundle.swift */; };
+		A31AFA532A7888EF00874E78 /* MyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA522A7888EF00874E78 /* MyWidget.swift */; };
+		A31AFA562A7888EF00874E78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A31AFA552A7888EF00874E78 /* Assets.xcassets */; };
+		A31AFA582A7888EF00874E78 /* MyWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA542A7888EF00874E78 /* MyWidget.intentdefinition */; };
+		A31AFA592A7888EF00874E78 /* MyWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA542A7888EF00874E78 /* MyWidget.intentdefinition */; };
+		A31AFA5C2A7888EF00874E78 /* MyWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A31AFA4A2A7888EF00874E78 /* MyWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A31AFA662A78890600874E78 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31AFA4B2A7888EF00874E78 /* WidgetKit.framework */; };
+		A31AFA672A78890600874E78 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A31AFA4D2A7888EF00874E78 /* SwiftUI.framework */; };
+		A31AFA6A2A78890600874E78 /* MyWidgetWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA692A78890600874E78 /* MyWidgetWatch.swift */; };
+		A31AFA6D2A78890600874E78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A31AFA6C2A78890600874E78 /* Assets.xcassets */; };
+		A31AFA6F2A78890600874E78 /* MyWidgetWatch.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA6B2A78890600874E78 /* MyWidgetWatch.intentdefinition */; };
+		A31AFA702A78890600874E78 /* MyWidgetWatch.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA6B2A78890600874E78 /* MyWidgetWatch.intentdefinition */; };
+		A31AFA732A78890600874E78 /* MyWidgetWatchExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A31AFA652A78890600874E78 /* MyWidgetWatchExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A32561C32A7898D700EA28CC /* AppSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561C22A7898D700EA28CC /* AppSupport */; };
+		A32561C52A7898DC00EA28CC /* WatchAppSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561C42A7898DC00EA28CC /* WatchAppSupport */; };
+		A32561C72A7898E300EA28CC /* IntentsSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561C62A7898E300EA28CC /* IntentsSupport */; };
+		A32561C92A7898EA00EA28CC /* WidgetsSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561C82A7898EA00EA28CC /* WidgetsSupport */; };
+		A32561CB2A7898F200EA28CC /* WidgetsSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561CA2A7898F200EA28CC /* WidgetsSupport */; };
+		A34836072A7876DA0019C266 /* ArchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34836062A7876DA0019C266 /* ArchApp.swift */; };
+		A348360B2A7876DB0019C266 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A348360A2A7876DB0019C266 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A31AFA1F2A787E3600874E78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A34835FB2A7876DA0019C266 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A31AFA132A787E3500874E78;
+			remoteInfo = "ArchWatch Watch App";
+		};
+		A31AFA312A787EB100874E78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A34835FB2A7876DA0019C266 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A31AFA292A787EB100874E78;
+			remoteInfo = MyIntent;
+		};
+		A31AFA5A2A7888EF00874E78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A34835FB2A7876DA0019C266 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A31AFA492A7888EF00874E78;
+			remoteInfo = MyWidgetExtension;
+		};
+		A31AFA712A78890600874E78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A34835FB2A7876DA0019C266 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A31AFA642A78890600874E78;
+			remoteInfo = MyWidgetWatchExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A31AFA252A787E3600874E78 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				A31AFA212A787E3600874E78 /* ArchWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA372A787EB100874E78 /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+				A31AFA332A787EB100874E78 /* MyIntent.appex in Embed ExtensionKit Extensions */,
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA602A7888F000874E78 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A31AFA5C2A7888EF00874E78 /* MyWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA772A78890600874E78 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A31AFA732A78890600874E78 /* MyWidgetWatchExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ArchWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A31AFA162A787E3500874E78 /* ArchWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchWatchApp.swift; sourceTree = "<group>"; };
+		A31AFA1A2A787E3600874E78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A31AFA2A2A787EB100874E78 /* MyIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = MyIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A31AFA2C2A787EB100874E78 /* MyIntentExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyIntentExtension.swift; sourceTree = "<group>"; };
+		A31AFA2E2A787EB100874E78 /* MyIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyIntent.swift; sourceTree = "<group>"; };
+		A31AFA302A787EB100874E78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A31AFA382A787EC100874E78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A31AFA4A2A7888EF00874E78 /* MyWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MyWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A31AFA4B2A7888EF00874E78 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A31AFA4D2A7888EF00874E78 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A31AFA502A7888EF00874E78 /* MyWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWidgetBundle.swift; sourceTree = "<group>"; };
+		A31AFA522A7888EF00874E78 /* MyWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWidget.swift; sourceTree = "<group>"; };
+		A31AFA542A7888EF00874E78 /* MyWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = MyWidget.intentdefinition; sourceTree = "<group>"; };
+		A31AFA552A7888EF00874E78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A31AFA572A7888EF00874E78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A31AFA652A78890600874E78 /* MyWidgetWatchExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MyWidgetWatchExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A31AFA692A78890600874E78 /* MyWidgetWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWidgetWatch.swift; sourceTree = "<group>"; };
+		A31AFA6B2A78890600874E78 /* MyWidgetWatch.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = MyWidgetWatch.intentdefinition; sourceTree = "<group>"; };
+		A31AFA6C2A78890600874E78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A31AFA6E2A78890600874E78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A34836032A7876DA0019C266 /* Arch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A34836062A7876DA0019C266 /* ArchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchApp.swift; sourceTree = "<group>"; };
+		A348360A2A7876DB0019C266 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A31AFA112A787E3500874E78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A32561C52A7898DC00EA28CC /* WatchAppSupport in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA272A787EB100874E78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A32561C72A7898E300EA28CC /* IntentsSupport in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA472A7888EF00874E78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA4E2A7888EF00874E78 /* SwiftUI.framework in Frameworks */,
+				A31AFA4C2A7888EF00874E78 /* WidgetKit.framework in Frameworks */,
+				A32561C92A7898EA00EA28CC /* WidgetsSupport in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA622A78890600874E78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA672A78890600874E78 /* SwiftUI.framework in Frameworks */,
+				A31AFA662A78890600874E78 /* WidgetKit.framework in Frameworks */,
+				A32561CB2A7898F200EA28CC /* WidgetsSupport in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A34836002A7876DA0019C266 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A32561C32A7898D700EA28CC /* AppSupport in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A31AFA0D2A787B0D00874E78 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A31AFA4B2A7888EF00874E78 /* WidgetKit.framework */,
+				A31AFA4D2A7888EF00874E78 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A31AFA152A787E3500874E78 /* ArchWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				A31AFA162A787E3500874E78 /* ArchWatchApp.swift */,
+				A31AFA1A2A787E3600874E78 /* Assets.xcassets */,
+			);
+			path = "ArchWatch Watch App";
+			sourceTree = "<group>";
+		};
+		A31AFA2B2A787EB100874E78 /* MyIntent */ = {
+			isa = PBXGroup;
+			children = (
+				A31AFA2C2A787EB100874E78 /* MyIntentExtension.swift */,
+				A31AFA2E2A787EB100874E78 /* MyIntent.swift */,
+				A31AFA302A787EB100874E78 /* Info.plist */,
+			);
+			path = MyIntent;
+			sourceTree = "<group>";
+		};
+		A31AFA4F2A7888EF00874E78 /* MyWidget */ = {
+			isa = PBXGroup;
+			children = (
+				A31AFA502A7888EF00874E78 /* MyWidgetBundle.swift */,
+				A31AFA522A7888EF00874E78 /* MyWidget.swift */,
+				A31AFA542A7888EF00874E78 /* MyWidget.intentdefinition */,
+				A31AFA552A7888EF00874E78 /* Assets.xcassets */,
+				A31AFA572A7888EF00874E78 /* Info.plist */,
+			);
+			path = MyWidget;
+			sourceTree = "<group>";
+		};
+		A31AFA682A78890600874E78 /* MyWidgetWatch */ = {
+			isa = PBXGroup;
+			children = (
+				A31AFA692A78890600874E78 /* MyWidgetWatch.swift */,
+				A31AFA6B2A78890600874E78 /* MyWidgetWatch.intentdefinition */,
+				A31AFA6C2A78890600874E78 /* Assets.xcassets */,
+				A31AFA6E2A78890600874E78 /* Info.plist */,
+			);
+			path = MyWidgetWatch;
+			sourceTree = "<group>";
+		};
+		A34835FA2A7876DA0019C266 = {
+			isa = PBXGroup;
+			children = (
+				A34836052A7876DA0019C266 /* Arch */,
+				A31AFA152A787E3500874E78 /* ArchWatch Watch App */,
+				A31AFA2B2A787EB100874E78 /* MyIntent */,
+				A31AFA4F2A7888EF00874E78 /* MyWidget */,
+				A31AFA682A78890600874E78 /* MyWidgetWatch */,
+				A34836042A7876DA0019C266 /* Products */,
+				A31AFA0D2A787B0D00874E78 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A34836042A7876DA0019C266 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A34836032A7876DA0019C266 /* Arch.app */,
+				A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */,
+				A31AFA2A2A787EB100874E78 /* MyIntent.appex */,
+				A31AFA4A2A7888EF00874E78 /* MyWidgetExtension.appex */,
+				A31AFA652A78890600874E78 /* MyWidgetWatchExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A34836052A7876DA0019C266 /* Arch */ = {
+			isa = PBXGroup;
+			children = (
+				A31AFA382A787EC100874E78 /* Info.plist */,
+				A34836062A7876DA0019C266 /* ArchApp.swift */,
+				A348360A2A7876DB0019C266 /* Assets.xcassets */,
+			);
+			path = Arch;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A31AFA132A787E3500874E78 /* ArchWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A31AFA222A787E3600874E78 /* Build configuration list for PBXNativeTarget "ArchWatch Watch App" */;
+			buildPhases = (
+				A31AFA102A787E3500874E78 /* Sources */,
+				A31AFA112A787E3500874E78 /* Frameworks */,
+				A31AFA122A787E3500874E78 /* Resources */,
+				A31AFA772A78890600874E78 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A31AFA722A78890600874E78 /* PBXTargetDependency */,
+			);
+			name = "ArchWatch Watch App";
+			packageProductDependencies = (
+				A32561C42A7898DC00EA28CC /* WatchAppSupport */,
+			);
+			productName = "ArchWatch Watch App";
+			productReference = A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A31AFA292A787EB100874E78 /* MyIntent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A31AFA342A787EB100874E78 /* Build configuration list for PBXNativeTarget "MyIntent" */;
+			buildPhases = (
+				A31AFA262A787EB100874E78 /* Sources */,
+				A31AFA272A787EB100874E78 /* Frameworks */,
+				A31AFA282A787EB100874E78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyIntent;
+			packageProductDependencies = (
+				A32561C62A7898E300EA28CC /* IntentsSupport */,
+			);
+			productName = MyIntent;
+			productReference = A31AFA2A2A787EB100874E78 /* MyIntent.appex */;
+			productType = "com.apple.product-type.extensionkit-extension";
+		};
+		A31AFA492A7888EF00874E78 /* MyWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A31AFA5D2A7888F000874E78 /* Build configuration list for PBXNativeTarget "MyWidgetExtension" */;
+			buildPhases = (
+				A31AFA462A7888EF00874E78 /* Sources */,
+				A31AFA472A7888EF00874E78 /* Frameworks */,
+				A31AFA482A7888EF00874E78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyWidgetExtension;
+			packageProductDependencies = (
+				A32561C82A7898EA00EA28CC /* WidgetsSupport */,
+			);
+			productName = MyWidgetExtension;
+			productReference = A31AFA4A2A7888EF00874E78 /* MyWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		A31AFA642A78890600874E78 /* MyWidgetWatchExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A31AFA742A78890600874E78 /* Build configuration list for PBXNativeTarget "MyWidgetWatchExtension" */;
+			buildPhases = (
+				A31AFA612A78890600874E78 /* Sources */,
+				A31AFA622A78890600874E78 /* Frameworks */,
+				A31AFA632A78890600874E78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyWidgetWatchExtension;
+			packageProductDependencies = (
+				A32561CA2A7898F200EA28CC /* WidgetsSupport */,
+			);
+			productName = MyWidgetWatchExtension;
+			productReference = A31AFA652A78890600874E78 /* MyWidgetWatchExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		A34836022A7876DA0019C266 /* Arch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A34836112A7876DB0019C266 /* Build configuration list for PBXNativeTarget "Arch" */;
+			buildPhases = (
+				A34835FF2A7876DA0019C266 /* Sources */,
+				A34836002A7876DA0019C266 /* Frameworks */,
+				A34836012A7876DA0019C266 /* Resources */,
+				A31AFA252A787E3600874E78 /* Embed Watch Content */,
+				A31AFA372A787EB100874E78 /* Embed ExtensionKit Extensions */,
+				A31AFA602A7888F000874E78 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A31AFA202A787E3600874E78 /* PBXTargetDependency */,
+				A31AFA322A787EB100874E78 /* PBXTargetDependency */,
+				A31AFA5B2A7888EF00874E78 /* PBXTargetDependency */,
+			);
+			name = Arch;
+			packageProductDependencies = (
+				A32561C22A7898D700EA28CC /* AppSupport */,
+			);
+			productName = Arch;
+			productReference = A34836032A7876DA0019C266 /* Arch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A34835FB2A7876DA0019C266 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					A31AFA132A787E3500874E78 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					A31AFA292A787EB100874E78 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					A31AFA492A7888EF00874E78 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					A31AFA642A78890600874E78 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					A34836022A7876DA0019C266 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+				};
+			};
+			buildConfigurationList = A34835FE2A7876DA0019C266 /* Build configuration list for PBXProject "Arch" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A34835FA2A7876DA0019C266;
+			productRefGroup = A34836042A7876DA0019C266 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A34836022A7876DA0019C266 /* Arch */,
+				A31AFA132A787E3500874E78 /* ArchWatch Watch App */,
+				A31AFA292A787EB100874E78 /* MyIntent */,
+				A31AFA492A7888EF00874E78 /* MyWidgetExtension */,
+				A31AFA642A78890600874E78 /* MyWidgetWatchExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A31AFA122A787E3500874E78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA1B2A787E3600874E78 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA282A787EB100874E78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA482A7888EF00874E78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA562A7888EF00874E78 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA632A78890600874E78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA6D2A78890600874E78 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A34836012A7876DA0019C266 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A348360B2A7876DB0019C266 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A31AFA102A787E3500874E78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA702A78890600874E78 /* MyWidgetWatch.intentdefinition in Sources */,
+				A31AFA172A787E3500874E78 /* ArchWatchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA262A787EB100874E78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA2D2A787EB100874E78 /* MyIntentExtension.swift in Sources */,
+				A31AFA2F2A787EB100874E78 /* MyIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA462A7888EF00874E78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA582A7888EF00874E78 /* MyWidget.intentdefinition in Sources */,
+				A31AFA512A7888EF00874E78 /* MyWidgetBundle.swift in Sources */,
+				A31AFA532A7888EF00874E78 /* MyWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A31AFA612A78890600874E78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA6F2A78890600874E78 /* MyWidgetWatch.intentdefinition in Sources */,
+				A31AFA6A2A78890600874E78 /* MyWidgetWatch.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A34835FF2A7876DA0019C266 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31AFA592A7888EF00874E78 /* MyWidget.intentdefinition in Sources */,
+				A34836072A7876DA0019C266 /* ArchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A31AFA202A787E3600874E78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A31AFA132A787E3500874E78 /* ArchWatch Watch App */;
+			targetProxy = A31AFA1F2A787E3600874E78 /* PBXContainerItemProxy */;
+		};
+		A31AFA322A787EB100874E78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A31AFA292A787EB100874E78 /* MyIntent */;
+			targetProxy = A31AFA312A787EB100874E78 /* PBXContainerItemProxy */;
+		};
+		A31AFA5B2A7888EF00874E78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A31AFA492A7888EF00874E78 /* MyWidgetExtension */;
+			targetProxy = A31AFA5A2A7888EF00874E78 /* PBXContainerItemProxy */;
+		};
+		A31AFA722A78890600874E78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A31AFA642A78890600874E78 /* MyWidgetWatchExtension */;
+			targetProxy = A31AFA712A78890600874E78 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A31AFA232A787E3600874E78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ArchWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = me.apurin.Arch;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		A31AFA242A787E3600874E78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ArchWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = me.apurin.Arch;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		A31AFA352A787EB100874E78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyIntent/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyIntent;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch.MyIntent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A31AFA362A787EB100874E78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyIntent/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyIntent;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch.MyIntent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A31AFA5E2A7888F000874E78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch.MyWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A31AFA5F2A7888F000874E78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch.MyWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A31AFA752A78890600874E78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyWidgetWatch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyWidgetWatch;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch.watchkitapp.MyWidgetWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		A31AFA762A78890600874E78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyWidgetWatch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MyWidgetWatch;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch.watchkitapp.MyWidgetWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		A348360F2A7876DB0019C266 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A34836102A7876DB0019C266 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A34836122A7876DB0019C266 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Arch/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A34836132A7876DB0019C266 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = FK4VRNJVL7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Arch/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.apurin.Arch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A31AFA222A787E3600874E78 /* Build configuration list for PBXNativeTarget "ArchWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A31AFA232A787E3600874E78 /* Debug */,
+				A31AFA242A787E3600874E78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A31AFA342A787EB100874E78 /* Build configuration list for PBXNativeTarget "MyIntent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A31AFA352A787EB100874E78 /* Debug */,
+				A31AFA362A787EB100874E78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A31AFA5D2A7888F000874E78 /* Build configuration list for PBXNativeTarget "MyWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A31AFA5E2A7888F000874E78 /* Debug */,
+				A31AFA5F2A7888F000874E78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A31AFA742A78890600874E78 /* Build configuration list for PBXNativeTarget "MyWidgetWatchExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A31AFA752A78890600874E78 /* Debug */,
+				A31AFA762A78890600874E78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A34835FE2A7876DA0019C266 /* Build configuration list for PBXProject "Arch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A348360F2A7876DB0019C266 /* Debug */,
+				A34836102A7876DB0019C266 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A34836112A7876DB0019C266 /* Build configuration list for PBXNativeTarget "Arch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A34836122A7876DB0019C266 /* Debug */,
+				A34836132A7876DB0019C266 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A32561C22A7898D700EA28CC /* AppSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppSupport;
+		};
+		A32561C42A7898DC00EA28CC /* WatchAppSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WatchAppSupport;
+		};
+		A32561C62A7898E300EA28CC /* IntentsSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IntentsSupport;
+		};
+		A32561C82A7898EA00EA28CC /* WidgetsSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WidgetsSupport;
+		};
+		A32561CA2A7898F200EA28CC /* WidgetsSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WidgetsSupport;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A34835FB2A7876DA0019C266 /* Project object */;
+}

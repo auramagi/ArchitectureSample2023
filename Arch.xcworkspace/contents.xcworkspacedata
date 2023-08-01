@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:"
+      name = "Environment">
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "container:Arch.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/Core">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/AppSupport">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/IntentsSupport">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/WatchAppSupport">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/WidgetsSupport">
+   </FileRef>
+</Workspace>
