@@ -14,6 +14,8 @@ let package = Package(
             ]
         ),
     ],
+    dependencies: [
+    ],
     targets: [
         .target(name: "Core"),
         .target(name: "CoreUI", dependencies: ["Core"]),

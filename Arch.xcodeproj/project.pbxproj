@@ -28,13 +28,13 @@
 		A31AFA6F2A78890600874E78 /* MyWidgetWatch.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA6B2A78890600874E78 /* MyWidgetWatch.intentdefinition */; };
 		A31AFA702A78890600874E78 /* MyWidgetWatch.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA6B2A78890600874E78 /* MyWidgetWatch.intentdefinition */; };
 		A31AFA732A78890600874E78 /* MyWidgetWatchExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A31AFA652A78890600874E78 /* MyWidgetWatchExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A32561C32A7898D700EA28CC /* AppSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561C22A7898D700EA28CC /* AppSupport */; };
-		A32561C52A7898DC00EA28CC /* WatchAppSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561C42A7898DC00EA28CC /* WatchAppSupport */; };
-		A32561C72A7898E300EA28CC /* IntentsSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561C62A7898E300EA28CC /* IntentsSupport */; };
-		A32561C92A7898EA00EA28CC /* WidgetsSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561C82A7898EA00EA28CC /* WidgetsSupport */; };
-		A32561CB2A7898F200EA28CC /* WidgetsSupport in Frameworks */ = {isa = PBXBuildFile; productRef = A32561CA2A7898F200EA28CC /* WidgetsSupport */; };
 		A34836072A7876DA0019C266 /* ArchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34836062A7876DA0019C266 /* ArchApp.swift */; };
 		A348360B2A7876DB0019C266 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A348360A2A7876DB0019C266 /* Assets.xcassets */; };
+		A348C8B52A79E75B001B52EF /* AppContainer in Frameworks */ = {isa = PBXBuildFile; productRef = A348C8B42A79E75B001B52EF /* AppContainer */; };
+		A348C8B92A79E97A001B52EF /* IntentsContainer in Frameworks */ = {isa = PBXBuildFile; productRef = A348C8B82A79E97A001B52EF /* IntentsContainer */; };
+		A348C8BB2A79E986001B52EF /* WidgetsContainer in Frameworks */ = {isa = PBXBuildFile; productRef = A348C8BA2A79E986001B52EF /* WidgetsContainer */; };
+		A348C8BD2A79E99C001B52EF /* WidgetsContainer in Frameworks */ = {isa = PBXBuildFile; productRef = A348C8BC2A79E99C001B52EF /* WidgetsContainer */; };
+		A348C8BF2A79E9A4001B52EF /* WatchAppContainer in Frameworks */ = {isa = PBXBuildFile; productRef = A348C8BE2A79E9A4001B52EF /* WatchAppContainer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,7 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A32561C52A7898DC00EA28CC /* WatchAppSupport in Frameworks */,
+				A348C8BF2A79E9A4001B52EF /* WatchAppContainer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,7 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A32561C72A7898E300EA28CC /* IntentsSupport in Frameworks */,
+				A348C8B92A79E97A001B52EF /* IntentsContainer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,8 +164,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A31AFA4E2A7888EF00874E78 /* SwiftUI.framework in Frameworks */,
+				A348C8BB2A79E986001B52EF /* WidgetsContainer in Frameworks */,
 				A31AFA4C2A7888EF00874E78 /* WidgetKit.framework in Frameworks */,
-				A32561C92A7898EA00EA28CC /* WidgetsSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,8 +174,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A31AFA672A78890600874E78 /* SwiftUI.framework in Frameworks */,
+				A348C8BD2A79E99C001B52EF /* WidgetsContainer in Frameworks */,
 				A31AFA662A78890600874E78 /* WidgetKit.framework in Frameworks */,
-				A32561CB2A7898F200EA28CC /* WidgetsSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,7 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A32561C32A7898D700EA28CC /* AppSupport in Frameworks */,
+				A348C8B52A79E75B001B52EF /* AppContainer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +295,7 @@
 			);
 			name = "ArchWatch Watch App";
 			packageProductDependencies = (
-				A32561C42A7898DC00EA28CC /* WatchAppSupport */,
+				A348C8BE2A79E9A4001B52EF /* WatchAppContainer */,
 			);
 			productName = "ArchWatch Watch App";
 			productReference = A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */;
@@ -315,7 +315,7 @@
 			);
 			name = MyIntent;
 			packageProductDependencies = (
-				A32561C62A7898E300EA28CC /* IntentsSupport */,
+				A348C8B82A79E97A001B52EF /* IntentsContainer */,
 			);
 			productName = MyIntent;
 			productReference = A31AFA2A2A787EB100874E78 /* MyIntent.appex */;
@@ -335,7 +335,7 @@
 			);
 			name = MyWidgetExtension;
 			packageProductDependencies = (
-				A32561C82A7898EA00EA28CC /* WidgetsSupport */,
+				A348C8BA2A79E986001B52EF /* WidgetsContainer */,
 			);
 			productName = MyWidgetExtension;
 			productReference = A31AFA4A2A7888EF00874E78 /* MyWidgetExtension.appex */;
@@ -355,7 +355,7 @@
 			);
 			name = MyWidgetWatchExtension;
 			packageProductDependencies = (
-				A32561CA2A7898F200EA28CC /* WidgetsSupport */,
+				A348C8BC2A79E99C001B52EF /* WidgetsContainer */,
 			);
 			productName = MyWidgetWatchExtension;
 			productReference = A31AFA652A78890600874E78 /* MyWidgetWatchExtension.appex */;
@@ -381,7 +381,7 @@
 			);
 			name = Arch;
 			packageProductDependencies = (
-				A32561C22A7898D700EA28CC /* AppSupport */,
+				A348C8B42A79E75B001B52EF /* AppContainer */,
 			);
 			productName = Arch;
 			productReference = A34836032A7876DA0019C266 /* Arch.app */;
@@ -1028,25 +1028,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A32561C22A7898D700EA28CC /* AppSupport */ = {
+		A348C8B42A79E75B001B52EF /* AppContainer */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AppSupport;
+			productName = AppContainer;
 		};
-		A32561C42A7898DC00EA28CC /* WatchAppSupport */ = {
+		A348C8B82A79E97A001B52EF /* IntentsContainer */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = WatchAppSupport;
+			productName = IntentsContainer;
 		};
-		A32561C62A7898E300EA28CC /* IntentsSupport */ = {
+		A348C8BA2A79E986001B52EF /* WidgetsContainer */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = IntentsSupport;
+			productName = WidgetsContainer;
 		};
-		A32561C82A7898EA00EA28CC /* WidgetsSupport */ = {
+		A348C8BC2A79E99C001B52EF /* WidgetsContainer */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = WidgetsSupport;
+			productName = WidgetsContainer;
 		};
-		A32561CA2A7898F200EA28CC /* WidgetsSupport */ = {
+		A348C8BE2A79E9A4001B52EF /* WatchAppContainer */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = WidgetsSupport;
+			productName = WatchAppContainer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

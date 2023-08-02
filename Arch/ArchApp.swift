@@ -5,7 +5,7 @@
 //  Created by Mikhail Apurin on 01.08.2023.
 //
 
-import AppSupport
+import AppContainer
 import SwiftUI
 
 @main

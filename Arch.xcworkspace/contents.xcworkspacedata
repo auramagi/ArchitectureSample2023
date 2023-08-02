@@ -15,15 +15,27 @@
       location = "group:Packages/Core">
    </FileRef>
    <FileRef
-      location = "group:Packages/AppSupport">
+      location = "group:Packages/AppUI">
    </FileRef>
    <FileRef
-      location = "group:Packages/IntentsSupport">
+      location = "group:Packages/MacUI">
    </FileRef>
    <FileRef
-      location = "group:Packages/WatchAppSupport">
+      location = "group:Packages/WatchUI">
    </FileRef>
    <FileRef
-      location = "group:Packages/WidgetsSupport">
+      location = "group:Packages/WidgetsUI">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/AppContainer">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/IntentsContainer">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/WatchAppContainer">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/WidgetsContainer">
    </FileRef>
 </Workspace>
