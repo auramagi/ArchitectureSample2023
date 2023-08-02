@@ -8,8 +8,10 @@
 import AppUI
 import SwiftUI
 
-public struct ArchApp: App {
-    public init() { }
+public struct MainScene: Scene {
+    public init() {
+        
+    }
     
     public var body: some Scene {
         WindowGroup {

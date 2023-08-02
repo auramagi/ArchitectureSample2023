@@ -6,9 +6,11 @@
 //
 
 import AppSupport
+import SwiftUI
 
-@main struct ArchApp {
-    static func main() {
-        AppSupport.ArchApp.main()
+@main
+struct ArchApp: App {
+    var body: some Scene {
+        MainScene()
     }
 }
