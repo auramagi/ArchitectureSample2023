@@ -4,10 +4,11 @@ import PackageDescription
 
 let package = Package(
     name: "AppUI",
-    platforms: [.iOS(.v16), .macOS(.v13)],
+    platforms: [.iOS(.v16), .macOS(.v13), .watchOS(.v9)],
     products: [
         .library(
             name: "AppUI",
+//            type: .dynamic,
             targets: ["AppUI"]
         ),
     ],

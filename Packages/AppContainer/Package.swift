@@ -15,16 +15,16 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Core"),
+        .package(path: "../RealmStorage"),
         .package(path: "../AppUI"),
         .package(path: "../MacUI"),
-        .package(url: "https://github.com/realm/realm-swift", from: "10.42.0"),
     ],
     targets: [
         .target(name: "AppContainer", dependencies: [
             "Core",
+            "RealmStorage",
             "AppUI",
             .product(name: "MacUI", package: "MacUI", condition: .when(platforms: [.macOS])),
-            .product(name: "RealmSwift", package: "realm-swift"),
         ]),
     ]
 )

@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "WatchUI",
+    platforms: [.iOS(.v16), .macOS(.v13), .watchOS(.v9)],
     products: [
         .library(
             name: "WatchUI",
@@ -11,7 +12,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../Core"),
+        .package(path: "Core"),
     ],
     targets: [
         .target(name: "WatchUI", dependencies: ["Core"]),

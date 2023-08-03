@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "MacUI",
-    platforms: [.macOS(.v13)],
+    platforms: [.iOS(.v16), .macOS(.v13), .watchOS(.v9)],
     products: [
         .library(
             name: "MacUI",
@@ -13,9 +13,9 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Core"),
-//        .package(path: "../AppUI"),
+        .package(path: "../AppUI"),
     ],
     targets: [
-        .target(name: "MacUI", dependencies: ["Core"]),// "AppUI"]),
+        .target(name: "MacUI", dependencies: ["Core", "AppUI"]),
     ]
 )

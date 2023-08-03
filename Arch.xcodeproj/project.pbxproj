@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		61EC61272A7AFD1D0026240D /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC61262A7AFD1D0026240D /* Core */; };
+		61EC613E2A7B000D0026240D /* AppUI in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC613D2A7B000D0026240D /* AppUI */; };
+		61EC61452A7B02220026240D /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC61442A7B02220026240D /* Core */; };
+		61EC61462A7B02220026240D /* Core in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 61EC61442A7B02220026240D /* Core */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		61EC61482A7B02310026240D /* IntentsContainer in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC61472A7B02310026240D /* IntentsContainer */; };
+		61EC614A2A7B02310026240D /* MacUI in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC61492A7B02310026240D /* MacUI */; };
+		61EC614C2A7B02310026240D /* RealmStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC614B2A7B02310026240D /* RealmStorage */; };
+		61EC614E2A7B02310026240D /* WatchAppContainer in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC614D2A7B02310026240D /* WatchAppContainer */; };
+		61EC61502A7B02310026240D /* WatchUI in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC614F2A7B02310026240D /* WatchUI */; };
+		61EC61522A7B02310026240D /* WidgetsContainer in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC61512A7B02310026240D /* WidgetsContainer */; };
+		61EC61542A7B02310026240D /* WidgetsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 61EC61532A7B02310026240D /* WidgetsUI */; };
 		A31AFA172A787E3500874E78 /* ArchWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31AFA162A787E3500874E78 /* ArchWatchApp.swift */; };
 		A31AFA1B2A787E3600874E78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A31AFA1A2A787E3600874E78 /* Assets.xcassets */; };
 		A31AFA212A787E3600874E78 /* ArchWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -69,6 +80,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		61EC61292A7AFD1D0026240D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61EC61432A7B02150026240D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				61EC61462A7B02220026240D /* Core in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A31AFA252A787E3600874E78 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -116,6 +148,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		61EC61312A7AFF590026240D /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ArchWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A31AFA162A787E3500874E78 /* ArchWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchWatchApp.swift; sourceTree = "<group>"; };
 		A31AFA1A2A787E3600874E78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -174,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A31AFA672A78890600874E78 /* SwiftUI.framework in Frameworks */,
+				61EC61272A7AFD1D0026240D /* Core in Frameworks */,
 				A348C8BD2A79E99C001B52EF /* WidgetsContainer in Frameworks */,
 				A31AFA662A78890600874E78 /* WidgetKit.framework in Frameworks */,
 			);
@@ -183,13 +217,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61EC61482A7B02310026240D /* IntentsContainer in Frameworks */,
+				61EC614A2A7B02310026240D /* MacUI in Frameworks */,
+				61EC614C2A7B02310026240D /* RealmStorage in Frameworks */,
+				61EC613E2A7B000D0026240D /* AppUI in Frameworks */,
+				61EC61522A7B02310026240D /* WidgetsContainer in Frameworks */,
+				61EC61502A7B02310026240D /* WatchUI in Frameworks */,
 				A348C8B52A79E75B001B52EF /* AppContainer in Frameworks */,
+				61EC61452A7B02220026240D /* Core in Frameworks */,
+				61EC61542A7B02310026240D /* WidgetsUI in Frameworks */,
+				61EC614E2A7B02310026240D /* WatchAppContainer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		61EC61302A7AFF590026240D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				61EC61312A7AFF590026240D /* Core.h */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		A31AFA0D2A787B0D00874E78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,6 +300,7 @@
 				A31AFA2B2A787EB100874E78 /* MyIntent */,
 				A31AFA4F2A7888EF00874E78 /* MyWidget */,
 				A31AFA682A78890600874E78 /* MyWidgetWatch */,
+				61EC61302A7AFF590026240D /* Core */,
 				A34836042A7876DA0019C266 /* Products */,
 				A31AFA0D2A787B0D00874E78 /* Frameworks */,
 			);
@@ -348,6 +400,7 @@
 				A31AFA612A78890600874E78 /* Sources */,
 				A31AFA622A78890600874E78 /* Frameworks */,
 				A31AFA632A78890600874E78 /* Resources */,
+				61EC61292A7AFD1D0026240D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -356,6 +409,7 @@
 			name = MyWidgetWatchExtension;
 			packageProductDependencies = (
 				A348C8BC2A79E99C001B52EF /* WidgetsContainer */,
+				61EC61262A7AFD1D0026240D /* Core */,
 			);
 			productName = MyWidgetWatchExtension;
 			productReference = A31AFA652A78890600874E78 /* MyWidgetWatchExtension.appex */;
@@ -371,6 +425,7 @@
 				A31AFA252A787E3600874E78 /* Embed Watch Content */,
 				A31AFA372A787EB100874E78 /* Embed ExtensionKit Extensions */,
 				A31AFA602A7888F000874E78 /* Embed Foundation Extensions */,
+				61EC61432A7B02150026240D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -382,6 +437,15 @@
 			name = Arch;
 			packageProductDependencies = (
 				A348C8B42A79E75B001B52EF /* AppContainer */,
+				61EC613D2A7B000D0026240D /* AppUI */,
+				61EC61442A7B02220026240D /* Core */,
+				61EC61472A7B02310026240D /* IntentsContainer */,
+				61EC61492A7B02310026240D /* MacUI */,
+				61EC614B2A7B02310026240D /* RealmStorage */,
+				61EC614D2A7B02310026240D /* WatchAppContainer */,
+				61EC614F2A7B02310026240D /* WatchUI */,
+				61EC61512A7B02310026240D /* WidgetsContainer */,
+				61EC61532A7B02310026240D /* WidgetsUI */,
 			);
 			productName = Arch;
 			productReference = A34836032A7876DA0019C266 /* Arch.app */;
@@ -1028,6 +1092,46 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		61EC61262A7AFD1D0026240D /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		61EC613D2A7B000D0026240D /* AppUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppUI;
+		};
+		61EC61442A7B02220026240D /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		61EC61472A7B02310026240D /* IntentsContainer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IntentsContainer;
+		};
+		61EC61492A7B02310026240D /* MacUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MacUI;
+		};
+		61EC614B2A7B02310026240D /* RealmStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RealmStorage;
+		};
+		61EC614D2A7B02310026240D /* WatchAppContainer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WatchAppContainer;
+		};
+		61EC614F2A7B02310026240D /* WatchUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WatchUI;
+		};
+		61EC61512A7B02310026240D /* WidgetsContainer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WidgetsContainer;
+		};
+		61EC61532A7B02310026240D /* WidgetsUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WidgetsUI;
+		};
 		A348C8B42A79E75B001B52EF /* AppContainer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppContainer;

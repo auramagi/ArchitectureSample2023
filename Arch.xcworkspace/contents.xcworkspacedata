@@ -15,6 +15,9 @@
       location = "group:Packages/Core">
    </FileRef>
    <FileRef
+      location = "group:Packages/RealmStorage">
+   </FileRef>
+   <FileRef
       location = "group:Packages/AppUI">
    </FileRef>
    <FileRef
