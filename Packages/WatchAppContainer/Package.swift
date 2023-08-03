@@ -15,9 +15,11 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Core"),
-        .package(path: "../WatchUI"),
     ],
     targets: [
-        .target(name: "WatchAppContainer", dependencies: ["Core", "WatchUI"]),
+        .target(name: "WatchAppContainer", dependencies: [
+            .product(name: "Core", package: "Core"),
+            .product(name: "WatchUI", package: "Core"),
+        ]),
     ]
 )

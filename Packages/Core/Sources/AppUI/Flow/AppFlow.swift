@@ -6,7 +6,6 @@
 //
 
 import Core
-import CoreUI
 import SwiftUI
 
 public struct AppFlow<Container: AppContainer>: View {
@@ -18,9 +17,9 @@ public struct AppFlow<Container: AppContainer>: View {
     
     public var body: some View {
         List {
-//            container.tagRepository.makeTagList { tag in
-//                Text(tag.name)
-//            }
+            container.tagRepository.makeTagList { tag in
+                Text(tag.name)
+            }
         }
     }
 }

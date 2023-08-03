@@ -15,7 +15,7 @@ public struct MainScene: Scene {
     
     public var body: some Scene {
         WindowGroup {
-//            AppFlow(container: )
+            AppFlow(container: PreviewContainer())
         }
     }
 }

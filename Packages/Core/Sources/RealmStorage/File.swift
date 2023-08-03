@@ -26,20 +26,20 @@ extension TagObject {
     }
 }
 
-struct TagListView: ContentResolverProtocol {
+struct TagListView<Content: View>: View {
+    var content: (Tag) -> Content
+
     @ObservedResults(TagObject.self) private var tags
 
-    func body() -> Results<TagObject> {
-        tags
-    }
-
-    func map(_ content: TagObject) -> Tag {
-        .init(object: content)
+    var body: some View {
+        ForEach(tags) { tag in
+            content(.init(object: tag))
+        }
     }
 }
 
 enum RealmResolver: TagRepositoryProtocol {
-    func makeResolver() -> TagListView {
-        .init()
+    func makeTagList<C: View>(content: @escaping (Tag) -> C) -> AnyView {
+        TagListView(content: content).asAnyView()
     }
 }

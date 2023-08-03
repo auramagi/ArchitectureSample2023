@@ -15,9 +15,8 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Core"),
-        .package(path: "../WidgetsUI"),
     ],
     targets: [
-        .target(name: "WidgetsContainer", dependencies: ["Core", "WidgetsUI"]),
+        .target(name: "WidgetsContainer", dependencies: ["Core"]),
     ]
 )

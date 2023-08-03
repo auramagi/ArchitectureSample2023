@@ -15,16 +15,11 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Core"),
-        .package(path: "../RealmStorage"),
-        .package(path: "../AppUI"),
-        .package(path: "../MacUI"),
     ],
     targets: [
         .target(name: "AppContainer", dependencies: [
-            "Core",
-            "RealmStorage",
-            "AppUI",
-            .product(name: "MacUI", package: "MacUI", condition: .when(platforms: [.macOS])),
+            .product(name: "Core", package: "Core"),
+            .product(name: "AppUI", package: "Core"),
         ]),
     ]
 )

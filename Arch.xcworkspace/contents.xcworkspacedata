@@ -15,21 +15,6 @@
       location = "group:Packages/Core">
    </FileRef>
    <FileRef
-      location = "group:Packages/RealmStorage">
-   </FileRef>
-   <FileRef
-      location = "group:Packages/AppUI">
-   </FileRef>
-   <FileRef
-      location = "group:Packages/MacUI">
-   </FileRef>
-   <FileRef
-      location = "group:Packages/WatchUI">
-   </FileRef>
-   <FileRef
-      location = "group:Packages/WidgetsUI">
-   </FileRef>
-   <FileRef
       location = "group:Packages/AppContainer">
    </FileRef>
    <FileRef
