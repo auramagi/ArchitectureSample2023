@@ -59,7 +59,7 @@ struct TagObjectProvider: DataValueContainer {
 public struct RealmResolver: TagRepositoryProtocol {
     public init() { }
     
-    public func makeTagList() -> some TagsContainerProtocol {
+    public func makeTagsContainer() -> some TagsContainerProtocol {
         RealmTagsContainer()
     }
 

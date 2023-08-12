@@ -13,13 +13,13 @@ public protocol TagRepositoryProtocol {
 
     associatedtype TagsContainer: TagsContainerProtocol
 
-    func makeTagList() -> TagsContainer
+    func makeTagsContainer() -> TagsContainer
 
     func addTag(_ tag: Tag)
 }
 
 
-public protocol TagsContainerProtocol: DataCollectionContainer where Value == Tag, Action == TagsContainerAction {
+public protocol TagsContainerProtocol: DataCollectionContainer<Tag, TagsContainerAction> {
 }
 
 public enum TagsContainerAction {
@@ -28,18 +28,20 @@ public enum TagsContainerAction {
     case move(fromOffsets: IndexSet, toOffset: Int)
 }
 
-public protocol DataCollectionContainer: DynamicProperty, ViewModifier {
-    associatedtype InternalValue
+public protocol DataCollectionContainer<Value, Action>: DynamicProperty, ViewModifier {
+    typealias InternalValue = Data.Element
     
     associatedtype Value
     
     associatedtype ID: Hashable
 
-    associatedtype Data: RandomAccessCollection where Data.Element == InternalValue
+    associatedtype Data: RandomAccessCollection
 
-    associatedtype ValueContainer: DataValueContainer where ValueContainer.Value == Value
+    associatedtype ValueContainer: DataValueContainer<Value>
 
-    associatedtype Action = Void
+    associatedtype Action
+    
+    associatedtype Body: View = Content
 
     var id: KeyPath<Data.Element, ID> { get }
 
@@ -48,6 +50,14 @@ public protocol DataCollectionContainer: DynamicProperty, ViewModifier {
     func value(_ internalValue: InternalValue) -> ValueContainer
 
     func handle(action: Action)
+    
+    @ViewBuilder @MainActor func body(content: Content) -> Body
+}
+
+extension DataCollectionContainer where Body == Content {
+    public func body(content: Content) -> Body {
+        content
+    }
 }
 
 extension DataCollectionContainer where Action == Void {
@@ -56,8 +66,16 @@ extension DataCollectionContainer where Action == Void {
 
 public protocol DataValueContainer<Value>: DynamicProperty, ViewModifier {
     associatedtype Value
+    
+    associatedtype Body: View = Content
 
     var element: Value { get }
+}
+
+extension DataValueContainer where Body == Content {
+    public func body(content: Content) -> Body {
+        content
+    }
 }
 
 extension DataCollectionContainer {
@@ -158,7 +176,7 @@ public final class MockTagRepository: TagRepositoryProtocol {
         self.storage = .init(tags: tags.map { .init(tag: $0) })
     }
 
-    public func makeTagList() -> some TagsContainerProtocol {
+    public func makeTagsContainer() -> some TagsContainerProtocol {
         MockTagList(storage: storage)
     }
 
@@ -204,7 +222,7 @@ struct MyView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             List {
-                TagsContainerView(container: repo.makeTagList())
+                TagsContainerView(container: repo.makeTagsContainer())
             }
             .toolbar {
                 #if os(iOS)
