@@ -15,8 +15,9 @@ public protocol AppContainer {
 }
 
 public final class PreviewContainer: AppContainer {
-    public init() { }
-    public var tagRepository: MockTagRepository {
-        .init(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
+    public let tagRepository: MockTagRepository
+
+    public init() {
+        tagRepository = .init(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
     }
 }

@@ -15,6 +15,7 @@ public protocol TagRepositoryProtocol {
 
     func makeTagList() -> TagList
 
+    func addTag(_ tag: Tag)
 }
 
 public protocol ViewDataProvider<VendedElement>: DynamicProperty, ViewModifier {
@@ -79,18 +80,16 @@ public struct MockTagList: ViewDataProvider {
 
     public typealias VendedElementProvider = MockTagView
 
-    @State public var data: [MockTagObject]
+    @ObservedObject var storage: MockTagStorage
+
+    public var data: [MockTagObject] { storage.tags }
 
     public let id: KeyPath<MockTagObject, String> = \MockTagObject.tag.id
-
-    init(data: [Tag]) {
-        self.data = data.map { .init(tag: $0) }
-    }
 
     public func body(content: Content) -> some View {
         content
             .onReceive(Timer.publish(every: 3, on: .main, in: .common).autoconnect()) { _ in
-                data.shuffle()
+                storage.tags.shuffle()
             }
     }
 
@@ -129,10 +128,10 @@ public final class MockTagObject: ObservableObject, Identifiable {
 }
 
 public final class MockTagRepository: TagRepositoryProtocol {
-    var tags: [Tag]
+    let storage: MockTagStorage
 
     public init(tags: [Tag]) {
-        self.tags = tags
+        self.storage = .init(tags: tags.map { .init(tag: $0) })
     }
 
 //    public func makeTagList<C: View>(@ViewBuilder content: @escaping (Tag) -> C) -> AnyView {
@@ -144,7 +143,19 @@ public final class MockTagRepository: TagRepositoryProtocol {
 //    public func makeTagList<C: View>(content: @escaping (Tag) -> C) -> ViewContainerBuilder<MockTagList<C>, C> where C == Container<C>.ContentView {
 
     public func makeTagList() -> some ViewDataProvider<Tag> {
-        MockTagList(data: tags)
+        MockTagList(storage: storage)
+    }
+
+    public func addTag(_ tag: Tag) {
+        storage.tags.append(.init(tag: tag))
+    }
+}
+
+final class MockTagStorage: ObservableObject {
+    @Published var tags: [MockTagObject]
+
+    init(tags: [MockTagObject]) {
+        self.tags = tags
     }
 }
 

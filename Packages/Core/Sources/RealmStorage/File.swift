@@ -79,4 +79,12 @@ public struct RealmResolver: TagRepositoryProtocol {
     public func makeTagList() -> some ViewDataProvider<Tag> {
         TagListProvider()
     }
+
+    public func addTag(_ tag: Tag) {
+        let realm = try! Realm()
+        try! realm.write {
+            let object = TagObject(data: tag)
+            realm.add(object)
+        }
+    }
 }

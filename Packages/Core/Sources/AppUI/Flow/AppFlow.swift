@@ -22,6 +22,17 @@ public struct AppFlow<Container: AppContainer>: View {
                     Text(tag.name)
                 }
             }
+            .toolbar {
+                ToolbarItem {
+                    Button {
+                        let tag = Tag(name: UUID().uuidString)
+                        container.tagRepository.addTag(tag)
+                    } label: {
+                        Label("Add", systemImage: "plus")
+                    }
+                }
+            }
+            .navigationTitle("Tag list")
         }
     }
 }
@@ -30,6 +41,5 @@ struct AppFlow_Previews: PreviewProvider {
     static let container = PreviewContainer()
     static var previews: some View {
         AppFlow(container: container)
-
     }
 }
