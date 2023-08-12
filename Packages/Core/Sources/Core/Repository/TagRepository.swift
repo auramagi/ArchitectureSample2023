@@ -11,32 +11,33 @@ import SwiftUI
 public protocol TagRepositoryProtocol {
     //    func refresh()
 
-    associatedtype TagList: TagListProviderProtocol
+    associatedtype TagsContainer: TagsContainerProtocol
 
-    func makeTagList() -> TagList
+    func makeTagList() -> TagsContainer
 
     func addTag(_ tag: Tag)
 }
 
 
-public protocol TagListProviderProtocol: ViewDataProvider<Tag> where Action == TagListAction {
-
+public protocol TagsContainerProtocol: DataCollectionContainer where Value == Tag, Action == TagsContainerAction {
 }
 
-public enum TagListAction {
+public enum TagsContainerAction {
     case delete(indices: IndexSet)
 
     case move(fromOffsets: IndexSet, toOffset: Int)
 }
 
-public protocol ViewDataProvider<VendedElement>: DynamicProperty, ViewModifier {
-    associatedtype Data: RandomAccessCollection
-
+public protocol DataCollectionContainer: DynamicProperty, ViewModifier {
+    associatedtype InternalValue
+    
+    associatedtype Value
+    
     associatedtype ID: Hashable
 
-    associatedtype VendedElement
+    associatedtype Data: RandomAccessCollection where Data.Element == InternalValue
 
-    associatedtype VendedElementProvider: ViewDataElementProvider<VendedElement>
+    associatedtype ValueContainer: DataValueContainer where ValueContainer.Value == Value
 
     associatedtype Action = Void
 
@@ -44,55 +45,55 @@ public protocol ViewDataProvider<VendedElement>: DynamicProperty, ViewModifier {
 
     var data: Data { get }
 
-    func map(_ element: Data.Element) -> VendedElementProvider
+    func value(_ internalValue: InternalValue) -> ValueContainer
 
     func handle(action: Action)
 }
 
-extension ViewDataProvider where Action == Void {
+extension DataCollectionContainer where Action == Void {
     public func handle(action: Action) { }
 }
 
-public protocol ViewDataElementProvider<VendedElement>: DynamicProperty, ViewModifier {
-    associatedtype VendedElement
+public protocol DataValueContainer<Value>: DynamicProperty, ViewModifier {
+    associatedtype Value
 
-    var element: VendedElement { get }
+    var element: Value { get }
 }
 
-extension ViewDataProvider {
-    public func view(@ViewBuilder content: @escaping (VendedElement) -> some View) -> some DynamicViewContent {
-        ViewDataConsumer(provider: self, content: content)
+extension DataCollectionContainer {
+    public func view(@ViewBuilder content: @escaping (Value) -> some View) -> some DynamicViewContent {
+        DataCollectionContainerView(container: self, content: content)
     }
 }
 
-struct ViewDataConsumer<Provider: ViewDataProvider, Content: View>: View, DynamicViewContent {
-    let provider: Provider
-
-    @ViewBuilder var content: (Provider.VendedElement) -> Content
-
-    var data: Provider.Data { provider.data }
-
+struct DataCollectionContainerView<Container: DataCollectionContainer, Content: View>: DynamicViewContent {
+    let container: Container
+    
+    @ViewBuilder var content: (Container.Value) -> Content
+    
+    var data: Container.Data { container.data }
+    
     var body: some View {
-        ForEach(provider.data, id: provider.id) { element in
-            ElementView(provider: provider.map(element), content: content)
+        ForEach(container.data, id: container.id) { element in
+            DataValueContainerView(container: container.value(element), content: content)
         }
-        .modifier(provider)
+        .modifier(container)
     }
+}
 
-    struct ElementView: View {
-        let provider: Provider.VendedElementProvider
-
-        let content: (Provider.VendedElement) -> Content
-
-        var body: some View {
-            content(provider.element)
-        }
+struct DataValueContainerView<Container: DataValueContainer, Content: View>: View {
+    let container: Container
+    
+    let content: (Container.Value) -> Content
+    
+    var body: some View {
+        content(container.element)
     }
 }
 
 import Combine
 
-public struct MockTagList: TagListProviderProtocol {
+public struct MockTagList: TagsContainerProtocol {
     @ObservedObject var storage: MockTagStorage
 
     public var data: [MockTagObject] { storage.tags }
@@ -106,8 +107,8 @@ public struct MockTagList: TagListProviderProtocol {
             }
     }
 
-    public func map(_ element: MockTagObject) -> MockTagView {
-        MockTagView(tag: element)
+    public func value(_ internalValue: MockTagObject) -> MockTagView {
+        MockTagView(tag: internalValue)
     }
 
     public func handle(action: Action) {
@@ -121,7 +122,7 @@ public struct MockTagList: TagListProviderProtocol {
     }
 }
 
-public struct MockTagView: ViewDataElementProvider {
+public struct MockTagView: DataValueContainer {
     @ObservedObject var tag: MockTagObject
 
     public var element: Tag {
@@ -157,7 +158,7 @@ public final class MockTagRepository: TagRepositoryProtocol {
         self.storage = .init(tags: tags.map { .init(tag: $0) })
     }
 
-    public func makeTagList() -> some TagListProviderProtocol {
+    public func makeTagList() -> some TagsContainerProtocol {
         MockTagList(storage: storage)
     }
 
@@ -174,11 +175,11 @@ final class MockTagStorage: ObservableObject {
     }
 }
 
-struct TagList<Provider: TagListProviderProtocol>: View {
-    let provider: Provider
+struct TagsContainerView<Container: TagsContainerProtocol>: View {
+    let container: Container
 
     var body: some View {
-        provider.view { element in
+        container.view { element in
             VStack(alignment: .leading) {
                 Text("VendedElement: \(element.id)")
 
@@ -190,10 +191,10 @@ struct TagList<Provider: TagListProviderProtocol>: View {
             .padding(.horizontal)
         }
         .onDelete { indices in
-            provider.handle(action: .delete(indices: indices))
+            container.handle(action: .delete(indices: indices))
         }
         .onMove { fromOffsets, toOffset in
-            provider.handle(action: .move(fromOffsets: fromOffsets, toOffset: toOffset))
+            container.handle(action: .move(fromOffsets: fromOffsets, toOffset: toOffset))
         }
     }
 }
@@ -203,10 +204,12 @@ struct MyView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             List {
-                TagList(provider: repo.makeTagList())
+                TagsContainerView(container: repo.makeTagList())
             }
             .toolbar {
+                #if os(iOS)
                 EditButton()
+                #endif
             }
         }
     }

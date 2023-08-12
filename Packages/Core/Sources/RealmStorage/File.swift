@@ -26,7 +26,7 @@ extension TagObject {
     }
 }
 
-struct TagListProvider: TagListProviderProtocol {
+struct RealmTagsContainer: TagsContainerProtocol {
     @ObservedResults(TagObject.self) public var data
 
     var id: KeyPath<TagObject, String> = \.name
@@ -35,16 +35,16 @@ struct TagListProvider: TagListProviderProtocol {
         content
     }
 
-    func map(_ element: TagObject) -> TagObjectProvider {
-        .init(object: element)
+    func value(_ internalValue: TagObject) -> TagObjectProvider {
+        .init(object: internalValue)
     }
 
-    func handle(action: TagListAction) {
+    func handle(action: TagsContainerAction) {
         fatalError()
     }
 }
 
-struct TagObjectProvider: ViewDataElementProvider {
+struct TagObjectProvider: DataValueContainer {
     @ObservedRealmObject var object: TagObject
 
     var element: Tag {
@@ -59,8 +59,8 @@ struct TagObjectProvider: ViewDataElementProvider {
 public struct RealmResolver: TagRepositoryProtocol {
     public init() { }
     
-    public func makeTagList() -> some TagListProviderProtocol {
-        TagListProvider()
+    public func makeTagList() -> some TagsContainerProtocol {
+        RealmTagsContainer()
     }
 
     public func addTag(_ tag: Tag) {
