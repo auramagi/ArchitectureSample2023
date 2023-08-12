@@ -5,7 +5,7 @@
 //  Created by Mikhail Apurin on 2023/08/02.
 //
 
-import Foundation
+import Combine
 import SwiftUI
 
 public protocol TagRepositoryProtocol {
@@ -18,9 +18,7 @@ public protocol TagRepositoryProtocol {
     func addTag(_ tag: Tag)
 }
 
-
-public protocol TagsContainerProtocol: DataCollectionContainer<Tag, TagsContainerAction> {
-}
+public protocol TagsContainerProtocol: DataCollectionContainer<Tag, TagsContainerAction, TagsValueAction> { }
 
 public enum TagsContainerAction {
     case delete(indices: IndexSet)
@@ -28,88 +26,11 @@ public enum TagsContainerAction {
     case move(fromOffsets: IndexSet, toOffset: Int)
 }
 
-public protocol DataCollectionContainer<Value, Action>: DynamicProperty, ViewModifier {
-    typealias InternalValue = Data.Element
-    
-    associatedtype Value
-    
-    associatedtype ID: Hashable
-
-    associatedtype Data: RandomAccessCollection
-
-    associatedtype ValueContainer: DataValueContainer<Value>
-
-    associatedtype Action
-    
-    associatedtype Body: View = Content
-
-    var id: KeyPath<Data.Element, ID> { get }
-
-    var data: Data { get }
-
-    func value(_ internalValue: InternalValue) -> ValueContainer
-
-    func handle(action: Action)
-    
-    @ViewBuilder @MainActor func body(content: Content) -> Body
+public enum TagsValueAction {
+    case delete
 }
 
-extension DataCollectionContainer where Body == Content {
-    public func body(content: Content) -> Body {
-        content
-    }
-}
-
-extension DataCollectionContainer where Action == Void {
-    public func handle(action: Action) { }
-}
-
-public protocol DataValueContainer<Value>: DynamicProperty, ViewModifier {
-    associatedtype Value
-    
-    associatedtype Body: View = Content
-
-    var element: Value { get }
-}
-
-extension DataValueContainer where Body == Content {
-    public func body(content: Content) -> Body {
-        content
-    }
-}
-
-extension DataCollectionContainer {
-    public func view(@ViewBuilder content: @escaping (Value) -> some View) -> some DynamicViewContent {
-        DataCollectionContainerView(container: self, content: content)
-    }
-}
-
-struct DataCollectionContainerView<Container: DataCollectionContainer, Content: View>: DynamicViewContent {
-    let container: Container
-    
-    @ViewBuilder var content: (Container.Value) -> Content
-    
-    var data: Container.Data { container.data }
-    
-    var body: some View {
-        ForEach(container.data, id: container.id) { element in
-            DataValueContainerView(container: container.value(element), content: content)
-        }
-        .modifier(container)
-    }
-}
-
-struct DataValueContainerView<Container: DataValueContainer, Content: View>: View {
-    let container: Container
-    
-    let content: (Container.Value) -> Content
-    
-    var body: some View {
-        content(container.element)
-    }
-}
-
-import Combine
+// MARK: Mock implementation
 
 public struct MockTagList: TagsContainerProtocol {
     @ObservedObject var storage: MockTagStorage
@@ -125,8 +46,8 @@ public struct MockTagList: TagsContainerProtocol {
             }
     }
 
-    public func value(_ internalValue: MockTagObject) -> MockTagView {
-        MockTagView(tag: internalValue)
+    public func container(element: MockTagObject) -> MockTagView {
+        MockTagView(tag: element, actionHandler: handle(element:action:))
     }
 
     public func handle(action: Action) {
@@ -138,10 +59,19 @@ public struct MockTagList: TagsContainerProtocol {
             storage.tags.move(fromOffsets: fromOffsets, toOffset: toOffset)
         }
     }
+
+    func handle(element: MockTagObject, action: ValueAction) {
+        switch action {
+        case .delete:
+            storage.tags.removeAll { $0 === element }
+        }
+    }
 }
 
 public struct MockTagView: DataValueContainer {
     @ObservedObject var tag: MockTagObject
+    
+    let actionHandler: (MockTagObject, TagsValueAction) -> Void
 
     public var element: Tag {
         tag.tag
@@ -149,6 +79,10 @@ public struct MockTagView: DataValueContainer {
 
     public func body(content: Content) -> some View {
         content
+    }
+    
+    public func handle(action: TagsValueAction) {
+        actionHandler(tag, action)
     }
 }
 
@@ -197,13 +131,19 @@ struct TagsContainerView<Container: TagsContainerProtocol>: View {
     let container: Container
 
     var body: some View {
-        container.view { element in
+        container.view { value in
             VStack(alignment: .leading) {
-                Text("VendedElement: \(element.id)")
+                Text("VendedElement: \(value.element.id)")
 
-                Text(element.state.uuidString)
+                Text(value.element.state.uuidString)
                     .font(.caption2)
                     .foregroundColor(.secondary)
+                
+                Button("Delete", role: .destructive) {
+                    withAnimation {
+                        value.handle(action: .delete)
+                    }
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
