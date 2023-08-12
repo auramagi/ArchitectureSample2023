@@ -26,20 +26,57 @@ extension TagObject {
     }
 }
 
-struct TagListView<Content: View>: View {
-    var content: (Tag) -> Content
+//struct TagListView<Content: View>: View {
+//    var content: (Tag) -> Content
+//
+//    @ObservedResults(TagObject.self) private var tags
+//
+//    var body: some View {
+//        ForEach(tags) { tag in
+//            content(.init(object: tag))
+//        }
+//    }
+//}
 
-    @ObservedResults(TagObject.self) private var tags
+struct TagListProvider: ViewDataProvider {
+    typealias ID = String
 
-    var body: some View {
-        ForEach(tags) { tag in
-            content(.init(object: tag))
-        }
+    typealias VendedElement = Tag
+
+    typealias VendedElementProvider = TagObjectView
+
+    typealias Data = Results<TagObject>
+
+    @ObservedResults(TagObject.self) public var data
+
+    var id: KeyPath<TagObject, String> = \TagObject.name
+
+
+    func body(content: Content) -> some View {
+        content
+    }
+
+    func map(_ element: TagObject) -> TagObjectView {
+        .init(object: element)
     }
 }
 
-enum RealmResolver: TagRepositoryProtocol {
-    func makeTagList<C: View>(content: @escaping (Tag) -> C) -> AnyView {
-        TagListView(content: content).asAnyView()
+struct TagObjectView: ViewDataElementProvider {
+    let object: TagObject
+
+    var element: Tag {
+        Tag(object: object)
+    }
+
+    func body(content: Content) -> some View {
+        content
+    }
+}
+
+public struct RealmResolver: TagRepositoryProtocol {
+    public init() { }
+    
+    public func makeTagList() -> some ViewDataProvider<Tag> {
+        TagListProvider()
     }
 }

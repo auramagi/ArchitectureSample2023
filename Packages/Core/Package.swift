@@ -31,6 +31,7 @@ let package = Package(
         .target(name: "RealmStorage", dependencies: [
             "Core",
             .product(name: "RealmSwift", package: "realm-swift"),
+            .product(name: "Realm", package: "realm-swift"),
         ]),
     ]
 )

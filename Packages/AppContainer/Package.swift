@@ -20,6 +20,7 @@ let package = Package(
         .target(name: "AppContainer", dependencies: [
             .product(name: "Core", package: "Core"),
             .product(name: "AppUI", package: "Core"),
+            .product(name: "RealmStorage", package: "Core"),
         ]),
     ]
 )

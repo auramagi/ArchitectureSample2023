@@ -6,16 +6,25 @@
 //
 
 import AppUI
+import RealmStorage
 import SwiftUI
 
 public struct MainScene: Scene {
+    @State var container = LiveAppContainer()
+
     public init() {
         
     }
     
     public var body: some Scene {
         WindowGroup {
-            AppFlow(container: PreviewContainer())
+            AppFlow(container: container)
         }
+    }
+}
+
+final class LiveAppContainer: AppContainer {
+    var tagRepository: RealmResolver {
+        RealmResolver()
     }
 }

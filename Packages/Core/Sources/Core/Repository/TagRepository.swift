@@ -40,7 +40,7 @@ public protocol ViewDataElementProvider<VendedElement>: DynamicProperty, ViewMod
 }
 
 extension ViewDataProvider {
-    func callAsFunction(@ViewBuilder content: @escaping (VendedElement) -> some View) -> some View {
+    public func callAsFunction(@ViewBuilder content: @escaping (VendedElement) -> some View) -> some View {
         ViewDataConsumer(provider: self, content: content)
     }
 }
@@ -71,7 +71,7 @@ struct ViewDataConsumer<Provider: ViewDataProvider, Content: View>: View {
 import Combine
 
 public struct MockTagList: ViewDataProvider {
-    public typealias Data = [Tag]
+    public typealias Data = [MockTagObject]
 
     public typealias ID = String
 
@@ -79,33 +79,52 @@ public struct MockTagList: ViewDataProvider {
 
     public typealias VendedElementProvider = MockTagView
 
-    @State public var data: [Tag]
+    @State public var data: [MockTagObject]
 
-    public let id = \Tag.id
+    public let id: KeyPath<MockTagObject, String> = \MockTagObject.tag.id
 
-    public func body(content: Content) -> some View {
-        VStack {
-            content
-                .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
-                    data.shuffle()
-                }
-        }
+    init(data: [Tag]) {
+        self.data = data.map { .init(tag: $0) }
     }
 
-    public func map(_ element: Tag) -> MockTagView {
+    public func body(content: Content) -> some View {
+        content
+            .onReceive(Timer.publish(every: 3, on: .main, in: .common).autoconnect()) { _ in
+                data.shuffle()
+            }
+    }
+
+    public func map(_ element: MockTagObject) -> MockTagView {
         MockTagView(tag: element)
     }
 }
 
 public struct MockTagView: ViewDataElementProvider {
-    @ObservedObject var tag: Tag
+    @ObservedObject var tag: MockTagObject
 
     public var element: Tag {
-        tag
+        tag.tag
     }
 
     public func body(content: Content) -> some View {
         content
+    }
+}
+
+public final class MockTagObject: ObservableObject, Identifiable {
+    @Published public var tag: Tag
+
+    public init(tag: Tag) {
+        self.tag = tag
+
+        Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .map { _ in
+                var tag = tag
+                tag.state = .init()
+                return tag
+            }
+            .assign(to: &$tag)
     }
 }
 
@@ -254,7 +273,7 @@ struct InjectedView<Repository: TagRepositoryProtocol>: View {
             VStack(alignment: .leading) {
                 Text("VendedElement: \(element.id)")
 
-                Text(element.uuid.uuidString)
+                Text(element.state.uuidString)
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }

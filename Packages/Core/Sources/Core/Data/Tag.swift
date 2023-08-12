@@ -6,33 +6,18 @@
 //
 
 import Foundation
-//
-//public struct Tag: Hashable, Identifiable {
-//    public var id: String {
-//        name
-//    }
-//
-//    public let name: String
-//
-//    public init(name: String) {
-//        self.name = name
-//    }
-//}
 
-import Combine
-
-public final class Tag: ObservableObject, Identifiable {
+public struct Tag: Hashable, Identifiable {
     public var id: String {
         name
     }
 
     public let name: String
 
-    @Published public var uuid = UUID()
+    public var state: UUID
 
-    public init(name: String) {
+    public init(name: String, state: UUID = .init()) {
         self.name = name
-
-        Timer.publish(every: 1, on: .main, in: .common).autoconnect().map { _ in UUID() }.assign(to: &$uuid)
+        self.state = .init()
     }
 }

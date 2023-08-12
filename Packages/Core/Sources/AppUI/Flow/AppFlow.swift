@@ -16,9 +16,11 @@ public struct AppFlow<Container: AppContainer>: View {
     }
     
     public var body: some View {
-        List {
-            container.tagRepository.makeTagList { tag in
-                Text(tag.name)
+        NavigationStack {
+            List {
+                container.tagRepository.makeTagList().callAsFunction { tag in
+                    Text(tag.name)
+                }
             }
         }
     }
