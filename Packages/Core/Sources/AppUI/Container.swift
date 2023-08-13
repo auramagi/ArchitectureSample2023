@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Container.swift
 //  
 //
 //  Created by Mikhail Apurin on 2023/08/02.
@@ -18,6 +18,6 @@ public final class PreviewContainer: AppContainer {
     public let tagRepository: MockTagRepository
 
     public init() {
-        tagRepository = .init(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
+        tagRepository = .mock(tags: .mock)
     }
 }

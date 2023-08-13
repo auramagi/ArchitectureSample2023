@@ -35,8 +35,8 @@ struct RealmTagsContainer: TagsContainerProtocol {
         content
     }
 
-    func value(_ internalValue: TagObject) -> TagObjectProvider {
-        .init(object: internalValue)
+    func container(element: TagObject) -> TagObjectContainer {
+        .init(object: element)
     }
 
     func handle(action: TagsContainerAction) {
@@ -44,7 +44,7 @@ struct RealmTagsContainer: TagsContainerProtocol {
     }
 }
 
-struct TagObjectProvider: DataValueContainer {
+struct TagObjectContainer: DataValueContainer {
     @ObservedRealmObject var object: TagObject
 
     var element: Tag {
@@ -53,6 +53,10 @@ struct TagObjectProvider: DataValueContainer {
 
     func body(content: Content) -> some View {
         content
+    }
+    
+    func handle(action: TagsValueAction) {
+        fatalError()
     }
 }
 

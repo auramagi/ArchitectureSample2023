@@ -32,25 +32,55 @@ public enum TagsValueAction {
 
 // MARK: Mock implementation
 
-public struct MockTagList: TagsContainerProtocol {
+public final class MockTagRepository: TagRepositoryProtocol {
+    let storage: MockTagStorage
+
+    init(tags: [Tag]) {
+        self.storage = .init(tags: tags.map { .init(tag: $0) })
+    }
+
+    public func makeTagsContainer() -> some TagsContainerProtocol {
+        MockTagList(storage: storage)
+    }
+
+    public func addTag(_ tag: Tag) {
+        storage.tags.append(.init(tag: tag))
+    }
+}
+
+extension TagRepositoryProtocol where Self == MockTagRepository {
+    public static func mock(tags: [Tag]) -> Self {
+        .init(tags: tags)
+    }
+}
+
+final class MockTagStorage: ObservableObject {
+    @Published var tags: [MockTagObject]
+
+    init(tags: [MockTagObject]) {
+        self.tags = tags
+    }
+}
+
+struct MockTagList: TagsContainerProtocol {
     @ObservedObject var storage: MockTagStorage
 
-    public var data: [MockTagObject] { storage.tags }
+    var data: [MockTagObject] { storage.tags }
 
-    public let id = \MockTagObject.tag.id
+    let id = \MockTagObject.tag.id
 
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         content
             .onReceive(Timer.publish(every: 3, on: .main, in: .common).autoconnect()) { _ in
                 storage.tags.shuffle()
             }
     }
 
-    public func container(element: MockTagObject) -> MockTagView {
+    func container(element: MockTagObject) -> MockTagView {
         MockTagView(tag: element, actionHandler: handle(element:action:))
     }
 
-    public func handle(action: Action) {
+    func handle(action: Action) {
         switch action {
         case let .delete(indices):
             storage.tags.remove(atOffsets: indices)
@@ -68,28 +98,28 @@ public struct MockTagList: TagsContainerProtocol {
     }
 }
 
-public struct MockTagView: DataValueContainer {
+struct MockTagView: DataValueContainer {
     @ObservedObject var tag: MockTagObject
     
     let actionHandler: (MockTagObject, TagsValueAction) -> Void
 
-    public var element: Tag {
+    var element: Tag {
         tag.tag
     }
 
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         content
     }
     
-    public func handle(action: TagsValueAction) {
+    func handle(action: TagsValueAction) {
         actionHandler(tag, action)
     }
 }
 
-public final class MockTagObject: ObservableObject {
-    @Published public var tag: Tag
+final class MockTagObject: ObservableObject {
+    @Published var tag: Tag
 
-    public init(tag: Tag) {
+    init(tag: Tag) {
         self.tag = tag
 
         Timer.publish(every: 1, on: .main, in: .common)
@@ -100,30 +130,6 @@ public final class MockTagObject: ObservableObject {
                 return tag
             }
             .assign(to: &$tag)
-    }
-}
-
-public final class MockTagRepository: TagRepositoryProtocol {
-    let storage: MockTagStorage
-
-    public init(tags: [Tag]) {
-        self.storage = .init(tags: tags.map { .init(tag: $0) })
-    }
-
-    public func makeTagsContainer() -> some TagsContainerProtocol {
-        MockTagList(storage: storage)
-    }
-
-    public func addTag(_ tag: Tag) {
-        storage.tags.append(.init(tag: tag))
-    }
-}
-
-final class MockTagStorage: ObservableObject {
-    @Published var tags: [MockTagObject]
-
-    init(tags: [MockTagObject]) {
-        self.tags = tags
     }
 }
 
@@ -158,7 +164,8 @@ struct TagsContainerView<Container: TagsContainerProtocol>: View {
 }
 
 struct MyView_Previews: PreviewProvider {
-    static let repo = MockTagRepository(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
+    static let repo: some TagRepositoryProtocol = .mock(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
+    
     static var previews: some View {
         NavigationStack {
             List {

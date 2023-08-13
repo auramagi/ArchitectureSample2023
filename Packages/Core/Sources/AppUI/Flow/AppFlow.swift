@@ -18,8 +18,8 @@ public struct AppFlow<Container: AppContainer>: View {
     public var body: some View {
         NavigationStack {
             List {
-                container.tagRepository.makeTagList().view { tag in
-                    Text(tag.name)
+                container.tagRepository.makeTagsContainer().view { value in
+                    Text(value.element.name)
                 }
             }
             .toolbar {

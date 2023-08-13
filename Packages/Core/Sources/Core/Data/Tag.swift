@@ -21,3 +21,13 @@ public struct Tag: Hashable, Identifiable {
         self.state = .init()
     }
 }
+
+extension [Tag] {
+    static public var mock: Self {
+        [
+            .init(name: "sensitive_tag_1"),
+            .init(name: "2"),
+            .init(name: "3"),
+        ]
+    }
+}
