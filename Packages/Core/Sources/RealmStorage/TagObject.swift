@@ -15,7 +15,11 @@ final class TagObject: Object, ObjectKeyIdentifiable {
 
 extension Tag {
     init(object: TagObject) {
-        self.init(name: object.name)
+        if object.isInvalidated {
+            self.init(name: "Invalidated object")
+        } else {
+            self.init(name: object.name)
+        }
     }
 }
 
@@ -40,7 +44,13 @@ struct RealmTagsContainer: TagsContainerProtocol {
     }
 
     func handle(action: TagsContainerAction) {
-        fatalError()
+        switch action {
+        case let .delete(offsets):
+            $data.remove(atOffsets: offsets)
+            
+        case .move:
+            fatalError()
+        }
     }
 }
 
@@ -56,7 +66,10 @@ struct TagObjectContainer: DataValueContainer {
     }
     
     func handle(action: TagsValueAction) {
-        fatalError()
+        switch action {
+        case .delete:
+            $object.delete()
+        }
     }
 }
 

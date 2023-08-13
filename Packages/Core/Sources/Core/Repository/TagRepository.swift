@@ -21,7 +21,7 @@ public protocol TagRepositoryProtocol {
 public protocol TagsContainerProtocol: DataCollectionContainer<Tag, TagsContainerAction, TagsValueAction> { }
 
 public enum TagsContainerAction {
-    case delete(indices: IndexSet)
+    case delete(offsets: IndexSet)
 
     case move(fromOffsets: IndexSet, toOffset: Int)
 }
@@ -82,8 +82,8 @@ struct MockTagList: TagsContainerProtocol {
 
     func handle(action: Action) {
         switch action {
-        case let .delete(indices):
-            storage.tags.remove(atOffsets: indices)
+        case let .delete(offsets):
+            storage.tags.remove(atOffsets: offsets)
 
         case let .move(fromOffsets, toOffset):
             storage.tags.move(fromOffsets: fromOffsets, toOffset: toOffset)
@@ -154,8 +154,8 @@ struct TagsContainerView<Container: TagsContainerProtocol>: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
         }
-        .onDelete { indices in
-            container.handle(action: .delete(indices: indices))
+        .onDelete { offsets in
+            container.handle(action: .delete(offsets: offsets))
         }
         .onMove { fromOffsets, toOffset in
             container.handle(action: .move(fromOffsets: fromOffsets, toOffset: toOffset))

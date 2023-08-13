@@ -62,13 +62,20 @@ extension DataCollectionContainer {
     }
 }
 
-struct DataValueContainerView<Container: DataValueContainer, Content: View>: View {
+struct DataCollectionContainerView<Container: DataCollectionContainer, Content: View>: DynamicViewContent {
     let container: Container
     
-    let content: (Container) -> Content
+    @ViewBuilder var content: (Container.ValueContainer) -> Content
+    
+    var data: Container.Data { container.data }
     
     var body: some View {
-        content(container)
-            .modifier(container)
+        ForEach(container.data, id: container.id) { element in
+            DataValueContainerView(
+                container: container.container(element: element),
+                content: content
+            )
+        }
+        .modifier(container)
     }
 }

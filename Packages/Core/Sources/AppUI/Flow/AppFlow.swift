@@ -18,8 +18,18 @@ public struct AppFlow<Container: AppContainer>: View {
     public var body: some View {
         NavigationStack {
             List {
-                container.tagRepository.makeTagsContainer().view { value in
-                    Text(value.element.name)
+                let collection = container.tagRepository.makeTagsContainer()
+                collection.view { value in
+                    VStack(alignment: .leading) {
+                        Text(value.element.name)
+                        
+                        Button("Delete", role: .destructive) {
+                            value.handle(action: .delete)
+                        }
+                    }
+                }
+                .onDelete { offsets in
+                    collection.handle(action: .delete(offsets: offsets))
                 }
             }
             .toolbar {

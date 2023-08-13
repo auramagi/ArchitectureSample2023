@@ -40,20 +40,13 @@ extension DataValueContainer where Action == Void {
     public func handle(action: Action) { }
 }
 
-struct DataCollectionContainerView<Container: DataCollectionContainer, Content: View>: DynamicViewContent {
+struct DataValueContainerView<Container: DataValueContainer, Content: View>: View {
     let container: Container
     
-    @ViewBuilder var content: (Container.ValueContainer) -> Content
-    
-    var data: Container.Data { container.data }
+    let content: (Container) -> Content
     
     var body: some View {
-        ForEach(container.data, id: container.id) { element in
-            DataValueContainerView(
-                container: container.container(element: element),
-                content: content
-            )
-        }
-        .modifier(container)
+        content(container)
+            .modifier(container)
     }
 }
