@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct MainScene: Scene {
     @State var container = LiveAppContainer()
+//    @State var container = PreviewContainer()
 
     public init() {
         

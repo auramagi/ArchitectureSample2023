@@ -17,32 +17,35 @@ public struct AppFlow<Container: AppContainer>: View {
     
     public var body: some View {
         NavigationStack {
-            List {
-                let collection = container.tagRepository.makeTagsContainer()
-                collection.view { value in
-                    VStack(alignment: .leading) {
-                        Text(value.element.name)
-                        
-                        Button("Delete", role: .destructive) {
-                            value.handle(action: .delete)
+            let repo = container.tagRepository
+            repo.build { collection in
+                List {
+                    collection.forEach { value in
+                        VStack(alignment: .leading) {
+                            Text(value.element.name)
+
+                            Button("Delete", role: .destructive) {
+                                value.handle(.delete)
+                            }
+                        }
+                    }
+                    .onDelete { offsets in
+                        collection.handle(.delete(offsets: offsets))
+                    }
+
+                }
+                .toolbar {
+                    ToolbarItem {
+                        Button {
+                            let tag = Tag(name: UUID().uuidString)
+                            collection.handle(.add(tag: tag))
+                        } label: {
+                            Label("Add", systemImage: "plus")
                         }
                     }
                 }
-                .onDelete { offsets in
-                    collection.handle(action: .delete(offsets: offsets))
-                }
+                .navigationTitle("Tag list")
             }
-            .toolbar {
-                ToolbarItem {
-                    Button {
-                        let tag = Tag(name: UUID().uuidString)
-                        container.tagRepository.addTag(tag)
-                    } label: {
-                        Label("Add", systemImage: "plus")
-                    }
-                }
-            }
-            .navigationTitle("Tag list")
         }
     }
 }

@@ -9,8 +9,8 @@ import Core
 import RealmSwift
 import SwiftUI
 
-final class TagObject: Object, ObjectKeyIdentifiable {
-    @Persisted(primaryKey: true) var name: String
+public final class TagObject: Object, ObjectKeyIdentifiable {
+    @Persisted(primaryKey: true) public var name: String
 }
 
 extension Tag {
@@ -30,21 +30,20 @@ extension TagObject {
     }
 }
 
-struct RealmTagsContainer: TagsContainerProtocol {
+public struct RealmTagsContainer: DataCollectionContainer {
     @ObservedResults(TagObject.self) public var data
 
-    var id: KeyPath<TagObject, String> = \.name
+    public var id: KeyPath<TagObject, String> = \.name
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
     }
 
-    func container(element: TagObject) -> TagObjectContainer {
-        .init(object: element)
-    }
-
-    func handle(action: TagsContainerAction) {
+    public func handle(action: TagsContainerAction) {
         switch action {
+        case let .add(tag):
+            $data.append(.init(data: tag))
+
         case let .delete(offsets):
             $data.remove(atOffsets: offsets)
             
@@ -54,18 +53,18 @@ struct RealmTagsContainer: TagsContainerProtocol {
     }
 }
 
-struct TagObjectContainer: DataValueContainer {
+public struct TagObjectContainer: DataValueContainer {
     @ObservedRealmObject var object: TagObject
 
-    var element: Tag {
+    public var element: Tag {
         Tag(object: object)
     }
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
     }
     
-    func handle(action: TagsValueAction) {
+    public func handle(_ action: TagsValueAction) {
         switch action {
         case .delete:
             $object.delete()
@@ -75,16 +74,17 @@ struct TagObjectContainer: DataValueContainer {
 
 public struct RealmResolver: TagRepositoryProtocol {
     public init() { }
-    
-    public func makeTagsContainer() -> some TagsContainerProtocol {
-        RealmTagsContainer()
+
+    public func body(content: Content) -> some View {
+        content
+            .environment(\.realmConfiguration, .defaultConfiguration)
     }
 
-    public func addTag(_ tag: Tag) {
-        let realm = try! Realm()
-        try! realm.write {
-            let object = TagObject(data: tag)
-            realm.add(object)
-        }
+    public func makeObjectCollectionContainer() -> RealmTagsContainer {
+        .init()
+    }
+
+    public func makeObjectContainer(object: TagObject) -> TagObjectContainer {
+        .init(object: object)
     }
 }

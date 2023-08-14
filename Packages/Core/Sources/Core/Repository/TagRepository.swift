@@ -8,19 +8,11 @@
 import Combine
 import SwiftUI
 
-public protocol TagRepositoryProtocol {
-    //    func refresh()
-
-    associatedtype TagsContainer: TagsContainerProtocol
-
-    func makeTagsContainer() -> TagsContainer
-
-    func addTag(_ tag: Tag)
-}
-
-public protocol TagsContainerProtocol: DataCollectionContainer<Tag, TagsContainerAction, TagsValueAction> { }
+public protocol TagRepositoryProtocol: ViewDataCollectionBuilder<Tag, TagsContainerAction, TagsValueAction> { }
 
 public enum TagsContainerAction {
+    case add(tag: Tag)
+
     case delete(offsets: IndexSet)
 
     case move(fromOffsets: IndexSet, toOffset: Int)
@@ -32,19 +24,32 @@ public enum TagsValueAction {
 
 // MARK: Mock implementation
 
-public final class MockTagRepository: TagRepositoryProtocol {
+public struct MockTagRepository: TagRepositoryProtocol {
+    public typealias Entity = Tag
+
+    public typealias Object = MockTagObject
+
+    public typealias ObjectProperty = MockTagView
+
+    public typealias ObjectCollectionContainer = MockTagList
+
     let storage: MockTagStorage
 
     init(tags: [Tag]) {
         self.storage = .init(tags: tags.map { .init(tag: $0) })
     }
 
-    public func makeTagsContainer() -> some TagsContainerProtocol {
-        MockTagList(storage: storage)
+    public func makeObjectCollectionContainer() -> MockTagList {
+        .init(storage: storage)
     }
 
-    public func addTag(_ tag: Tag) {
-        storage.tags.append(.init(tag: tag))
+    public func makeObjectContainer(object: MockTagObject) -> MockTagView {
+        .init(tag: object) { object, action in
+            switch action {
+            case .delete:
+                storage.tags.removeAll { $0 === object }
+            }
+        }
     }
 }
 
@@ -62,26 +67,26 @@ final class MockTagStorage: ObservableObject {
     }
 }
 
-struct MockTagList: TagsContainerProtocol {
+public struct MockTagList: DataCollectionContainer {
     @ObservedObject var storage: MockTagStorage
 
-    var data: [MockTagObject] { storage.tags }
+    public var data: [MockTagObject] { storage.tags }
 
-    let id = \MockTagObject.tag.id
+    public let id = \MockTagObject.tag.id
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .onReceive(Timer.publish(every: 3, on: .main, in: .common).autoconnect()) { _ in
                 storage.tags.shuffle()
+                print("shuffle", storage.tags.map(\.tag.id))
             }
     }
 
-    func container(element: MockTagObject) -> MockTagView {
-        MockTagView(tag: element, actionHandler: handle(element:action:))
-    }
-
-    func handle(action: Action) {
+    public func handle(action: TagsContainerAction) {
         switch action {
+        case let .add(tag):
+            storage.tags.append(.init(tag: tag))
+
         case let .delete(offsets):
             storage.tags.remove(atOffsets: offsets)
 
@@ -89,34 +94,23 @@ struct MockTagList: TagsContainerProtocol {
             storage.tags.move(fromOffsets: fromOffsets, toOffset: toOffset)
         }
     }
-
-    func handle(element: MockTagObject, action: ValueAction) {
-        switch action {
-        case .delete:
-            storage.tags.removeAll { $0 === element }
-        }
-    }
 }
 
-struct MockTagView: DataValueContainer {
+public struct MockTagView: DataValueContainer {
     @ObservedObject var tag: MockTagObject
     
     let actionHandler: (MockTagObject, TagsValueAction) -> Void
 
-    var element: Tag {
+    public var element: Tag {
         tag.tag
     }
-
-    func body(content: Content) -> some View {
-        content
-    }
     
-    func handle(action: TagsValueAction) {
+    public func handle(_ action: TagsValueAction) {
         actionHandler(tag, action)
     }
 }
 
-final class MockTagObject: ObservableObject {
+public final class MockTagObject: ObservableObject {
     @Published var tag: Tag
 
     init(tag: Tag) {
@@ -133,32 +127,34 @@ final class MockTagObject: ObservableObject {
     }
 }
 
-struct TagsContainerView<Container: TagsContainerProtocol>: View {
-    let container: Container
+struct TagsContainerView<Repo: TagRepositoryProtocol>: View {
+    var tags: Repo
 
     var body: some View {
-        container.view { value in
-            VStack(alignment: .leading) {
-                Text("VendedElement: \(value.element.id)")
+        tags.build { collection in
+            collection.forEach { value in
+                VStack(alignment: .leading) {
+                    Text("VendedElement: \(value.element.id)")
 
-                Text(value.element.state.uuidString)
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
-                
-                Button("Delete", role: .destructive) {
-                    withAnimation {
-                        value.handle(action: .delete)
+                    Text(value.element.state.uuidString)
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+
+                    Button("Delete", role: .destructive) {
+                        withAnimation {
+                            value.handle(.delete)
+                        }
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal)
-        }
-        .onDelete { offsets in
-            container.handle(action: .delete(offsets: offsets))
-        }
-        .onMove { fromOffsets, toOffset in
-            container.handle(action: .move(fromOffsets: fromOffsets, toOffset: toOffset))
+            .onDelete { offsets in
+                collection.handle(.delete(offsets: offsets))
+            }
+            .onMove { fromOffsets, toOffset in
+                collection.handle(.move(fromOffsets: fromOffsets, toOffset: toOffset))
+            }
         }
     }
 }
@@ -169,7 +165,7 @@ struct MyView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             List {
-                TagsContainerView(container: repo.makeTagsContainer())
+                TagsContainerView(tags: repo)
             }
             .toolbar {
                 #if os(iOS)

@@ -7,33 +7,23 @@
 
 import SwiftUI
 
-public protocol DataCollectionContainer<Value, Action, ValueAction>: DynamicProperty, ViewModifier {
+public protocol DataCollectionContainer: DynamicProperty, ViewModifier {
     // MARK: Primary associated Types
 
-    associatedtype Value
+    associatedtype Object
     
     associatedtype Action
-    
-    associatedtype ValueAction
-    
+
     // MARK: Internal storage representation
 
-    associatedtype Data: RandomAccessCollection
-    
-    typealias DataElement = Data.Element
+    associatedtype Data: RandomAccessCollection where Data.Element == Object
 
-    associatedtype DataElementID: Hashable
+    associatedtype ID: Hashable
     
     var data: Data { get }
     
-    var id: KeyPath<Data.Element, DataElementID> { get }
-    
-    // MARK: External value container
+    var id: KeyPath<Object, ID> { get }
 
-    associatedtype ValueContainer: DataValueContainer<Value, ValueAction>
-    
-    func container(element: DataElement) -> ValueContainer
-    
     // MARK: External action support
     
     func handle(action: Action)
@@ -54,28 +44,4 @@ extension DataCollectionContainer where Body == Content {
 
 extension DataCollectionContainer where Action == Void {
     public func handle(action: Action) { }
-}
-
-extension DataCollectionContainer {
-    public func view(@ViewBuilder content: @escaping (ValueContainer) -> some View) -> some DynamicViewContent {
-        DataCollectionContainerView(container: self, content: content)
-    }
-}
-
-struct DataCollectionContainerView<Container: DataCollectionContainer, Content: View>: DynamicViewContent {
-    let container: Container
-    
-    @ViewBuilder var content: (Container.ValueContainer) -> Content
-    
-    var data: Container.Data { container.data }
-    
-    var body: some View {
-        ForEach(container.data, id: container.id) { element in
-            DataValueContainerView(
-                container: container.container(element: element),
-                content: content
-            )
-        }
-        .modifier(container)
-    }
 }
