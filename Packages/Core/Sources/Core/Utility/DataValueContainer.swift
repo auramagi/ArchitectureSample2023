@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public protocol DataValueContainer<Entity, Action>: DynamicProperty, ViewModifier {
+public protocol DataValueContainer<Entity, Action>: MyModifier {
     // MARK: Primary associated Types
 
     associatedtype Entity
@@ -21,19 +21,6 @@ public protocol DataValueContainer<Entity, Action>: DynamicProperty, ViewModifie
     // MARK: External action support
     
     func handle(_ action: Action)
-    
-    // MARK: ViewModifier support
-    
-    associatedtype Body: View = Content
-    
-    // We redefine this to be able to provide an empty implementation in an extension
-    @ViewBuilder @MainActor func body(content: Content) -> Body
-}
-
-extension DataValueContainer where Body == Content {
-    public func body(content: Content) -> Body {
-        content
-    }
 }
 
 extension DataValueContainer where Action == Void {
@@ -75,58 +62,88 @@ extension ViewDataCollectionBuilder {
     public typealias Collection = BuilderCollection<Self>
 
     @ViewBuilder public func build<ContentView: View>(@ViewBuilder collection: @escaping (Collection) -> ContentView) -> some View {
-        InstalledModifierView(modifier: makeObjectCollectionContainer()) { collectionContainer in
-            collection(.init(container: collectionContainer, makeObjectContainer: makeObjectContainer(object:)))
+        InstalledModifierView(modifier: makeObjectCollectionContainer()) { container in
+            collection(
+                .init(
+                    data: { container.data },
+                    id: container.id,
+                    actionHandler: container.handle(action:),
+                    makeObjectContainer: makeObjectContainer(object:)
+                )
+            )
         }
+        .modifier(self)
     }
 }
 
-struct InstalledModifierView<Modifier: DynamicProperty & ViewModifier, Content: View>: View {
+struct InstalledModifierView<Modifier: MyModifier, Content: View>: View {
     let modifier: Modifier
 
     @ViewBuilder let content: (Modifier) -> Content
 
     var body: some View {
         content(modifier)
-            .modifier(modifier)
+            .modifier(AnyModifier(modifier))
     }
 }
 
-public struct BuilderCollection<Builder: ViewDataCollectionBuilder> {
-    let container: Builder.ObjectCollectionContainer
+public struct AnyModifier: ViewModifier {
+    let content: (Content) -> AnyView
+    
+    init<M: MyModifier>(_ modifier: M) {
+        self.content = { AnyView(modifier.body(content: $0)) }
+    }
+    
+    public func body(content: Content) -> some View {
+        self.content(content)
+    }
+}
 
-    let makeObjectContainer: (Builder.Object) -> Builder.ObjectProperty
+public protocol MyModifier: DynamicProperty {
+    typealias Content = AnyModifier.Content
+    
+    associatedtype Body: View = Content
+    
+    func body(content: Content) -> Body
+}
+
+extension MyModifier where Body == Content {
+    public func body(content: Content) -> Body {
+        content
+    }
+}
+
+
+public struct BuilderCollection<Builder: ViewDataCollectionBuilder> {
+    private var data: () -> Builder.ObjectCollectionContainer.Data
+    
+    private let id: KeyPath<Builder.ObjectCollectionContainer.Data.Element, Builder.ObjectCollectionContainer.ID>
+    
+    private let actionHandler: (Builder.CollectionAction) -> Void
+
+    private let makeObjectContainer: (Builder.Object) -> Builder.ObjectProperty
+    
+    init(
+        data: @escaping () -> Builder.ObjectCollectionContainer.Data,
+        id: KeyPath<Builder.ObjectCollectionContainer.Data.Element, Builder.ObjectCollectionContainer.ID>,
+        actionHandler: @escaping (Builder.CollectionAction) -> Void,
+        makeObjectContainer: @escaping (Builder.Object) -> Builder.ObjectProperty
+    ) {
+        self.data = data
+        self.id = id
+        self.actionHandler = actionHandler
+        self.makeObjectContainer = makeObjectContainer
+    }
 
     public func forEach<Content: View>(@ViewBuilder content: @escaping (Builder.ObjectProperty) -> Content) -> some DynamicViewContent {
-        DataCollectionContainerView(container: container) { object in
+        ForEach(data(), id: id) { object in
             InstalledModifierView(modifier: makeObjectContainer(object)) { property in
                 content(property)
             }
         }
-        .modifier(container)
     }
 
     public func handle(_ action: Builder.CollectionAction) {
-        container.handle(action: action)
-    }
-}
-
-struct DataCollectionContainerView<Container: DataCollectionContainer, Content: View>: DynamicViewContent {
-    let container: Container
-
-    @ViewBuilder var content: (Container.Object) -> Content
-
-    init(container: Container, @ViewBuilder content: @escaping (Container.Object) -> Content) {
-        self.container = container
-        self.content = content
-    }
-
-    var data: Container.Data { container.data }
-
-    var body: some View {
-        ForEach(container.data, id: container.id) { object in
-            content(object)
-        }
-        .modifier(container)
+        actionHandler(action)
     }
 }
