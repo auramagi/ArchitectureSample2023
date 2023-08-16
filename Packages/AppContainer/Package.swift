@@ -21,6 +21,7 @@ let package = Package(
             .product(name: "Core", package: "Core"),
             .product(name: "AppUI", package: "Core"),
             .product(name: "RealmStorage", package: "Core"),
+            .product(name: "DogAPI", package: "Core"),
         ]),
     ]
 )

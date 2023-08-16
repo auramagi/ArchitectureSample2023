@@ -11,6 +11,10 @@ import SwiftUI
 @main
 struct ArchApp: App {
     var body: some Scene {
-        MainScene()
+        MainScene(configuration: configuration)
     }
 }
+
+let configuration = AppContainer.Configuration(
+    apiBaseURL: .init(string: "https://dog.ceo/api")!
+)

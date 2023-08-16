@@ -6,15 +6,17 @@
 //
 
 import AppUI
+import Core
+import DogAPI
 import RealmStorage
 import SwiftUI
 
 public struct MainScene: Scene {
-    @State var container = LiveAppContainer()
+    @State var container: LiveAppContainer
 //    @State var container = PreviewContainer()
 
-    public init() {
-        
+    public init(configuration: AppContainer.Configuration) {
+        self.container = .init(configuration: configuration)
     }
     
     public var body: some Scene {
@@ -24,8 +26,29 @@ public struct MainScene: Scene {
     }
 }
 
-final class LiveAppContainer: AppContainer {
-    var tagRepository: RealmResolver {
+public enum AppContainer {
+    public struct Configuration {
+        let apiBaseURL: URL
+
+        public init(
+            apiBaseURL: URL
+        ) {
+            self.apiBaseURL = apiBaseURL
+        }
+    }
+}
+
+final class LiveAppContainer: AppUIContainer {
+    let displayableErrorRepository: some DisplayableErrorRepositoryProtocol = CoreDisplayableErrorRepository(errors: [])
+
+    let dogRepository: APIDogRepository
+
+    var tagRepository: some TagRepositoryProtocol {
         RealmResolver()
+    }
+
+    init(configuration: AppContainer.Configuration) {
+        let api = APIClient(session: .shared, configuration: .init(baseURL: configuration.apiBaseURL))
+        self.dogRepository = api
     }
 }

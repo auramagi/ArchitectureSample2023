@@ -15,6 +15,7 @@ let package = Package(
         .library(name: "WidgetsUI", targets: ["WidgetsUI"]),
         
         .library(name: "RealmStorage", targets: ["RealmStorage"]),
+        .library(name: "DogAPI", targets: ["DogAPI"]),
     ],
     dependencies: [
         .package(url: "https://github.com/realm/realm-swift", from: "10.42.0"),
@@ -33,5 +34,7 @@ let package = Package(
             .product(name: "RealmSwift", package: "realm-swift"),
             .product(name: "Realm", package: "realm-swift"),
         ]),
+
+        .target(name: "DogAPI", dependencies: ["Core"]),
     ]
 )
