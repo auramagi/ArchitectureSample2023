@@ -7,24 +7,14 @@
 
 import SwiftUI
 
-public protocol DataValueContainer<Entity, Action>: MyModifier {
+public protocol DataValueContainer<Entity, Action>: DynamicViewContainer {
     // MARK: Primary associated Types
 
     associatedtype Entity
     
-    associatedtype Action = Void
-    
     // MARK: External value
 
     var element: Entity { get }
-    
-    // MARK: External action support
-    
-    func handle(_ action: Action)
-}
-
-extension DataValueContainer where Action == Void {
-    public func handle(action: Action) { }
 }
 
 public protocol ViewDataCollectionBuilder<Entity, CollectionAction, ObjectAction>: ViewModifier {
@@ -67,7 +57,7 @@ extension ViewDataCollectionBuilder {
                 .init(
                     data: { container.data },
                     id: container.id,
-                    actionHandler: container.handle(action:),
+                    actionHandler: container.handle(_:),
                     makeObjectContainer: makeObjectContainer(object:)
                 )
             )
@@ -76,7 +66,7 @@ extension ViewDataCollectionBuilder {
     }
 }
 
-struct InstalledModifierView<Modifier: MyModifier, Content: View>: View {
+struct InstalledModifierView<Modifier: DynamicViewContainer, Content: View>: View {
     let modifier: Modifier
 
     @ViewBuilder let content: (Modifier) -> Content
@@ -87,13 +77,29 @@ struct InstalledModifierView<Modifier: MyModifier, Content: View>: View {
     }
 }
 
-public protocol MyModifier: DynamicProperty, ViewModifier {
+public protocol DynamicViewContainer: DynamicProperty, ViewModifier {
+    associatedtype Action = Void
+
+    func handle(_ action: Action) -> Task<Void, Never>?
+
     associatedtype Body: View = Content
     
     func body(content: Content) -> Body
 }
 
-extension MyModifier where Body == Content {
+extension DynamicViewContainer where Action == Void {
+    public func handle(action: Action) -> Task<Void, Never>? {
+        nil
+    }
+}
+
+extension DynamicViewContainer {
+    public func handle(_ action: Action) {
+        _ = handle(action)
+    }
+}
+
+extension DynamicViewContainer where Body == Content {
     public func body(content: Content) -> Body {
         content
     }

@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-public protocol DataCollectionContainer: MyModifier {
+public protocol DataCollectionContainer: DynamicViewContainer {
     // MARK: Primary associated Types
     
     associatedtype Object
-    
-    associatedtype Action
     
     // MARK: Internal storage representation
     
@@ -23,12 +21,4 @@ public protocol DataCollectionContainer: MyModifier {
     var data: Data { get }
     
     var id: KeyPath<Object, ID> { get }
-    
-    // MARK: External action support
-    
-    func handle(action: Action)
-}
-
-extension DataCollectionContainer where Action == Void {
-    public func handle(action: Action) { }
 }

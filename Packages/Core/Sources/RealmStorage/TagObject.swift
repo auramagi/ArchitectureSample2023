@@ -38,8 +38,8 @@ public struct RealmTagsContainer: DataCollectionContainer {
     public func body(content: Content) -> some View {
         content
     }
-
-    public func handle(action: TagsContainerAction) {
+    
+    public func handle(_ action: TagsContainerAction) -> Task<Void, Never>? {
         switch action {
         case let .add(tag):
             $data.append(.init(data: tag))
@@ -50,6 +50,7 @@ public struct RealmTagsContainer: DataCollectionContainer {
         case .move:
             fatalError()
         }
+        return nil
     }
 }
 
@@ -64,11 +65,12 @@ public struct TagObjectContainer: DataValueContainer {
         content
     }
     
-    public func handle(_ action: TagsValueAction) {
+    public func handle(_ action: TagsValueAction) -> Task<Void, Never>? {
         switch action {
         case .delete:
             $object.delete()
         }
+        return nil
     }
 }
 

@@ -82,7 +82,7 @@ public struct MockTagList: DataCollectionContainer {
             }
     }
 
-    public func handle(action: TagsContainerAction) {
+    public func handle(_ action: TagsContainerAction) -> Task<Void, Never>? {
         switch action {
         case let .add(tag):
             storage.tags.append(.init(tag: tag))
@@ -93,6 +93,7 @@ public struct MockTagList: DataCollectionContainer {
         case let .move(fromOffsets, toOffset):
             storage.tags.move(fromOffsets: fromOffsets, toOffset: toOffset)
         }
+        return nil
     }
 }
 
@@ -105,8 +106,9 @@ public struct MockTagContainer: DataValueContainer {
         object.tag
     }
     
-    public func handle(_ action: TagsValueAction) {
+    public func handle(_ action: TagsValueAction) -> Task<Void, Never>? {
         actionHandler(object, action)
+        return nil
     }
 }
 
