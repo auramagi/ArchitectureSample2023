@@ -14,4 +14,8 @@ extension APIDogRepository: DogRepositoryProtocol {
     public func getRandomDog() async throws -> URL {
         try await execute(API.RandomImageRequest.Single.Get()).message
     }
+
+    public func getBreedList() async throws -> BreedList {
+        try await execute(API.BreedListRequest.Get()).message
+    }
 }
