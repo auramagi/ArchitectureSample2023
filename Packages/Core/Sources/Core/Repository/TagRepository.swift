@@ -29,7 +29,7 @@ public struct MockTagRepository: TagRepositoryProtocol {
 
     public typealias Object = MockTagObject
 
-    public typealias ObjectProperty = MockTagView
+    public typealias ObjectProperty = MockTagContainer
 
     public typealias ObjectCollectionContainer = MockTagList
 
@@ -43,8 +43,8 @@ public struct MockTagRepository: TagRepositoryProtocol {
         .init(storage: storage)
     }
 
-    public func makeObjectContainer(object: MockTagObject) -> MockTagView {
-        .init(tag: object) { object, action in
+    public func makeObjectContainer(object: MockTagObject) -> MockTagContainer {
+        .init(object: object) { object, action in
             switch action {
             case .delete:
                 storage.tags.removeAll { $0 === object }
@@ -96,17 +96,17 @@ public struct MockTagList: DataCollectionContainer {
     }
 }
 
-public struct MockTagView: DataValueContainer {
-    @ObservedObject var tag: MockTagObject
+public struct MockTagContainer: DataValueContainer {
+    @ObservedObject var object: MockTagObject
     
     let actionHandler: (MockTagObject, TagsValueAction) -> Void
 
     public var element: Tag {
-        tag.tag
+        object.tag
     }
     
     public func handle(_ action: TagsValueAction) {
-        actionHandler(tag, action)
+        actionHandler(object, action)
     }
 }
 

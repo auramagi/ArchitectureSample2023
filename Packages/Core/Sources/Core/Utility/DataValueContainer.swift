@@ -83,25 +83,11 @@ struct InstalledModifierView<Modifier: MyModifier, Content: View>: View {
 
     var body: some View {
         content(modifier)
-            .modifier(AnyModifier(modifier))
+            .modifier(modifier)
     }
 }
 
-public struct AnyModifier: ViewModifier {
-    let content: (Content) -> AnyView
-    
-    init<M: MyModifier>(_ modifier: M) {
-        self.content = { AnyView(modifier.body(content: $0)) }
-    }
-    
-    public func body(content: Content) -> some View {
-        self.content(content)
-    }
-}
-
-public protocol MyModifier: DynamicProperty {
-    typealias Content = AnyModifier.Content
-    
+public protocol MyModifier: DynamicProperty, ViewModifier {
     associatedtype Body: View = Content
     
     func body(content: Content) -> Body
