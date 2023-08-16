@@ -16,52 +16,18 @@ public struct AppFlow<Container: AppUIContainer>: View {
     }
     
     public var body: some View {
-        NavigationStack {
-            List {
-                NavigationLink("Dogs", destination: dogs)
-
-                NavigationLink("Tags", destination: tags)
-            }
-            .navigationTitle("Top")
+        TabView {
+            dogs
+                .tabItem {
+                    Label("Random", systemImage: "photo")
+                }
         }
+        .modifier(DisplayableErrorAlertViewModifier(dependency: .init(error: { container.displayableErrorRepository.error }, clearError: container.displayableErrorRepository.clearError(id:))))
     }
 
     @ViewBuilder var dogs: some View {
         let service = DogService(dependency: .init(getRandomDog: container.dogRepository.getRandomDog, sendError: container.displayableErrorRepository.sendError(_:)))
         DogScreen(dependency: .init(getRandomDog: service.getRandomDog))
-            .navigationTitle("Dogs")
-    }
-
-    @ViewBuilder var tags: some View {
-        let repo = container.tagRepository
-        repo.build { collection in
-            List {
-                collection.forEach { value in
-                    VStack(alignment: .leading) {
-                        Text(value.element.name)
-
-                        Button("Delete", role: .destructive) {
-                            value.handle(.delete)
-                        }
-                    }
-                }
-                .onDelete { offsets in
-                    collection.handle(.delete(offsets: offsets))
-                }
-
-            }
-            .toolbar {
-                ToolbarItem {
-                    Button {
-                        let tag = Tag(name: UUID().uuidString)
-                        collection.handle(.add(tag: tag))
-                    } label: {
-                        Label("Add", systemImage: "plus")
-                    }
-                }
-            }
-            .navigationTitle("Tag list")
-        }
     }
 }
 
@@ -73,6 +39,44 @@ struct DogScreen: View {
     let dependency: Dependency
 
     @State private var url: URL?
+
+    @State private var id = UUID()
+
+    @State private var isLoading = false
+
+    var body: some View {
+        VStack {
+            Group {
+                if isLoading {
+                    ProgressView()
+                } else if let url {
+                    DogImage(url: url)
+                } else {
+                    ImageFailureView()
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            Button {
+                id = .init()
+            } label: {
+                Label("Reload", systemImage: "arrow.triangle.2.circlepath")
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(isLoading)
+            .padding()
+
+        }
+        .task(id: id) {
+            isLoading = true
+            url = await dependency.getRandomDog()
+            isLoading = false
+        }
+    }
+}
+
+struct DogImage: View {
+    let url: URL
 
     var body: some View {
         AsyncImage(url: url) { phase in
@@ -86,20 +90,65 @@ struct DogScreen: View {
                     .scaledToFit()
 
             case .failure:
-                Color.gray
+                ImageFailureView()
 
             @unknown default:
                 ProgressView()
             }
         }
-        .task {
-            self.url = await dependency.getRandomDog()
-        }
+    }
+}
+
+struct ImageFailureView: View {
+    var body: some View {
+        Image(systemName: "xmark")
+            .symbolRenderingMode(.multicolor)
+            .imageScale(.large)
+    }
+}
+
+struct DisplayableErrorAlertViewModifier: ViewModifier {
+    struct Dependency {
+        let error: () -> AsyncStream<DisplayableError>
+
+        let clearError: (_ id: DisplayableError.ID) -> Void
+    }
+
+    let dependency: Dependency
+
+    @State private var error: DisplayableError?
+
+    func body(content: Content) -> some View {
+        content
+            .alert("Error", isPresented: isPresented, presenting: error) { error in
+                // Only the OK button
+            } message: { error in
+                Text(error.message)
+            }
+            .onChange(of: error?.id) { [oldValue = error?.id] newValue in
+                if let oldValue {
+                    dependency.clearError(oldValue)
+                }
+            }
+            .task {
+                for await error in dependency.error() {
+                    self.error = error
+                }
+            }
+
+    }
+
+    var isPresented: Binding<Bool> {
+        .init(
+            get: { error != nil },
+            set: { _ in error = nil }
+        )
     }
 }
 
 struct AppFlow_Previews: PreviewProvider {
     static let container = PreviewContainer()
+
     static var previews: some View {
         AppFlow(container: container)
     }
