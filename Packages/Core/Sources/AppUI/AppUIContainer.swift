@@ -23,6 +23,10 @@ public protocol AppUIContainer {
 }
 
 public final class PreviewContainer: AppUIContainer {
+    public struct Configuration {
+        var didShowWelcome: Bool
+    }
+
     public let displayableErrorRepository: CoreDisplayableErrorRepository
 
     public let dogRepository: MockDogRepository
@@ -31,11 +35,31 @@ public final class PreviewContainer: AppUIContainer {
 
     public let userSettingsRepository: MockUserSettingsRepository
 
-    public init() {
+    public init(configuration: Configuration = .default) {
         self.displayableErrorRepository = .mock()
         self.dogRepository = .mock()
         self.tagRepository = .mock(tags: .mock)
-        self.userSettingsRepository = .init(initialValue: .init(didShowWelcome: false))
+        self.userSettingsRepository = .init(initialValue: .init(didShowWelcome: configuration.didShowWelcome))
+    }
+}
+
+extension AppUIContainer where Self == PreviewContainer {
+    static func preview(_ configuration: PreviewContainer.Configuration = .default) -> Self {
+        .init(configuration: configuration)
+    }
+}
+
+extension PreviewContainer.Configuration {
+    public static var `default`: Self {
+        .init(
+            didShowWelcome: false
+        )
+    }
+
+    func with<V>(_ property: WritableKeyPath<Self, V>, _ value: V) -> Self {
+        var configuration = self
+        configuration[keyPath: property] = value
+        return configuration
     }
 }
 

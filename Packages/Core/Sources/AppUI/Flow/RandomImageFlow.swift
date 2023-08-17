@@ -22,9 +22,7 @@ struct RandomImageFlow<Container: AppUIContainer>: View {
 }
 
 struct RandomImageFlow_Previews: PreviewProvider {
-    static let container = PreviewContainer()
-
     static var previews: some View {
-        RandomImageFlow(container: container)
+        RandomImageFlow(container: .preview())
     }
 }

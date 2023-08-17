@@ -19,9 +19,7 @@ struct UserFlow<Container: AppUIContainer>: View {
 }
 
 struct UserFlow_Previews: PreviewProvider {
-    static let container = PreviewContainer()
-
     static var previews: some View {
-        UserFlow(container: container)
+        UserFlow(container: .preview())
     }
 }

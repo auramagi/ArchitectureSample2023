@@ -33,9 +33,7 @@ struct WelcomeFlow<Container: AppUIContainer>: View {
 }
 
 struct WelcomeFlow_Previews: PreviewProvider {
-    static let container = PreviewContainer()
-
     static var previews: some View {
-        WelcomeFlow(container: container, actionHandler: { _ in })
+        WelcomeFlow(container: .preview(), actionHandler: { _ in })
     }
 }

@@ -46,9 +46,11 @@ public struct AppFlow<Container: AppUIContainer>: View {
 }
 
 struct AppFlow_Previews: PreviewProvider {
-    static let container = PreviewContainer()
-
     static var previews: some View {
-        AppFlow(container: container)
+        AppFlow(container: .preview())
+            .previewDisplayName("Initial")
+
+        AppFlow(container: .preview(.default.with(\.didShowWelcome, true)))
+            .previewDisplayName("After dismissing Welcome")
     }
 }

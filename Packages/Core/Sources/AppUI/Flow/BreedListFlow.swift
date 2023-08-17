@@ -35,9 +35,7 @@ struct BreedListFlow<Container: AppUIContainer>: View {
 }
 
 struct BreedListFlow_Previews: PreviewProvider {
-    static let container = PreviewContainer()
-
     static var previews: some View {
-        BreedListFlow(container: container)
+        BreedListFlow(container: .preview())
     }
 }

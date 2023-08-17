@@ -44,9 +44,7 @@ public struct MainTabFlow<Container: AppUIContainer>: View {
 }
 
 struct MainTabFlow_Previews: PreviewProvider {
-    static let container = PreviewContainer()
-
     static var previews: some View {
-        MainTabFlow(container: container)
+        MainTabFlow(container: .preview())
     }
 }
