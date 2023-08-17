@@ -134,7 +134,7 @@ struct TagsContainerView<ViewDataCollectionBuilder: TagViewDataCollectionBuilder
 
     var body: some View {
         WithViewDataCollection(tags) { tags in
-            tags.forEach { value in
+            ForEach(tags) { value in
                 VStack(alignment: .leading) {
                     Text("VendedElement: \(value.element.id)")
 

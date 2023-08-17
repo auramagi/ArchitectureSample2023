@@ -65,25 +65,25 @@ public struct WithViewDataCollection<Builder: ViewDataCollectionBuilder, Content
     }
 }
 
-struct InstalledModifierView<Modifier: DynamicViewContainer, Content: View>: View {
+public struct InstalledModifierView<Modifier: DynamicViewContainer, Content: View>: View {
     let modifier: Modifier
 
     @ViewBuilder let content: (Modifier) -> Content
 
-    var body: some View {
+    public var body: some View {
         content(modifier)
             .modifier(modifier)
     }
 }
 
 public struct DataCollectionContent<Builder: ViewDataCollectionBuilder> {
-    private var data: () -> Builder.ViewDataCollectionType.Data
+    var data: () -> Builder.ViewDataCollectionType.Data
 
-    private let id: KeyPath<Builder.ViewDataCollectionType.Data.Element, Builder.ViewDataCollectionType.ID>
+    let id: KeyPath<Builder.ViewDataCollectionType.Data.Element, Builder.ViewDataCollectionType.ID>
 
-    private let actionHandler: (Builder.CollectionAction) -> Task<Void, Never>?
+    let actionHandler: (Builder.CollectionAction) -> Task<Void, Never>?
 
-    private let makeData: (Builder.Object) -> Builder.ViewDataType
+    let makeData: (Builder.Object) -> Builder.ViewDataType
 
     init(
         data: @escaping () -> Builder.ViewDataCollectionType.Data,
@@ -97,16 +97,25 @@ public struct DataCollectionContent<Builder: ViewDataCollectionBuilder> {
         self.makeData = makeData
     }
 
-    public func forEach<Content: View>(@ViewBuilder content: @escaping (Builder.ViewDataType) -> Content) -> some DynamicViewContent {
-        ForEach(data(), id: id) { object in
-            InstalledModifierView(modifier: makeData(object)) { property in
-                content(property)
-            }
-        }
-    }
-
     @discardableResult
     public func handle(_ action: Builder.CollectionAction) -> Task<Void, Never>? {
         actionHandler(action)
+    }
+}
+
+extension ForEach {
+    public init<Builder: ViewDataCollectionBuilder, C: View>(
+        _ collection: DataCollectionContent<Builder>,
+        @ViewBuilder content: @escaping (Builder.ViewDataType) -> C
+    ) where Builder.ViewDataCollectionType.Data == Data, ID == Builder.ViewDataCollectionType.ID, Content == InstalledModifierView<Builder.ViewDataType, C> {
+        self.init(
+            collection.data(),
+            id: collection.id,
+            content: { object in
+                InstalledModifierView(modifier: collection.makeData(object)) { property in
+                    content(property)
+                }
+            }
+        )
     }
 }

@@ -15,7 +15,7 @@ struct BreedListScreen<ViewData: DogBreedViewData>: View {
         WithViewDataCollection(breeds) { breeds in
             List {
                 Section {
-                    breeds.forEach { item in
+                    ForEach(breeds) { item in
                         BreedListRow(item: item.element)
                     }
                 }
