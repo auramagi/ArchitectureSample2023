@@ -36,7 +36,6 @@ struct DisplayableErrorAlertViewModifier: ViewModifier {
                     self.error = error
                 }
             }
-
     }
 
     var isPresented: Binding<Bool> {

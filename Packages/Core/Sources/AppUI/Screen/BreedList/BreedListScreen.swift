@@ -20,9 +20,6 @@ struct BreedListScreen<ViewData: DogBreedViewData>: View {
                     }
                 }
             }
-            .task {
-                await collection.handle(.refresh)?.value
-            }
             .refreshable {
                 await collection.handle(.refresh)?.value
             }

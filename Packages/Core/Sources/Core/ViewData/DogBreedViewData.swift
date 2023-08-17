@@ -44,22 +44,24 @@ public struct MockDogBreedViewData: DogBreedViewData {
 public struct CoreDogBreedList: DataCollectionContainer {
     let getBreedList: () async throws -> BreedList
 
-    @State private var breeds: LoadingState<[BreedListItem]> = .notStarted
+    @State private var breeds: [BreedListItem] = []
 
     @State private var taskID = UUID()
 
-    @State private var loadedID = UUID()
+    @State private var loadedID: UUID?
 
     public var data: [BreedListItem] {
-        (try? breeds.result?.get()) ?? []
+        breeds
     }
 
     public let id: KeyPath<BreedListItem, BreedListItem> = \.self
 
     public func handle(_ action: DogBreedViewDataAction) -> Task<Void, Never>? {
-        taskID = .init()
         return Task {
-            try? await Task.sleep(for: .seconds(1)) // TODO: Connect with actual task
+            // TODO: Connect with actual task
+            try? await Task.sleep(for: .milliseconds(500))
+            taskID = .init()
+            try? await Task.sleep(for: .milliseconds(500))
         }
     }
 
@@ -68,12 +70,11 @@ public struct CoreDogBreedList: DataCollectionContainer {
             .task(id: taskID) {
                 guard loadedID != taskID else { return } // Load only once unless reloading by button
                 loadedID = taskID
-                breeds = .loading
                 do {
                     let breedList = try await getBreedList()
-                    breeds = .loaded(.success(breedList.map()))
+                    breeds = breedList.map()
                 } catch {
-                    breeds = .loaded(.failure(error))
+                    loadedID = nil
                 }
             }
     }
