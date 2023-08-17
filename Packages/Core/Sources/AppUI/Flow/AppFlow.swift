@@ -11,13 +11,35 @@ import SwiftUI
 public struct AppFlow<Container: AppUIContainer>: View {
     let container: Container
 
+    @State var didShowWelcome = false
+
     public init(container: Container) {
         self.container = container
     }
     
     public var body: some View {
+        ZStack {
+            if didShowWelcome {
+                mainTabDestination
+            } else {
+                welcomeDestination
+            }
+        }
+        .animation(.default, value: didShowWelcome)
+        .modifier(DisplayableErrorAlertViewModifier(dependency: .init(error: { container.displayableErrorRepository.error }, clearError: container.displayableErrorRepository.clearError(id:))))
+    }
+
+    @ViewBuilder var mainTabDestination: some View {
         MainTabFlow(container: container)
-            .modifier(DisplayableErrorAlertViewModifier(dependency: .init(error: { container.displayableErrorRepository.error }, clearError: container.displayableErrorRepository.clearError(id:))))
+    }
+
+    @ViewBuilder var welcomeDestination: some View {
+        WelcomeFlow(container: container) { action in
+            switch action {
+            case .dismiss:
+                didShowWelcome = true
+            }
+        }
     }
 }
 
