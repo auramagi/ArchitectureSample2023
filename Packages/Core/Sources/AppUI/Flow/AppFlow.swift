@@ -31,8 +31,12 @@ public struct AppFlow<Container: AppUIContainer>: View {
     }
 
     @ViewBuilder var randomImageDestination: some View {
-        let service = DogService(dependency: .init(getRandomDog: container.dogRepository.getRandomDog, sendError: container.displayableErrorRepository.sendError(_:)))
-        DogScreen(dependency: .init(getRandomDog: service.getRandomDog))
+        let service = RandomDogImageService(dependency: .init(getRandomDogImage: container.dogRepository.getRandomDogImage, sendError: container.displayableErrorRepository.sendError(_:)))
+
+        NavigationStack {
+            DogScreen(dependency: .init(getDogImage: service.getRandomDogImage))
+                .navigationTitle("Random Dog")
+        }
     }
 
     @ViewBuilder var breedListDestination: some View {
@@ -40,32 +44,54 @@ public struct AppFlow<Container: AppUIContainer>: View {
             BreedListScreen(dependency: .init(
                 getBreedList: container.dogRepository.getBreedList
             ))
+            .navigationTitle("Breeds")
+            .navigationDestination(for: BreedListScreen.Destination.self) { destination in
+                switch destination {
+                case let .breedImage(breed):
+                    breedImageDestination(breed: breed)
+                }
+            }
         }
+    }
+
+    @ViewBuilder func breedImageDestination(breed: ConcreteBreed) -> some View {
+        let service = DogBreedImageService(dependency: .init(
+            getDogBreedImage: container.dogRepository.getDogBreedImage(breed:),
+            getDogSubBreedImage: container.dogRepository.getDogSubBreedImage(breed:subBreed:),
+            sendError: container.displayableErrorRepository.sendError(_:)
+        ))
+
+        DogScreen(dependency: .init(getDogImage: { await service.getDogBreedImage(breed: breed) }))
+            .navigationTitle(breed.formatted(.breedName))
     }
 }
 
+
 struct DogScreen: View {
     struct Dependency {
-        let getRandomDog: () async -> URL?
+        let getDogImage: () async -> URL?
     }
 
     let dependency: Dependency
 
-    @State private var url: URL?
+    @State private var url: LoadingState<URL> = .notStarted
 
     @State private var id = UUID()
 
-    @State private var isLoading = false
+    @State private var loadedID = UUID()
 
     var body: some View {
         VStack {
             Group {
-                if isLoading {
-                    ProgressView()
-                } else if let url {
+                switch url.result {
+                case let .success(url):
                     DogImage(url: url)
-                } else {
+
+                case .failure:
                     TaskFailedView()
+
+                case .none:
+                    ProgressView()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -76,14 +102,19 @@ struct DogScreen: View {
                 Label("Reload", systemImage: "arrow.triangle.2.circlepath")
             }
             .buttonStyle(.borderedProminent)
-            .disabled(isLoading)
+            .disabled(!url.isLoaded)
             .padding()
 
         }
         .task(id: id) {
-            isLoading = true
-            url = await dependency.getRandomDog()
-            isLoading = false
+            guard loadedID != id else { return } // Load only once unless reloading by button
+            loadedID = id
+            url = .loading
+            if let result = await dependency.getDogImage() {
+                url = .loaded(.success(result))
+            } else {
+                url = .loaded(.failure(.message("Couldn't get image URL.")))
+            }
         }
     }
 }
@@ -93,19 +124,22 @@ struct BreedListScreen: View {
         let getBreedList: () async throws -> BreedList
     }
 
+    enum Destination: Hashable {
+        case breedImage(breed: ConcreteBreed)
+    }
+
     let dependency: Dependency
 
     @State private var breeds: LoadingState<[BreedListItem]> = .notStarted
 
     @State private var id = UUID()
 
+    @State private var loadedID = UUID()
+
     var body: some View {
         ZStack {
-            switch breeds {
-            case .notStarted, .loading:
-                ProgressView()
-
-            case let .loaded(.success(breeds)):
+            switch breeds.result {
+            case let .success(breeds):
                 List {
                     Section {
                         ForEach(breeds, id: \.self) { item in
@@ -114,7 +148,7 @@ struct BreedListScreen: View {
                     }
                 }
 
-            case let .loaded(.failure(error)):
+            case let .failure(error):
                 VStack {
                     VStack {
                         TaskFailedView()
@@ -130,9 +164,14 @@ struct BreedListScreen: View {
                     .buttonStyle(.borderedProminent)
                     .padding()
                 }
+
+            case .none:
+                ProgressView()
             }
         }
         .task(id: id) {
+            guard loadedID != id else { return } // Load only once unless reloading by button
+            loadedID = id
             breeds = .loading
             do {
                 let breedList = try await dependency.getBreedList()
@@ -141,7 +180,6 @@ struct BreedListScreen: View {
                 breeds = .loaded(.failure(error))
             }
         }
-        .navigationTitle("Breeds")
     }
 }
 
@@ -155,14 +193,20 @@ struct BreedListRow: View {
         case let .group(breed, subBreeds):
             DisclosureGroup(isExpanded: $isExpanded) {
                 ForEach(subBreeds, id: \.self) { subBreed in
-                    Text(subBreed, format: .breedName)
+                    NavigationLink(value: BreedListScreen.Destination.breedImage(breed: subBreed)) {
+                        Text(subBreed, format: .breedName)
+                    }
                 }
             } label: {
-                Text(breed, format: .breedName)
+                NavigationLink(value: BreedListScreen.Destination.breedImage(breed: breed)) {
+                    Text(breed, format: .breedName)
+                }
             }
 
         case let .concrete(breed):
-            Text(breed, format: .breedName)
+            NavigationLink(value: BreedListScreen.Destination.breedImage(breed: breed)) {
+                Text(breed, format: .breedName)
+            }
         }
     }
 }
@@ -197,40 +241,26 @@ extension BreedList {
     }
 }
 
-struct ConcreteBreed: Hashable {
-    let breed: Breed
-
-    let subBreed: SubBreed?
-}
-
-extension ConcreteBreed {
-    struct BreedNameFormatStyle: FormatStyle {
-        let locale: Locale?
-
-        func locale(_ locale: Locale) -> ConcreteBreed.BreedNameFormatStyle {
-            .init(locale: locale)
-        }
-
-        func format(_ value: ConcreteBreed) -> String {
-            if let subBreed = value.subBreed {
-                return "\(subBreed) \(value.breed)".capitalized(with: locale)
-            } else {
-                return value.breed.capitalized(with: locale)
-            }
-        }
-    }
-}
-
-extension FormatStyle where Self == ConcreteBreed.BreedNameFormatStyle {
-    static var breedName: Self {
-        .init(locale: nil)
-    }
-}
-
 enum LoadingState<Success> {
     case notStarted
+
     case loading
+
     case loaded(Result<Success, Error>)
+
+    var result: Result<Success, Error>? {
+        switch self {
+        case .notStarted, .loading:
+            return nil
+
+        case let .loaded(result):
+            return result
+        }
+    }
+
+    var isLoaded: Bool {
+        result != nil
+    }
 }
 
 struct DogImage: View {
@@ -263,6 +293,20 @@ struct TaskFailedView: View {
             .symbolRenderingMode(.multicolor)
             .imageScale(.large)
             .padding()
+    }
+}
+
+struct GenericError: LocalizedError {
+    let message: String
+
+    var errorDescription: String? {
+        message
+    }
+}
+
+extension Error where Self == GenericError {
+    static func message(_ message: String) -> Self {
+        .init(message: message)
     }
 }
 

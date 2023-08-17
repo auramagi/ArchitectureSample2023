@@ -8,42 +8,66 @@
 import Foundation
 
 public protocol DogRepositoryProtocol {
-    func getRandomDog() async throws -> URL
+    func getRandomDogImage() async throws -> URL
+
+    func getDogBreedImage(breed: Breed) async throws -> URL
+
+    func getDogSubBreedImage(breed: Breed, subBreed: SubBreed) async throws -> URL
 
     func getBreedList() async throws -> BreedList
 }
 
 extension DogRepositoryProtocol where Self: MockDogRepository {
     public static func mock(
-        getRandomDog: @escaping () async -> URL = { .mock(path: "random_dog") },
+        getRandomDogImage: @escaping () async -> URL = { .mock(path: "random_dog") },
+        getDogBreedImage: @escaping (Breed) async throws -> URL = { _ in .mock(path: "random_dog") },
+        getDogSubBreedImage: @escaping (Breed, SubBreed) async throws -> URL = { _, _ in .mock(path: "random_dog") },
         getBreedList: @escaping () async -> BreedList = { .mock }
     ) -> Self {
         .init(
-            getRandomDog: getRandomDog,
+            getRandomDogImage: getRandomDogImage,
+            getDogBreedImage: getDogBreedImage,
+            getDogSubBreedImage: getDogSubBreedImage,
             getBreedList: getBreedList
         )
     }
 }
 
 public final class MockDogRepository: DogRepositoryProtocol {
-    let _getRandomDog: () async throws -> URL
+    let _getRandomDogImage: () async throws -> URL
+
+    let _getDogBreedImage: (Breed) async throws -> URL
+
+    let _getDogSubBreedImage: (Breed, SubBreed) async throws -> URL
 
     let _getBreedList: () async throws -> BreedList
 
     init(
-        getRandomDog: @escaping () async throws -> URL,
+        getRandomDogImage: @escaping () async throws -> URL,
+        getDogBreedImage: @escaping (Breed) async throws -> URL,
+        getDogSubBreedImage: @escaping (Breed, SubBreed) async throws -> URL,
         getBreedList: @escaping () async throws -> BreedList
     ) {
-        self._getRandomDog = getRandomDog
+        self._getRandomDogImage = getRandomDogImage
+        self._getDogBreedImage = getDogBreedImage
+        self._getDogSubBreedImage = getDogSubBreedImage
         self._getBreedList = getBreedList
     }
 
-    public func getRandomDog() async throws -> URL {
-        try await _getRandomDog()
+    public func getRandomDogImage() async throws -> URL {
+        try await _getRandomDogImage()
     }
 
     public func getBreedList() async throws -> BreedList {
         try await _getBreedList()
+    }
+
+    public func getDogBreedImage(breed: Breed) async throws -> URL {
+        try await _getDogBreedImage(breed)
+    }
+
+    public func getDogSubBreedImage(breed: Breed, subBreed: SubBreed) async throws -> URL {
+        try await _getDogSubBreedImage(breed, subBreed)
     }
 }
 

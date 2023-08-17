@@ -1,5 +1,5 @@
 //
-//  DogService.swift
+//  RandomDogImageService.swift
 //  
 //
 //  Created by Mikhail Apurin on 2023/08/17.
@@ -7,17 +7,17 @@
 
 import Foundation
 
-public struct DogService {
+public struct RandomDogImageService {
     public struct Dependency {
-        let getRandomDog: () async throws -> URL
+        let getRandomDogImage: () async throws -> URL
 
         let sendError: (_ error: DisplayableError) async -> Void
 
         public init(
-            getRandomDog: @escaping () async throws -> URL,
+            getRandomDogImage: @escaping () async throws -> URL,
             sendError: @escaping (_ error: DisplayableError) async -> Void
         ) {
-            self.getRandomDog = getRandomDog
+            self.getRandomDogImage = getRandomDogImage
             self.sendError = sendError
         }
     }
@@ -28,9 +28,9 @@ public struct DogService {
         self.dependency = dependency
     }
 
-    public func getRandomDog() async -> URL? {
+    public func getRandomDogImage() async -> URL? {
         do {
-            return try await dependency.getRandomDog()
+            return try await dependency.getRandomDogImage()
         } catch {
             let error = DisplayableError(underlying: error, message: error.localizedDescription)
             await dependency.sendError(error)
