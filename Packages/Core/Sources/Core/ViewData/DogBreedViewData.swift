@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-public protocol DogBreedViewData: ViewDataCollectionBuilder<BreedListItem, Void, Void> { }
+public protocol DogBreedViewData: ViewDataCollectionBuilder<BreedListItem, DogBreedViewDataAction, Void> { }
+
+public enum DogBreedViewDataAction {
+    case refresh
+}
 
 public struct CoreDogBreedViewData: DogBreedViewData {
     let getBreedList: () async throws -> BreedList
@@ -52,8 +56,11 @@ public struct CoreDogBreedList: DataCollectionContainer {
 
     public let id: KeyPath<BreedListItem, BreedListItem> = \.self
 
-    public func handle(_ action: Void) -> Task<Void, Never>? {
-        nil
+    public func handle(_ action: DogBreedViewDataAction) -> Task<Void, Never>? {
+        taskID = .init()
+        return Task {
+            try? await Task.sleep(for: .seconds(1)) // TODO: Connect with actual task
+        }
     }
 
     public func body(content: Content) -> some View {
@@ -73,12 +80,13 @@ public struct CoreDogBreedList: DataCollectionContainer {
 }
 
 public struct MockDogBreedList: DataCollectionContainer {
-    public let data: [BreedListItem]
+    @State public var data: [BreedListItem]
 
     public let id: KeyPath<BreedListItem, BreedListItem> = \.self
 
-    public func handle(_ action: Void) -> Task<Void, Never>? {
-        nil
+    public func handle(_ action: DogBreedViewDataAction) -> Task<Void, Never>? {
+        data = BreedList.mock.map()
+        return nil
     }
 }
 

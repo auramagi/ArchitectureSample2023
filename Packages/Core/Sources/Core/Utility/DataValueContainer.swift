@@ -110,14 +110,14 @@ public struct BuilderCollection<Builder: ViewDataCollectionBuilder> {
     
     private let id: KeyPath<Builder.ObjectCollectionContainer.Data.Element, Builder.ObjectCollectionContainer.ID>
     
-    private let actionHandler: (Builder.CollectionAction) -> Void
+    private let actionHandler: (Builder.CollectionAction) -> Task<Void, Never>?
 
     private let makeObjectContainer: (Builder.Object) -> Builder.ObjectProperty
     
     init(
         data: @escaping () -> Builder.ObjectCollectionContainer.Data,
         id: KeyPath<Builder.ObjectCollectionContainer.Data.Element, Builder.ObjectCollectionContainer.ID>,
-        actionHandler: @escaping (Builder.CollectionAction) -> Void,
+        actionHandler: @escaping (Builder.CollectionAction) -> Task<Void, Never>?,
         makeObjectContainer: @escaping (Builder.Object) -> Builder.ObjectProperty
     ) {
         self.data = data
@@ -134,7 +134,8 @@ public struct BuilderCollection<Builder: ViewDataCollectionBuilder> {
         }
     }
 
-    public func handle(_ action: Builder.CollectionAction) {
+    @discardableResult
+    public func handle(_ action: Builder.CollectionAction) -> Task<Void, Never>? {
         actionHandler(action)
     }
 }
