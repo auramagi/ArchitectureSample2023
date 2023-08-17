@@ -43,6 +43,8 @@ final class LiveAppContainer: AppUIContainer {
 
     let dogRepository: APIDogRepository
 
+    let localDogBreedRepository: CoreLocalDogBreedRepository
+
     var tagRepository: some TagRepositoryProtocol {
         RealmResolver()
     }
@@ -52,6 +54,7 @@ final class LiveAppContainer: AppUIContainer {
     init(configuration: AppContainer.Configuration) {
         let api = APIClient(session: .shared, configuration: .init(baseURL: configuration.apiBaseURL))
         self.dogRepository = api
+        self.localDogBreedRepository = .init(getBreedList: api.getBreedList)
         self.userSettingsRepository = .init()
     }
 }

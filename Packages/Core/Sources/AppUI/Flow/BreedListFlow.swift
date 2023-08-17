@@ -13,11 +13,11 @@ struct BreedListFlow<Container: AppUIContainer>: View {
 
     var body: some View {
         NavigationStack {
-            BreedListScreen(dependency: .init(
-                getBreedList: container.dogRepository.getBreedList
-            ))
+            BreedListScreen(
+                breeds: container.localDogBreedRepository.viewData()
+            )
             .navigationTitle("Breeds")
-            .navigationDestination(for: BreedListScreen.Destination.self) { destination in
+            .navigationDestination(for: BreedListScreenDestination.self) { destination in
                 switch destination {
                 case let .breedImage(breed):
                     breedImageDestination(breed: breed)

@@ -18,18 +18,18 @@ struct BreedListRow: View {
         case let .group(breed, subBreeds):
             DisclosureGroup(isExpanded: $isExpanded) {
                 ForEach(subBreeds, id: \.self) { subBreed in
-                    NavigationLink(value: BreedListScreen.Destination.breedImage(breed: subBreed)) {
+                    NavigationLink(value: BreedListScreenDestination.breedImage(breed: subBreed)) {
                         Text(subBreed, format: .breedName)
                     }
                 }
             } label: {
-                NavigationLink(value: BreedListScreen.Destination.breedImage(breed: breed)) {
+                NavigationLink(value: BreedListScreenDestination.breedImage(breed: breed)) {
                     Text(breed, format: .breedName)
                 }
             }
 
         case let .concrete(breed):
-            NavigationLink(value: BreedListScreen.Destination.breedImage(breed: breed)) {
+            NavigationLink(value: BreedListScreenDestination.breedImage(breed: breed)) {
                 Text(breed, format: .breedName)
             }
         }

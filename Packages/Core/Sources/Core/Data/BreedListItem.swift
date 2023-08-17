@@ -5,15 +5,14 @@
 //  Created by Mikhail Apurin on 2023/08/17.
 //
 
-import Core
 import Foundation
 
-enum BreedListItem: Hashable {
+public enum BreedListItem: Hashable {
     case group(breed: ConcreteBreed, subBreeds: [ConcreteBreed])
 
     case concrete(ConcreteBreed)
 
-    var breed: Breed {
+    public var breed: Breed {
         switch self {
         case let .group(breed, _), let .concrete(breed):
             return breed.breed
@@ -22,7 +21,7 @@ enum BreedListItem: Hashable {
 }
 
 extension BreedList {
-    func map() -> [BreedListItem] {
+    public func map() -> [BreedListItem] {
         reduce(into: []) { partialResult, item in
             let breed = ConcreteBreed(breed: item.key, subBreed: nil)
             if item.value.isEmpty {
