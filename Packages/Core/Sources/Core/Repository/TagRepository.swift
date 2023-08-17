@@ -33,6 +33,8 @@ public struct MockTagRepository: TagViewDataCollectionBuilder {
 
     public typealias ViewDataCollectionType = MockTagList
 
+    public var environmentModifier: EmptyModifier { .identity }
+
     let storage: MockTagStorage
 
     init(tags: [Tag]) {

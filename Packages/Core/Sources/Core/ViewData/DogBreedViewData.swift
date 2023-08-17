@@ -7,38 +7,10 @@
 
 import SwiftUI
 
-public protocol DogBreedViewData: ViewDataCollectionBuilder<BreedListItem, DogBreedViewDataAction, Void> { }
+public typealias DogBreedViewData = ViewDataCollectionBuilder<BreedListItem, DogBreedViewDataAction, Void>
 
 public enum DogBreedViewDataAction {
     case refresh
-}
-
-public struct CoreDogBreedViewData: DogBreedViewData {
-    let getBreedList: () async throws -> BreedList
-
-    public init(getBreedList: @escaping () async throws -> BreedList) {
-        self.getBreedList = getBreedList
-    }
-
-    public func makeCollection() -> CoreDogBreedList {
-        .init(getBreedList: getBreedList)
-    }
-
-    public func makeData(object: BreedListItem) -> MockDogBreedObject {
-        .init(element: object)
-    }
-}
-
-public struct MockDogBreedViewData: DogBreedViewData {
-    let data: [BreedListItem]
-
-    public func makeCollection() -> MockDogBreedList {
-        .init(data: data)
-    }
-
-    public func makeData(object: BreedListItem) -> MockDogBreedObject {
-        .init(element: object)
-    }
 }
 
 public struct CoreDogBreedList: ViewDataCollection {

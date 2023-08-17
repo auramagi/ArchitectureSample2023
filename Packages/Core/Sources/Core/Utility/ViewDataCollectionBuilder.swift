@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public protocol ViewDataCollectionBuilder<Entity, CollectionAction, Action>: ViewModifier {
+public protocol ViewDataCollectionBuilder<Entity, CollectionAction, Action> {
     associatedtype Entity
 
     associatedtype CollectionAction
@@ -26,15 +26,80 @@ public protocol ViewDataCollectionBuilder<Entity, CollectionAction, Action>: Vie
 
     // MARK: ViewModifier support
 
-    associatedtype Body: View = Content
+//    typealias EnvironmentModifierContent = ViewDataCollectionBuilderModifier<Self>.Content
+//
+//    associatedtype ResolvedEnvironment: View = EnvironmentModifierContent
 
-    // We redefine this to be able to provide an empty implementation in an extension
-    @ViewBuilder @MainActor func body(content: Content) -> Body
+//    func resolveEnvironment(content: EnvironmentModifierContent) -> ResolvedEnvironment
+
+    associatedtype EnvironmentModifier: ViewModifier = EmptyModifier
+    var environmentModifier: EnvironmentModifier { get }
 }
 
-extension ViewDataCollectionBuilder where Body == Content {
-    public func body(content: Content) -> Body {
-        content
+struct GenericViewDataCollectionBuilder<
+    VDC: ViewDataCollection,
+    VD: ViewData,
+    EnvironmentModifier: ViewModifier
+>: ViewDataCollectionBuilder {
+    typealias Entity = VD.Entity
+
+    typealias CollectionAction = VDC.Action
+
+    typealias Action = VD.Action
+
+    typealias Object = VDC.Object
+
+    typealias ViewDataCollectionType = VDC
+
+    typealias ViewDataType = VD
+
+    var _makeCollection: () -> ViewDataCollectionType
+
+    var _makeData: (Object) -> ViewDataType
+
+    var _environmentModifier: () -> EnvironmentModifier
+
+    init(
+        makeCollection: @escaping () -> ViewDataCollectionType,
+        makeData: @escaping (Object) -> ViewDataType,
+        environmentModifier: @escaping () -> EnvironmentModifier
+    ) {
+        self._makeCollection = makeCollection
+        self._makeData = makeData
+        self._environmentModifier = environmentModifier
+    }
+
+    func makeCollection() -> ViewDataCollectionType {
+        _makeCollection()
+    }
+
+    func makeData(object: Object) -> ViewDataType {
+        _makeData(object)
+    }
+
+    var environmentModifier: EnvironmentModifier {
+        _environmentModifier()
+    }
+}
+
+extension ViewDataCollectionBuilder {
+    
+    static func make<VDC: ViewDataCollection, VD: ViewData, EnvironmentModifier: ViewModifier> (
+        vdc: @escaping () -> VDC,
+        vd: @escaping (VDC.Object) -> VD,
+        environmentModifier: @escaping () -> EnvironmentModifier
+    ) -> Self where Self == GenericViewDataCollectionBuilder<VDC, VD, EnvironmentModifier> {
+        .init(
+            makeCollection: vdc,
+            makeData: vd,
+            environmentModifier: environmentModifier
+        )
+    }
+}
+
+public extension ViewDataCollectionBuilder where EnvironmentModifier == EmptyModifier {
+    var viewModifier: EnvironmentModifier {
+        .identity
     }
 }
 
@@ -61,7 +126,7 @@ public struct WithViewDataCollection<Builder: ViewDataCollectionBuilder, Content
                 )
             )
         }
-        .modifier(builder)
+        .modifier(builder.environmentModifier)
     }
 }
 

@@ -5,7 +5,7 @@
 //  Created by Mikhail Apurin on 2023/08/17.
 //
 
-import Foundation
+import SwiftUI
 
 public protocol LocalDogBreedRepositoryProtocol {
     associatedtype ViewData: DogBreedViewData
@@ -21,18 +21,30 @@ public final class CoreLocalDogBreedRepository: LocalDogBreedRepositoryProtocol 
     }
     
     public func viewData() -> some DogBreedViewData {
-        CoreDogBreedViewData(getBreedList: getBreedList)
+        .make {
+            CoreDogBreedList(getBreedList: self.getBreedList)
+        } vd: { object in
+            MockDogBreedObject(element: object)
+        } environmentModifier: {
+            EmptyModifier.identity
+        }
     }
 }
 
 public final class MockLocalDogBreedRepository: LocalDogBreedRepositoryProtocol {
-    let _viewData: MockDogBreedViewData
+    let data: [BreedListItem]
 
     public init(data: [BreedListItem]) {
-        self._viewData = .init(data: data)
+        self.data = data
     }
 
     public func viewData() -> some DogBreedViewData {
-        _viewData
+        .make {
+            MockDogBreedList(data: self.data)
+        } vd: { object in
+            MockDogBreedObject(element: object)
+        } environmentModifier: {
+            EmptyModifier.identity
+        }
     }
 }
