@@ -105,7 +105,6 @@ extension DynamicViewContainer where Body == Content {
     }
 }
 
-
 public struct BuilderCollection<Builder: ViewDataCollectionBuilder> {
     private var data: () -> Builder.ObjectCollectionContainer.Data
     

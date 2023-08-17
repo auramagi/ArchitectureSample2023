@@ -47,8 +47,11 @@ final class LiveAppContainer: AppUIContainer {
         RealmResolver()
     }
 
+    let userSettingsRepository: CoreUserSettingsRepository
+
     init(configuration: AppContainer.Configuration) {
         let api = APIClient(session: .shared, configuration: .init(baseURL: configuration.apiBaseURL))
         self.dogRepository = api
+        self.userSettingsRepository = .init()
     }
 }

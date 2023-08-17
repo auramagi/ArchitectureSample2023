@@ -1,5 +1,5 @@
 //
-//  Container.swift
+//  AppUIContainer.swift
 //  
 //
 //  Created by Mikhail Apurin on 2023/08/02.
@@ -17,6 +17,9 @@ public protocol AppUIContainer {
 
     associatedtype TagRepository: TagRepositoryProtocol
     var tagRepository: TagRepository { get }
+
+    associatedtype UserSettingsRepository: UserSettingsRepositoryProtocol
+    var userSettingsRepository: UserSettingsRepository { get }
 }
 
 public final class PreviewContainer: AppUIContainer {
@@ -26,10 +29,13 @@ public final class PreviewContainer: AppUIContainer {
 
     public let tagRepository: MockTagRepository
 
+    public let userSettingsRepository: MockUserSettingsRepository
+
     public init() {
         self.displayableErrorRepository = .mock()
         self.dogRepository = .mock()
         self.tagRepository = .mock(tags: .mock)
+        self.userSettingsRepository = .init(initialValue: .init(didShowWelcome: false))
     }
 }
 

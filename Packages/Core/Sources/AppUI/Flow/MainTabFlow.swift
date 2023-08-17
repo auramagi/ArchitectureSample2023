@@ -22,15 +22,24 @@ public struct MainTabFlow<Container: AppUIContainer>: View {
                 .tabItem {
                     Label("Breeds", systemImage: "list.bullet")
                 }
+
+            userDestination
+                .tabItem {
+                    Label("User", systemImage: "person")
+                }
         }
+    }
+
+    @ViewBuilder var breedListDestination: some View {
+        BreedListFlow(container: container)
     }
 
     @ViewBuilder var randomImageDestination: some View {
         RandomImageFlow(container: container)
     }
 
-    @ViewBuilder var breedListDestination: some View {
-        BreedListFlow(container: container)
+    @ViewBuilder var userDestination: some View {
+        UserFlow(container: container)
     }
 }
 
