@@ -26,5 +26,4 @@ extension APIDogRepository: DogRepositoryProtocol {
     public func getBreedList() async throws -> BreedList {
         try await execute(API.BreedListRequest.Get()).message
     }
-
 }

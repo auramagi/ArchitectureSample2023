@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-public typealias UserSettingsViewData = DataValueContainer<UserSettings, UserSettingsViewDataAction>
+public typealias UserSettingsViewData = ViewData<UserSettings, UserSettingsViewDataAction>
 
 public enum UserSettingsViewDataAction {
     case setDidShowWelcome(Bool)
 }
 
-struct CoreUserSettingsViewData: DataValueContainer {
+struct CoreUserSettingsViewData: ViewData {
     @AppStorage("DidShowWelcome") var didShowWelcome = false
 
     var element: UserSettings {
@@ -31,7 +31,7 @@ struct CoreUserSettingsViewData: DataValueContainer {
     }
 }
 
-struct MockUserSettingsViewData: DataValueContainer {
+struct MockUserSettingsViewData: ViewData {
     @State var userSettings: UserSettings
 
     init(initialValue: UserSettings) {

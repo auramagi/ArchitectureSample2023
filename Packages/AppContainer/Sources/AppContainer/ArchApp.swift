@@ -45,10 +45,6 @@ final class LiveAppContainer: AppUIContainer {
 
     let localDogBreedRepository: CoreLocalDogBreedRepository
 
-    var tagRepository: some TagRepositoryProtocol {
-        RealmResolver()
-    }
-
     let userSettingsRepository: CoreUserSettingsRepository
 
     init(configuration: AppContainer.Configuration) {

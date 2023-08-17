@@ -45,7 +45,6 @@ struct DogImageScreen: View {
             .buttonStyle(.borderedProminent)
             .disabled(!url.isLoaded)
             .padding()
-
         }
         .task(id: id) {
             guard loadedID != id else { return } // Load only once unless reloading by button

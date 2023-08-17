@@ -8,7 +8,7 @@
 import Combine
 import SwiftUI
 
-public protocol TagRepositoryProtocol: ViewDataCollectionBuilder<Tag, TagsContainerAction, TagsValueAction> { }
+public protocol TagViewDataCollectionBuilder: ViewDataCollectionBuilder<Tag, TagsContainerAction, TagsValueAction> { }
 
 public enum TagsContainerAction {
     case add(tag: Tag)
@@ -24,14 +24,14 @@ public enum TagsValueAction {
 
 // MARK: Mock implementation
 
-public struct MockTagRepository: TagRepositoryProtocol {
+public struct MockTagRepository: TagViewDataCollectionBuilder {
     public typealias Entity = Tag
 
     public typealias Object = MockTagObject
 
     public typealias ObjectProperty = MockTagContainer
 
-    public typealias ObjectCollectionContainer = MockTagList
+    public typealias ViewDataCollectionType = MockTagList
 
     let storage: MockTagStorage
 
@@ -39,11 +39,11 @@ public struct MockTagRepository: TagRepositoryProtocol {
         self.storage = .init(tags: tags.map { .init(tag: $0) })
     }
 
-    public func makeObjectCollectionContainer() -> MockTagList {
+    public func makeCollection() -> MockTagList {
         .init(storage: storage)
     }
 
-    public func makeObjectContainer(object: MockTagObject) -> MockTagContainer {
+    public func makeData(object: MockTagObject) -> MockTagContainer {
         .init(object: object) { object, action in
             switch action {
             case .delete:
@@ -53,7 +53,7 @@ public struct MockTagRepository: TagRepositoryProtocol {
     }
 }
 
-extension TagRepositoryProtocol where Self == MockTagRepository {
+extension TagViewDataCollectionBuilder where Self == MockTagRepository {
     public static func mock(tags: [Tag]) -> Self {
         .init(tags: tags)
     }
@@ -67,7 +67,7 @@ final class MockTagStorage: ObservableObject {
     }
 }
 
-public struct MockTagList: DataCollectionContainer {
+public struct MockTagList: ViewDataCollection {
     @ObservedObject var storage: MockTagStorage
 
     public var data: [MockTagObject] { storage.tags }
@@ -97,7 +97,7 @@ public struct MockTagList: DataCollectionContainer {
     }
 }
 
-public struct MockTagContainer: DataValueContainer {
+public struct MockTagContainer: ViewData {
     @ObservedObject var object: MockTagObject
     
     let actionHandler: (MockTagObject, TagsValueAction) -> Void
@@ -129,12 +129,12 @@ public final class MockTagObject: ObservableObject {
     }
 }
 
-struct TagsContainerView<Repo: TagRepositoryProtocol>: View {
-    var tags: Repo
+struct TagsContainerView<ViewDataCollectionBuilder: TagViewDataCollectionBuilder>: View {
+    var tags: ViewDataCollectionBuilder
 
     var body: some View {
-        tags.build { collection in
-            collection.forEach { value in
+        WithViewDataCollection(tags) { tags in
+            tags.forEach { value in
                 VStack(alignment: .leading) {
                     Text("VendedElement: \(value.element.id)")
 
@@ -152,22 +152,22 @@ struct TagsContainerView<Repo: TagRepositoryProtocol>: View {
                 .padding(.horizontal)
             }
             .onDelete { offsets in
-                collection.handle(.delete(offsets: offsets))
+                tags.handle(.delete(offsets: offsets))
             }
             .onMove { fromOffsets, toOffset in
-                collection.handle(.move(fromOffsets: fromOffsets, toOffset: toOffset))
+                tags.handle(.move(fromOffsets: fromOffsets, toOffset: toOffset))
             }
         }
     }
 }
 
 struct MyView_Previews: PreviewProvider {
-    static let repo: some TagRepositoryProtocol = .mock(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
+    static let tags: some TagViewDataCollectionBuilder = .mock(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
     
     static var previews: some View {
         NavigationStack {
             List {
-                TagsContainerView(tags: repo)
+                TagsContainerView(tags: tags)
             }
             .toolbar {
                 #if os(iOS)

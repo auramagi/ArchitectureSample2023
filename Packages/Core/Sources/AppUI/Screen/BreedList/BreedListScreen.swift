@@ -12,16 +12,16 @@ struct BreedListScreen<ViewData: DogBreedViewData>: View {
     let breeds: ViewData
 
     var body: some View {
-        breeds.build { collection in
+        WithViewDataCollection(breeds) { breeds in
             List {
                 Section {
-                    collection.forEach { item in
+                    breeds.forEach { item in
                         BreedListRow(item: item.element)
                     }
                 }
             }
             .refreshable {
-                await collection.handle(.refresh)?.value
+                await breeds.handle(.refresh)?.value
             }
         }
     }

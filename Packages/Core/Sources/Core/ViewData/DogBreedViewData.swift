@@ -20,11 +20,11 @@ public struct CoreDogBreedViewData: DogBreedViewData {
         self.getBreedList = getBreedList
     }
 
-    public func makeObjectCollectionContainer() -> CoreDogBreedList {
+    public func makeCollection() -> CoreDogBreedList {
         .init(getBreedList: getBreedList)
     }
 
-    public func makeObjectContainer(object: BreedListItem) -> MockDogBreedObject {
+    public func makeData(object: BreedListItem) -> MockDogBreedObject {
         .init(element: object)
     }
 }
@@ -32,16 +32,16 @@ public struct CoreDogBreedViewData: DogBreedViewData {
 public struct MockDogBreedViewData: DogBreedViewData {
     let data: [BreedListItem]
 
-    public func makeObjectCollectionContainer() -> MockDogBreedList {
+    public func makeCollection() -> MockDogBreedList {
         .init(data: data)
     }
 
-    public func makeObjectContainer(object: BreedListItem) -> MockDogBreedObject {
+    public func makeData(object: BreedListItem) -> MockDogBreedObject {
         .init(element: object)
     }
 }
 
-public struct CoreDogBreedList: DataCollectionContainer {
+public struct CoreDogBreedList: ViewDataCollection {
     let getBreedList: () async throws -> BreedList
 
     @State private var breeds: [BreedListItem] = []
@@ -80,7 +80,7 @@ public struct CoreDogBreedList: DataCollectionContainer {
     }
 }
 
-public struct MockDogBreedList: DataCollectionContainer {
+public struct MockDogBreedList: ViewDataCollection {
     @State public var data: [BreedListItem]
 
     public let id: KeyPath<BreedListItem, BreedListItem> = \.self
@@ -91,7 +91,7 @@ public struct MockDogBreedList: DataCollectionContainer {
     }
 }
 
-public struct MockDogBreedObject: DataValueContainer {
+public struct MockDogBreedObject: ViewData {
     public let element: BreedListItem
 
     public func handle(_ action: Void) -> Task<Void, Never>? {
