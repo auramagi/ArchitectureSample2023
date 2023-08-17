@@ -71,3 +71,11 @@ struct BreedListScreen: View {
         }
     }
 }
+
+struct BreedListScreen_Previews: PreviewProvider {
+    static let container = PreviewContainer()
+
+    static var previews: some View {
+        BreedListScreen(dependency: .init(getBreedList: container.dogRepository.getBreedList))
+    }
+}

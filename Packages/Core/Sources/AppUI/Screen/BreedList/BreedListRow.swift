@@ -35,3 +35,15 @@ struct BreedListRow: View {
         }
     }
 }
+
+struct BreedListRow_Previews: PreviewProvider {
+    static var previews: some View {
+        List {
+            BreedListRow(item: .concrete(.init(breed: "Shiba", subBreed: nil)))
+
+            BreedListRow(item: .group(breed: .init(breed: "Poodle", subBreed: nil), subBreeds: [
+                .init(breed: "Poodle", subBreed: "Toy")
+            ]))
+        }
+    }
+}

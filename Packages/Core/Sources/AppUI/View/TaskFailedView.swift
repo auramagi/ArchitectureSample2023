@@ -15,3 +15,9 @@ struct TaskFailedView: View {
             .padding()
     }
 }
+
+struct TaskFailedView_Previews: PreviewProvider {
+    static var previews: some View {
+        TaskFailedView()
+    }
+}

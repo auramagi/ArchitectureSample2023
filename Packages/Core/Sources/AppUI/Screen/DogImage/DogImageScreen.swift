@@ -83,3 +83,13 @@ struct DogImage: View {
         }
     }
 }
+
+struct DogImageScreen_Previews: PreviewProvider {
+    static let container = PreviewContainer()
+
+    static var previews: some View {
+        DogImageScreen(dependency: .init(
+            getDogImage: container.makeRandomDogImageService().getRandomDogImage
+        ))
+    }
+}

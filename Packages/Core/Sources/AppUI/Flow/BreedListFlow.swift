@@ -27,13 +27,17 @@ struct BreedListFlow<Container: AppUIContainer>: View {
     }
 
     @ViewBuilder func breedImageDestination(breed: ConcreteBreed) -> some View {
-        let service = DogBreedImageService(dependency: .init(
-            getDogBreedImage: container.dogRepository.getDogBreedImage(breed:),
-            getDogSubBreedImage: container.dogRepository.getDogSubBreedImage(breed:subBreed:),
-            sendError: container.displayableErrorRepository.sendError(_:)
+        DogImageScreen(dependency: .init(
+            getDogImage: { await container.makeDogBreedImageService().getDogBreedImage(breed: breed) }
         ))
+        .navigationTitle(breed.formatted(.breedName))
+    }
+}
 
-        DogImageScreen(dependency: .init(getDogImage: { await service.getDogBreedImage(breed: breed) }))
-            .navigationTitle(breed.formatted(.breedName))
+struct BreedListFlow_Previews: PreviewProvider {
+    static let container = PreviewContainer()
+
+    static var previews: some View {
+        BreedListFlow(container: container)
     }
 }

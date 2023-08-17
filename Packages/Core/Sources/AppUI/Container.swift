@@ -32,3 +32,20 @@ public final class PreviewContainer: AppUIContainer {
         self.tagRepository = .mock(tags: .mock)
     }
 }
+
+extension AppUIContainer {
+    public func makeDogBreedImageService() -> DogBreedImageService {
+        .init(dependency: .init(
+            getDogBreedImage: dogRepository.getDogBreedImage(breed:),
+            getDogSubBreedImage: dogRepository.getDogSubBreedImage(breed:subBreed:),
+            sendError: displayableErrorRepository.sendError(_:)
+        ))
+    }
+
+    public func makeRandomDogImageService() -> RandomDogImageService {
+        .init(dependency: .init(
+            getRandomDogImage: dogRepository.getRandomDogImage,
+            sendError: displayableErrorRepository.sendError(_:)
+        ))
+    }
+}

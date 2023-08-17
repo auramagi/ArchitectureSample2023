@@ -12,11 +12,19 @@ struct RandomImageFlow<Container: AppUIContainer>: View {
     let container: Container
 
     var body: some View {
-        let service = RandomDogImageService(dependency: .init(getRandomDogImage: container.dogRepository.getRandomDogImage, sendError: container.displayableErrorRepository.sendError(_:)))
-
         NavigationStack {
-            DogImageScreen(dependency: .init(getDogImage: service.getRandomDogImage))
-                .navigationTitle("Random Dog")
+            DogImageScreen(dependency: .init(
+                getDogImage: container.makeRandomDogImageService().getRandomDogImage
+            ))
+            .navigationTitle("Random Dog")
         }
+    }
+}
+
+struct RandomImageFlow_Previews: PreviewProvider {
+    static let container = PreviewContainer()
+
+    static var previews: some View {
+        RandomImageFlow(container: container)
     }
 }
