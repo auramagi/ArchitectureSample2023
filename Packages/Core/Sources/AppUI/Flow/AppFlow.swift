@@ -11,22 +11,22 @@ import SwiftUI
 public struct AppFlow<Container: AppUIContainer>: View {
     let container: Container
 
-    let userSettings: Container.UserSettingsRepositoryType.ViewData
+    let userSettings: Container.UserSettingsRepositoryType.ViewDataType
 
     public init(container: Container) {
         self.container = container
-        self.userSettings = container.userSettingsRepository.viewData()
+        self.userSettings = container.userSettingsRepository.makeData()
     }
     
     public var body: some View {
         ZStack {
-            if userSettings.element.didShowWelcome {
+            if userSettings.entity.didShowWelcome {
                 mainTabDestination
             } else {
                 welcomeDestination
             }
         }
-        .animation(.default, value: userSettings.element.didShowWelcome)
+        .animation(.default, value: userSettings.entity.didShowWelcome)
         .modifier(userSettings)
         .modifier(DisplayableErrorAlertViewModifier(dependency: .init(error: { container.displayableErrorRepository.error }, clearError: container.displayableErrorRepository.clearError(id:))))
     }

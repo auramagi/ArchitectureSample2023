@@ -7,17 +7,14 @@
 
 import Foundation
 
-public protocol UserSettingsRepository {
-    associatedtype ViewData: UserSettingsViewData
-
-    func viewData() -> ViewData
+public protocol UserSettingsRepository: ViewDataRepository<Void, UserSettings, UserSettingsViewDataAction> {
 }
 
 public final class CoreUserSettingsRepository: UserSettingsRepository {
     public init() { }
 
-    public func viewData() -> some UserSettingsViewData {
-        CoreUserSettingsViewData()
+    public func makeData(object: Void) -> CoreUserSettingsViewData {
+        .init()
     }
 }
 
@@ -28,7 +25,7 @@ public final class MockUserSettingsRepository: UserSettingsRepository {
         self._viewData = .init(initialValue: initialValue)
     }
 
-    public func viewData() -> some UserSettingsViewData {
+    public func makeData(object: Void) -> MockUserSettingsViewData {
         _viewData
     }
 }

@@ -16,7 +16,7 @@ struct BreedListScreen<Breeds: LocalDogBreedRepository>: View {
             List {
                 Section {
                     ForEach(breeds) { item in
-                        BreedListRow(item: item.element)
+                        BreedListRow(item: item.entity)
                     }
                 }
             }

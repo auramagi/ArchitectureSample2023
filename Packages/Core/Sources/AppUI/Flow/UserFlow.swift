@@ -13,7 +13,7 @@ struct UserFlow<Container: AppUIContainer>: View {
 
     var body: some View {
         NavigationStack {
-            UserScreen(userSettings: container.userSettingsRepository.viewData())
+            UserScreen(userSettings: container.userSettingsRepository)
         }
     }
 }

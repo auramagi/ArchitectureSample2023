@@ -8,7 +8,6 @@
 import SwiftUI
 
 public protocol LocalDogBreedRepository: ViewDataCollectionRepository<BreedListItem, DogBreedViewDataAction, Void> {
-
 }
 
 public final class CoreLocalDogBreedRepository: LocalDogBreedRepository {
@@ -23,7 +22,7 @@ public final class CoreLocalDogBreedRepository: LocalDogBreedRepository {
     }
 
     public func makeData(object: BreedListItem) -> MockDogBreedObject {
-        .init(element: object)
+        .init(entity: object)
     }
 }
 
@@ -39,6 +38,6 @@ public final class MockLocalDogBreedRepository: LocalDogBreedRepository {
     }
 
     public func makeData(object: BreedListItem) -> MockDogBreedObject {
-        .init(element: object)
+        .init(entity: object)
     }
 }

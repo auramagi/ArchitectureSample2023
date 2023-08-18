@@ -7,22 +7,20 @@
 
 import SwiftUI
 
-public typealias UserSettingsViewData = ViewData<UserSettings, UserSettingsViewDataAction>
-
 public enum UserSettingsViewDataAction {
     case setDidShowWelcome(Bool)
 }
 
-struct CoreUserSettingsViewData: ViewData {
+public struct CoreUserSettingsViewData: ViewData {
     @AppStorage("DidShowWelcome") var didShowWelcome = false
 
-    var element: UserSettings {
+    public var entity: UserSettings {
         .init(
             didShowWelcome: didShowWelcome
         )
     }
 
-    func handle(_ action: UserSettingsViewDataAction) -> Task<Void, Never>? {
+    public func handle(_ action: UserSettingsViewDataAction) -> Task<Void, Never>? {
         switch action {
         case let .setDidShowWelcome(newValue):
             didShowWelcome = newValue
@@ -31,16 +29,16 @@ struct CoreUserSettingsViewData: ViewData {
     }
 }
 
-struct MockUserSettingsViewData: ViewData {
+public struct MockUserSettingsViewData: ViewData {
     @State var userSettings: UserSettings
 
     init(initialValue: UserSettings) {
         self._userSettings = .init(initialValue: initialValue)
     }
 
-    var element: UserSettings { userSettings }
+    public var entity: UserSettings { userSettings }
 
-    func handle(_ action: UserSettingsViewDataAction) -> Task<Void, Never>? {
+    public func handle(_ action: UserSettingsViewDataAction) -> Task<Void, Never>? {
         switch action {
         case let .setDidShowWelcome(newValue):
             userSettings.didShowWelcome = newValue

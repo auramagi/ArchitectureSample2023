@@ -104,7 +104,7 @@ public struct MockTagContainer: ViewData {
     
     let actionHandler: (MockTagObject, TagsValueAction) -> Void
 
-    public var element: Tag {
+    public var entity: Tag {
         object.tag
     }
     
@@ -138,9 +138,9 @@ struct TagsContainerView<ViewDataCollectionRepository: TagViewDataCollectionRepo
         WithViewDataCollection(tags) { tags in
             ForEach(tags) { value in
                 VStack(alignment: .leading) {
-                    Text("VendedElement: \(value.element.id)")
+                    Text("VendedElement: \(value.entity.id)")
 
-                    Text(value.element.state.uuidString)
+                    Text(value.entity.state.uuidString)
                         .font(.caption2)
                         .foregroundColor(.secondary)
 

@@ -10,15 +10,15 @@ import SwiftUI
 public protocol ViewData<Entity, Action>: DynamicViewContainer {
     associatedtype Entity
 
-    var element: Entity { get }
+    var entity: Entity { get }
 }
 
-public protocol ViewDataRepository<Entity, Action> {
+public protocol ViewDataRepository<Object, Entity, Action> {
+    associatedtype Object = Void
+
     associatedtype Entity
 
     associatedtype Action
-
-    associatedtype Object = Void
 
     associatedtype ViewDataType: ViewData where ViewDataType.Entity == Entity, ViewDataType.Action == Action
 
@@ -26,6 +26,12 @@ public protocol ViewDataRepository<Entity, Action> {
 
     associatedtype DataEnvironment: ViewModifier = EmptyModifier
     var dataEnvironment: DataEnvironment { get }
+}
+
+public extension ViewDataRepository where Object == Void {
+    func makeData() -> ViewDataType {
+        makeData(object: ())
+    }
 }
 
 public extension ViewDataRepository where DataEnvironment == EmptyModifier {

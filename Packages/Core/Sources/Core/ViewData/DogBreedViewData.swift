@@ -62,7 +62,7 @@ public struct MockDogBreedList: ViewDataCollection {
 }
 
 public struct MockDogBreedObject: ViewData {
-    public let element: BreedListItem
+    public let entity: BreedListItem
 
     public func handle(_ action: Void) -> Task<Void, Never>? {
         nil

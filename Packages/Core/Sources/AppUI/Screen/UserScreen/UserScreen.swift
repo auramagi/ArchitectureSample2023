@@ -8,15 +8,18 @@
 import Core
 import SwiftUI
 
-struct UserScreen<ViewData: UserSettingsViewData>: View {
-    let userSettings: ViewData
+struct UserScreen<UserSettings: UserSettingsRepository>: View {
+    let userSettings: UserSettings
 
     var body: some View {
+        let data = userSettings.makeData()
+
         Button("Show Welcome Screen") {
-            userSettings.handle(.setDidShowWelcome(false))
+            data.handle(.setDidShowWelcome(false))
         }
         .buttonStyle(.borderedProminent)
-        .modifier(userSettings)
+        .modifier(data)
+        .modifier(userSettings.dataEnvironment)
     }
 }
 
