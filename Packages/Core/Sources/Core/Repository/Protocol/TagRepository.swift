@@ -8,9 +8,9 @@
 import Combine
 import SwiftUI
 
-public protocol TagViewDataCollectionRepository: ViewDataCollectionRepository<Tag, TagsContainerAction, TagsValueAction> { }
+public protocol TagRepository: ViewDataCollectionRepository<Tag, TagCollectionAction, TagAction> { }
 
-public enum TagsContainerAction {
+public enum TagCollectionAction {
     case add(tag: Tag)
 
     case delete(offsets: IndexSet)
@@ -18,23 +18,13 @@ public enum TagsContainerAction {
     case move(fromOffsets: IndexSet, toOffset: Int)
 }
 
-public enum TagsValueAction {
+public enum TagAction {
     case delete
 }
 
 // MARK: Mock implementation
 
-public struct MockTagRepository: TagViewDataCollectionRepository {
-    public typealias Entity = Tag
-
-    public typealias Object = MockTagObject
-
-    public typealias ObjectProperty = MockTagContainer
-
-    public typealias ViewDataCollectionType = MockTagList
-
-    public var environmentModifier: EmptyModifier { .identity }
-
+public struct MockTagRepository: TagRepository {
     let storage: MockTagStorage
 
     init(tags: [Tag]) {
@@ -55,7 +45,7 @@ public struct MockTagRepository: TagViewDataCollectionRepository {
     }
 }
 
-extension TagViewDataCollectionRepository where Self == MockTagRepository {
+extension TagRepository where Self == MockTagRepository {
     public static func mock(tags: [Tag]) -> Self {
         .init(tags: tags)
     }
@@ -84,7 +74,7 @@ public struct MockTagList: ViewDataCollection {
             }
     }
 
-    public func handle(_ action: TagsContainerAction) -> Task<Void, Never>? {
+    public func handle(_ action: TagCollectionAction) -> Task<Void, Never>? {
         switch action {
         case let .add(tag):
             storage.tags.append(.init(tag: tag))
@@ -102,13 +92,13 @@ public struct MockTagList: ViewDataCollection {
 public struct MockTagContainer: ViewData {
     @ObservedObject var object: MockTagObject
     
-    let actionHandler: (MockTagObject, TagsValueAction) -> Void
+    let actionHandler: (MockTagObject, TagAction) -> Void
 
     public var entity: Tag {
         object.tag
     }
     
-    public func handle(_ action: TagsValueAction) -> Task<Void, Never>? {
+    public func handle(_ action: TagAction) -> Task<Void, Never>? {
         actionHandler(object, action)
         return nil
     }
@@ -128,54 +118,5 @@ public final class MockTagObject: ObservableObject {
                 return tag
             }
             .assign(to: &$tag)
-    }
-}
-
-struct TagsContainerView<ViewDataCollectionRepository: TagViewDataCollectionRepository>: View {
-    var tags: ViewDataCollectionRepository
-
-    var body: some View {
-        WithViewDataCollection(tags) { tags in
-            ForEach(tags) { value in
-                VStack(alignment: .leading) {
-                    Text("VendedElement: \(value.entity.id)")
-
-                    Text(value.entity.state.uuidString)
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-
-                    Button("Delete", role: .destructive) {
-                        withAnimation {
-                            value.handle(.delete)
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal)
-            }
-            .onDelete { offsets in
-                tags.handle(.delete(offsets: offsets))
-            }
-            .onMove { fromOffsets, toOffset in
-                tags.handle(.move(fromOffsets: fromOffsets, toOffset: toOffset))
-            }
-        }
-    }
-}
-
-struct MyView_Previews: PreviewProvider {
-    static let tags: some TagViewDataCollectionRepository = .mock(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
-    
-    static var previews: some View {
-        NavigationStack {
-            List {
-                TagsContainerView(tags: tags)
-            }
-            .toolbar {
-                #if os(iOS)
-                EditButton()
-                #endif
-            }
-        }
     }
 }

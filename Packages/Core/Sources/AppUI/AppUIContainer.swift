@@ -18,6 +18,9 @@ public protocol AppUIContainer {
     associatedtype DogBreedRepositoryType: DogBreedRepository
     var dogBreedRepository: DogBreedRepositoryType { get }
 
+    associatedtype TagRepositoryType: TagRepository
+    var tagRepository: TagRepositoryType { get }
+
     associatedtype UserSettingsRepositoryType: UserSettingsRepository
     var userSettingsRepository: UserSettingsRepositoryType { get }
 }
@@ -33,12 +36,15 @@ public final class PreviewContainer: AppUIContainer {
 
     public let dogBreedRepository: MockDogBreedRepository
 
+    public var tagRepository: MockTagRepository
+
     public let userSettingsRepository: MockUserSettingsRepository
 
     public init(configuration: Configuration = .default) {
         self.displayableErrorRepository = .mock()
         self.dogRepository = .mock()
         self.dogBreedRepository = .mock()
+        self.tagRepository = .mock(tags: .mock)
         self.userSettingsRepository = .mock(initialValue: .init(didShowWelcome: configuration.didShowWelcome))
     }
 }

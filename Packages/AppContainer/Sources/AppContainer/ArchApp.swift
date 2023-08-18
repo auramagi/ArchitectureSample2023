@@ -8,6 +8,7 @@
 import AppUI
 import Core
 import DogAPI
+import RealmSwift
 import RealmStorage
 import SwiftUI
 
@@ -45,13 +46,17 @@ final class LiveAppContainer: AppUIContainer {
 
     let dogBreedRepository: CoreDogBreedRepository
 
+    let tagRepository: RealmTagRepository
+
     let userSettingsRepository: CoreUserSettingsRepository
 
     init(configuration: AppContainer.Configuration) {
         let api = APIClient(session: .shared, configuration: .init(baseURL: configuration.apiBaseURL))
         let userDefaults = UserDefaults.standard
+        let configuration = Realm.Configuration.defaultConfiguration
         self.dogRepository = api
         self.dogBreedRepository = .init(getBreedList: api.getBreedList)
+        self.tagRepository = .init(configuration: configuration)
         self.userSettingsRepository = .init(userDefaults: userDefaults)
     }
 }
