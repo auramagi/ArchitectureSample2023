@@ -1,5 +1,5 @@
 //
-//  CoreLocalDogBreedRepository.swift
+//  CoreDogBreedRepository.swift
 //  
 //
 //  Created by Mikhail Apurin on 2023/08/18.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public final class CoreLocalDogBreedRepository: LocalDogBreedRepository {
+public final class CoreDogBreedRepository: DogBreedRepository {
     let getBreedList: () async throws -> BreedList
 
     public init(getBreedList: @escaping () async throws -> BreedList) {
@@ -38,7 +38,7 @@ public struct CoreDogBreedList: ViewDataCollection {
 
     public let id: KeyPath<BreedListItem, BreedListItem> = \.self
 
-    public func handle(_ action: DogBreedViewDataAction) -> Task<Void, Never>? {
+    public func handle(_ action: DogBreedCollectionAction) -> Task<Void, Never>? {
         return Task {
             // TODO: Connect with actual task
             try? await Task.sleep(for: .milliseconds(500))

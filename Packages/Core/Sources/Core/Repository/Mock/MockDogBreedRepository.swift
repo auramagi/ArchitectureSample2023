@@ -1,5 +1,5 @@
 //
-//  MockLocalDogBreedRepository.swift
+//  MockDogBreedRepository.swift
 //  
 //
 //  Created by Mikhail Apurin on 2023/08/18.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public final class MockLocalDogBreedRepository: LocalDogBreedRepository {
+public final class MockDogBreedRepository: DogBreedRepository {
     let data: [BreedListItem]
 
     public init(data: [BreedListItem]) {
@@ -23,7 +23,7 @@ public final class MockLocalDogBreedRepository: LocalDogBreedRepository {
     }
 }
 
-public extension LocalDogBreedRepository where Self == MockLocalDogBreedRepository {
+public extension DogBreedRepository where Self == MockDogBreedRepository {
     static func mock(data: [BreedListItem] = .mock()) -> Self {
         .init(data: data)
     }
@@ -34,7 +34,7 @@ public struct MockDogBreedList: ViewDataCollection {
 
     public let id: KeyPath<BreedListItem, BreedListItem> = \.self
 
-    public func handle(_ action: DogBreedViewDataAction) -> Task<Void, Never>? {
+    public func handle(_ action: DogBreedCollectionAction) -> Task<Void, Never>? {
         data = BreedList.mock.map()
         return nil
     }

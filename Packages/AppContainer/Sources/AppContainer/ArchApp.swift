@@ -43,7 +43,7 @@ final class LiveAppContainer: AppUIContainer {
 
     let dogRepository: APIDogRepository
 
-    let localDogBreedRepository: CoreLocalDogBreedRepository
+    let dogBreedRepository: CoreDogBreedRepository
 
     let userSettingsRepository: CoreUserSettingsRepository
 
@@ -51,7 +51,7 @@ final class LiveAppContainer: AppUIContainer {
         let api = APIClient(session: .shared, configuration: .init(baseURL: configuration.apiBaseURL))
         let userDefaults = UserDefaults.standard
         self.dogRepository = api
-        self.localDogBreedRepository = .init(getBreedList: api.getBreedList)
+        self.dogBreedRepository = .init(getBreedList: api.getBreedList)
         self.userSettingsRepository = .init(userDefaults: userDefaults)
     }
 }

@@ -8,7 +8,7 @@
 import Core
 import SwiftUI
 
-struct BreedListScreen<Breeds: LocalDogBreedRepository>: View {
+struct BreedListScreen<Breeds: DogBreedRepository>: View {
     let breeds: Breeds
 
     var body: some View {
@@ -35,6 +35,6 @@ struct BreedListScreen_Previews: PreviewProvider {
     static let container = PreviewContainer()
 
     static var previews: some View {
-        BreedListScreen(breeds: container.localDogBreedRepository)
+        BreedListScreen(breeds: container.dogBreedRepository)
     }
 }
