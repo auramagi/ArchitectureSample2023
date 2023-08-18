@@ -49,8 +49,9 @@ final class LiveAppContainer: AppUIContainer {
 
     init(configuration: AppContainer.Configuration) {
         let api = APIClient(session: .shared, configuration: .init(baseURL: configuration.apiBaseURL))
+        let userDefaults = UserDefaults.standard
         self.dogRepository = api
         self.localDogBreedRepository = .init(getBreedList: api.getBreedList)
-        self.userSettingsRepository = .init()
+        self.userSettingsRepository = .init(userDefaults: userDefaults)
     }
 }

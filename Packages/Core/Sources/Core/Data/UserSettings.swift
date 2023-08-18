@@ -14,3 +14,9 @@ public struct UserSettings {
         self.didShowWelcome = didShowWelcome
     }
 }
+
+extension UserSettings {
+    public static var mock: Self {
+        .init(didShowWelcome: false)
+    }
+}

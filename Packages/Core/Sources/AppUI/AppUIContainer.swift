@@ -38,8 +38,8 @@ public final class PreviewContainer: AppUIContainer {
     public init(configuration: Configuration = .default) {
         self.displayableErrorRepository = .mock()
         self.dogRepository = .mock()
-        self.localDogBreedRepository = .init(data: [])
-        self.userSettingsRepository = .init(initialValue: .init(didShowWelcome: configuration.didShowWelcome))
+        self.localDogBreedRepository = .mock()
+        self.userSettingsRepository = .mock(initialValue: .init(didShowWelcome: configuration.didShowWelcome))
     }
 }
 

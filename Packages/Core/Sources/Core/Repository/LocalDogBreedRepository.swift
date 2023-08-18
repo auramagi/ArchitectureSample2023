@@ -41,3 +41,9 @@ public final class MockLocalDogBreedRepository: LocalDogBreedRepository {
         .init(entity: object)
     }
 }
+
+public extension LocalDogBreedRepository where Self == MockLocalDogBreedRepository {
+    static func mock(data: [BreedListItem] = .mock()) -> Self {
+        .init(data: data)
+    }
+}
