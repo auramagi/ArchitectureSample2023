@@ -46,8 +46,6 @@ final class LiveAppContainer: AppUIContainer {
 
     let dogBreedRepository: CoreDogBreedRepository
 
-    let tagRepository: RealmTagRepository
-
     let userSettingsRepository: CoreUserSettingsRepository
 
     init(configuration: AppContainer.Configuration) {
@@ -56,7 +54,6 @@ final class LiveAppContainer: AppUIContainer {
         let configuration = Realm.Configuration.defaultConfiguration
         self.dogRepository = api
         self.dogBreedRepository = .init(getBreedList: api.getBreedList)
-        self.tagRepository = .init(configuration: configuration)
         self.userSettingsRepository = .init(userDefaults: userDefaults)
     }
 }
