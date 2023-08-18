@@ -7,13 +7,13 @@
 
 import Foundation
 
-public protocol UserSettingsRepositoryProtocol {
+public protocol UserSettingsRepository {
     associatedtype ViewData: UserSettingsViewData
 
     func viewData() -> ViewData
 }
 
-public final class CoreUserSettingsRepository: UserSettingsRepositoryProtocol {
+public final class CoreUserSettingsRepository: UserSettingsRepository {
     public init() { }
 
     public func viewData() -> some UserSettingsViewData {
@@ -21,7 +21,7 @@ public final class CoreUserSettingsRepository: UserSettingsRepositoryProtocol {
     }
 }
 
-public final class MockUserSettingsRepository: UserSettingsRepositoryProtocol {
+public final class MockUserSettingsRepository: UserSettingsRepository {
     let _viewData: MockUserSettingsViewData
 
     public init(initialValue: UserSettings) {

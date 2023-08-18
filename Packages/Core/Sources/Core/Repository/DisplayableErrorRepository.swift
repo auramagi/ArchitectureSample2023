@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-public protocol DisplayableErrorRepositoryProtocol {
+public protocol DisplayableErrorRepository {
     var error: AsyncStream<DisplayableError> { get }
 
     func sendError(_ error: DisplayableError) async
@@ -16,7 +16,7 @@ public protocol DisplayableErrorRepositoryProtocol {
     func clearError(id: DisplayableError.ID)
 }
 
-public final class CoreDisplayableErrorRepository: DisplayableErrorRepositoryProtocol {
+public final class CoreDisplayableErrorRepository: DisplayableErrorRepository {
     let errors: CurrentValueSubject<[DisplayableError], Never>
 
     public init(errors: [DisplayableError]) {
@@ -38,7 +38,7 @@ public final class CoreDisplayableErrorRepository: DisplayableErrorRepositoryPro
     }
 }
 
-extension DisplayableErrorRepositoryProtocol where Self: CoreDisplayableErrorRepository {
+extension DisplayableErrorRepository where Self: CoreDisplayableErrorRepository {
     public static func mock(errors: [DisplayableError] = []) -> Self {
         .init(errors: errors)
     }

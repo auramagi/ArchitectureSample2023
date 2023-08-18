@@ -10,7 +10,7 @@ import Foundation
 
 public typealias APIDogRepository = APIClient
 
-extension APIDogRepository: DogRepositoryProtocol {
+extension APIDogRepository: DogRepository {
     public func getRandomDogImage() async throws -> URL {
         try await execute(API.RandomImageRequest.Single.Get()).message
     }

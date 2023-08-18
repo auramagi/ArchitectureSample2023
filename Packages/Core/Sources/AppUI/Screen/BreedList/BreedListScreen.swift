@@ -8,8 +8,8 @@
 import Core
 import SwiftUI
 
-struct BreedListScreen<ViewData: DogBreedViewData>: View {
-    let breeds: ViewData
+struct BreedListScreen<Breeds: LocalDogBreedRepository>: View {
+    let breeds: Breeds
 
     var body: some View {
         WithViewDataCollection(breeds) { breeds in

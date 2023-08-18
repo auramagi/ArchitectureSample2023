@@ -11,7 +11,7 @@ import SwiftUI
 public struct AppFlow<Container: AppUIContainer>: View {
     let container: Container
 
-    let userSettings: Container.UserSettingsRepository.ViewData
+    let userSettings: Container.UserSettingsRepositoryType.ViewData
 
     public init(container: Container) {
         self.container = container

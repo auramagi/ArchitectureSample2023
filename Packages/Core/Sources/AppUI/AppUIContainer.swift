@@ -9,17 +9,17 @@ import Core
 import Foundation
 
 public protocol AppUIContainer {
-    associatedtype DisplayableErrorRepository: DisplayableErrorRepositoryProtocol
-    var displayableErrorRepository: DisplayableErrorRepository { get }
+    associatedtype DisplayableErrorRepositoryType: DisplayableErrorRepository
+    var displayableErrorRepository: DisplayableErrorRepositoryType { get }
 
-    associatedtype DogRepository: DogRepositoryProtocol
-    var dogRepository: DogRepository { get }
+    associatedtype DogRepositoryType: DogRepository
+    var dogRepository: DogRepositoryType { get }
 
-    associatedtype LocalDogBreedRepository: LocalDogBreedRepositoryProtocol
-    var localDogBreedRepository: LocalDogBreedRepository { get }
+    associatedtype LocalDogBreedRepositoryType: LocalDogBreedRepository
+    var localDogBreedRepository: LocalDogBreedRepositoryType { get }
 
-    associatedtype UserSettingsRepository: UserSettingsRepositoryProtocol
-    var userSettingsRepository: UserSettingsRepository { get }
+    associatedtype UserSettingsRepositoryType: UserSettingsRepository
+    var userSettingsRepository: UserSettingsRepositoryType { get }
 }
 
 public final class PreviewContainer: AppUIContainer {

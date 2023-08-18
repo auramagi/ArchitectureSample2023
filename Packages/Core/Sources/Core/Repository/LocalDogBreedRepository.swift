@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-public protocol LocalDogBreedRepositoryProtocol: ViewDataCollectionRepository<BreedListItem, DogBreedViewDataAction, Void> {
+public protocol LocalDogBreedRepository: ViewDataCollectionRepository<BreedListItem, DogBreedViewDataAction, Void> {
 
 }
 
-public final class CoreLocalDogBreedRepository: LocalDogBreedRepositoryProtocol {
+public final class CoreLocalDogBreedRepository: LocalDogBreedRepository {
     let getBreedList: () async throws -> BreedList
 
     public init(getBreedList: @escaping () async throws -> BreedList) {
@@ -27,7 +27,7 @@ public final class CoreLocalDogBreedRepository: LocalDogBreedRepositoryProtocol 
     }
 }
 
-public final class MockLocalDogBreedRepository: LocalDogBreedRepositoryProtocol {
+public final class MockLocalDogBreedRepository: LocalDogBreedRepository {
     let data: [BreedListItem]
 
     public init(data: [BreedListItem]) {

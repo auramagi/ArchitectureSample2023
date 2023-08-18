@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol DogRepositoryProtocol {
+public protocol DogRepository {
     func getRandomDogImage() async throws -> URL
 
     func getDogBreedImage(breed: Breed) async throws -> URL
@@ -17,7 +17,7 @@ public protocol DogRepositoryProtocol {
     func getBreedList() async throws -> BreedList
 }
 
-extension DogRepositoryProtocol where Self: MockDogRepository {
+extension DogRepository where Self: MockDogRepository {
     public static func mock(
         getRandomDogImage: @escaping () async -> URL = { .mock(path: "random_dog") },
         getDogBreedImage: @escaping (Breed) async throws -> URL = { _ in .mock(path: "random_dog") },
@@ -33,7 +33,7 @@ extension DogRepositoryProtocol where Self: MockDogRepository {
     }
 }
 
-public final class MockDogRepository: DogRepositoryProtocol {
+public final class MockDogRepository: DogRepository {
     let _getRandomDogImage: () async throws -> URL
 
     let _getDogBreedImage: (Breed) async throws -> URL

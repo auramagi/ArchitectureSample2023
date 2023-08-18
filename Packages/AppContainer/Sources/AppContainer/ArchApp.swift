@@ -39,7 +39,7 @@ public enum AppContainer {
 }
 
 final class LiveAppContainer: AppUIContainer {
-    let displayableErrorRepository: some DisplayableErrorRepositoryProtocol = CoreDisplayableErrorRepository(errors: [])
+    let displayableErrorRepository: some DisplayableErrorRepository = CoreDisplayableErrorRepository(errors: [])
 
     let dogRepository: APIDogRepository
 
