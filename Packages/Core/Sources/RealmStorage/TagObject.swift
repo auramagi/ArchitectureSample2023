@@ -119,3 +119,7 @@ public struct RealmTag: ViewData {
         }
     }
 }
+
+//public struct RealmViewData<Object: RealmSwift.Object, Action>: ViewData {
+//
+//}

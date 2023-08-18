@@ -1,40 +1,11 @@
 //
-//  ViewDataCollection.swift
+//  WithViewDataCollection.swift
 //  
 //
-//  Created by Mikhail Apurin on 13.08.2023.
+//  Created by Mikhail Apurin on 2023/08/18.
 //
 
 import SwiftUI
-
-public protocol ViewDataCollection: DynamicViewContainer {
-    associatedtype Object
-    
-    associatedtype Data: RandomAccessCollection where Data.Element == Object
-    
-    associatedtype ID: Hashable
-    
-    var data: Data { get }
-    
-    var id: KeyPath<Object, ID> { get }
-}
-
-public protocol ViewDataCollectionRepository<Entity, CollectionAction, Action>: ViewDataRepository {
-    associatedtype CollectionAction
-
-    associatedtype ViewDataCollectionType: ViewDataCollection where ViewDataCollectionType.Object == Object, ViewDataCollectionType.Action == CollectionAction
-
-    func makeCollection() -> ViewDataCollectionType
-
-    associatedtype DataCollectionEnvironment: ViewModifier = EmptyModifier
-    var dataCollectionEnvironment: DataCollectionEnvironment { get }
-}
-
-public extension ViewDataCollectionRepository where DataCollectionEnvironment == EmptyModifier {
-    var dataCollectionEnvironment: EmptyModifier {
-        .identity
-    }
-}
 
 public struct WithViewDataCollection<Repository: ViewDataCollectionRepository, Content: View>: View {
     public typealias DataCollection = DataCollectionContent<Repository>
