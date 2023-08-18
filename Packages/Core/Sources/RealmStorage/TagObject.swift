@@ -32,8 +32,25 @@ public final class RealmTagRepository: TagRepository {
         .init()
     }
 
+    public var dataCollectionEnvironment: RealmConfigurationViewModifier {
+        .init(configuration: configuration)
+    }
+
     public func makeData(object: TagObject) -> RealmTag {
         .init(object: object)
+    }
+
+    public var dataEnvironment: RealmConfigurationViewModifier {
+        .init(configuration: configuration)
+    }
+}
+
+public struct RealmConfigurationViewModifier: ViewModifier {
+    let configuration: Realm.Configuration
+
+    public func body(content: Content) -> some View {
+        content
+            .environment(\.realmConfiguration, configuration)
     }
 }
 
