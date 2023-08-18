@@ -1,14 +1,26 @@
 //
-//  DogBreedViewData.swift
+//  CoreLocalDogBreedRepository.swift
 //  
 //
-//  Created by Mikhail Apurin on 2023/08/17.
+//  Created by Mikhail Apurin on 2023/08/18.
 //
 
 import SwiftUI
 
-public enum DogBreedViewDataAction {
-    case refresh
+public final class CoreLocalDogBreedRepository: LocalDogBreedRepository {
+    let getBreedList: () async throws -> BreedList
+
+    public init(getBreedList: @escaping () async throws -> BreedList) {
+        self.getBreedList = getBreedList
+    }
+
+    public func makeCollection() -> CoreDogBreedList {
+        .init(getBreedList: getBreedList)
+    }
+
+    public func makeData(object: BreedListItem) -> MockDogBreedObject {
+        .init(entity: object)
+    }
 }
 
 public struct CoreDogBreedList: ViewDataCollection {
@@ -47,24 +59,5 @@ public struct CoreDogBreedList: ViewDataCollection {
                     loadedID = nil
                 }
             }
-    }
-}
-
-public struct MockDogBreedList: ViewDataCollection {
-    @State public var data: [BreedListItem]
-
-    public let id: KeyPath<BreedListItem, BreedListItem> = \.self
-
-    public func handle(_ action: DogBreedViewDataAction) -> Task<Void, Never>? {
-        data = BreedList.mock.map()
-        return nil
-    }
-}
-
-public struct MockDogBreedObject: ViewData {
-    public let entity: BreedListItem
-
-    public func handle(_ action: Void) -> Task<Void, Never>? {
-        nil
     }
 }

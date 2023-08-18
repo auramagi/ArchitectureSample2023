@@ -1,20 +1,12 @@
 //
-//  DisplayableErrorRepository.swift
+//  CoreDisplayableErrorRepository.swift
 //  
 //
-//  Created by Mikhail Apurin on 2023/08/17.
+//  Created by Mikhail Apurin on 2023/08/18.
 //
 
 import Combine
 import Foundation
-
-public protocol DisplayableErrorRepository {
-    var error: AsyncStream<DisplayableError> { get }
-
-    func sendError(_ error: DisplayableError) async
-
-    func clearError(id: DisplayableError.ID)
-}
 
 public final class CoreDisplayableErrorRepository: DisplayableErrorRepository {
     let errors: CurrentValueSubject<[DisplayableError], Never>
@@ -35,11 +27,5 @@ public final class CoreDisplayableErrorRepository: DisplayableErrorRepository {
 
     public func clearError(id: DisplayableError.ID) {
         errors.value.removeAll(id: id)
-    }
-}
-
-extension DisplayableErrorRepository where Self: CoreDisplayableErrorRepository {
-    public static func mock(errors: [DisplayableError] = []) -> Self {
-        .init(errors: errors)
     }
 }
