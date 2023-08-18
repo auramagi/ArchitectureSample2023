@@ -12,14 +12,12 @@ struct UserScreen<UserSettings: UserSettingsRepository>: View {
     let userSettings: UserSettings
 
     var body: some View {
-        let data = userSettings.makeData()
-
-        Button("Show Welcome Screen") {
-            data.handle(.setDidShowWelcome(false))
+        WithViewData(userSettings) { userSettings in
+            Button("Show Welcome Screen") {
+                userSettings.handle(.setDidShowWelcome(false))
+            }
+            .buttonStyle(.borderedProminent)
         }
-        .buttonStyle(.borderedProminent)
-        .modifier(data)
-        .modifier(userSettings.dataEnvironment)
     }
 }
 

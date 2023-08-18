@@ -36,83 +36,60 @@ public extension ViewDataCollectionRepository where DataCollectionEnvironment ==
     }
 }
 
-public struct WithViewDataCollection<Builder: ViewDataCollectionRepository, Content: View>: View {
-    public typealias DataCollection = DataCollectionContent<Builder>
+public struct WithViewDataCollection<Repository: ViewDataCollectionRepository, Content: View>: View {
+    public typealias DataCollection = DataCollectionContent<Repository>
 
-    let builder: Builder
+    let repository: Repository
 
     @ViewBuilder let content: (DataCollection) -> Content
 
-    public init(_ builder: Builder, @ViewBuilder content: @escaping (DataCollection) -> Content) {
-        self.builder = builder
+    public init(_ repository: Repository, @ViewBuilder content: @escaping (DataCollection) -> Content) {
+        self.repository = repository
         self.content = content
     }
 
     public var body: some View {
-        InstalledModifierView(modifier: builder.makeCollection()) { container in
+        InstalledModifierView(modifier: repository.makeCollection()) { viewDataCollection in
             content(
                 .init(
-                    data: { container.data },
-                    id: container.id,
-                    actionHandler: container.handle(_:),
-                    makeData: builder.makeData(object:)
+                    repository: repository,
+                    dataCollection: viewDataCollection
                 )
             )
         }
-        .modifier(builder.dataCollectionEnvironment)
+        .modifier(repository.dataCollectionEnvironment)
     }
 }
 
-public struct InstalledModifierView<Modifier: DynamicViewContainer, Content: View>: View {
-    let modifier: Modifier
+public struct DataCollectionContent<Repository: ViewDataCollectionRepository> {
+    let repository: Repository
 
-    @ViewBuilder let content: (Modifier) -> Content
-
-    public var body: some View {
-        content(modifier)
-            .modifier(modifier)
-    }
-}
-
-public struct DataCollectionContent<Builder: ViewDataCollectionRepository> {
-    var data: () -> Builder.ViewDataCollectionType.Data
-
-    let id: KeyPath<Builder.ViewDataCollectionType.Data.Element, Builder.ViewDataCollectionType.ID>
-
-    let actionHandler: (Builder.CollectionAction) -> Task<Void, Never>?
-
-    let makeData: (Builder.Object) -> Builder.ViewDataType
+    let dataCollection: Repository.ViewDataCollectionType
 
     init(
-        data: @escaping () -> Builder.ViewDataCollectionType.Data,
-        id: KeyPath<Builder.ViewDataCollectionType.Data.Element, Builder.ViewDataCollectionType.ID>,
-        actionHandler: @escaping (Builder.CollectionAction) -> Task<Void, Never>?,
-        makeData: @escaping (Builder.Object) -> Builder.ViewDataType
+        repository: Repository,
+        dataCollection: Repository.ViewDataCollectionType
     ) {
-        self.data = data
-        self.id = id
-        self.actionHandler = actionHandler
-        self.makeData = makeData
+        self.repository = repository
+        self.dataCollection = dataCollection
     }
 
     @discardableResult
-    public func handle(_ action: Builder.CollectionAction) -> Task<Void, Never>? {
-        actionHandler(action)
+    public func handle(_ action: Repository.CollectionAction) -> Task<Void, Never>? {
+        dataCollection.handle(action)
     }
 }
 
 extension ForEach {
-    public init<Builder: ViewDataCollectionRepository, C: View>(
-        _ collection: DataCollectionContent<Builder>,
-        @ViewBuilder content: @escaping (Builder.ViewDataType) -> C
-    ) where Builder.ViewDataCollectionType.Data == Data, ID == Builder.ViewDataCollectionType.ID, Content == InstalledModifierView<Builder.ViewDataType, C> {
+    public init<Repository: ViewDataCollectionRepository, C: View>(
+        _ collectionContent: DataCollectionContent<Repository>,
+        @ViewBuilder content: @escaping (Repository.ViewDataType) -> C
+    ) where Repository.ViewDataCollectionType.Data == Data, ID == Repository.ViewDataCollectionType.ID, Content == WithViewData<Repository, C> {
         self.init(
-            collection.data(),
-            id: collection.id,
+            collectionContent.dataCollection.data,
+            id: collectionContent.dataCollection.id,
             content: { object in
-                InstalledModifierView(modifier: collection.makeData(object)) { property in
-                    content(property)
-                }
+                WithViewData(collectionContent.repository, object: object, content: content)
             }
         )
     }

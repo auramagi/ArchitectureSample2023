@@ -9,31 +9,27 @@ import Core
 import SwiftUI
 
 struct WelcomeFlow<Container: AppUIContainer>: View {
-    enum Action {
-        case dismiss
-    }
-
     let container: Container
 
-    let actionHandler: (Action) -> Void
-
     var body: some View {
-        VStack(spacing: 64) {
-            Text("Welcome")
-                .font(.largeTitle.bold())
+        WithViewData(container.userSettingsRepository) { userSettings in
+            VStack(spacing: 64) {
+                Text("Welcome")
+                    .font(.largeTitle.bold())
 
-            Text("Thank you for installing this app!")
+                Text("Thank you for installing this app!")
 
-            Button("Show me dogs") {
-                actionHandler(.dismiss)
+                Button("Show me dogs") {
+                    userSettings.handle(.setDidShowWelcome(true))
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .buttonStyle(.borderedProminent)
         }
     }
 }
 
 struct WelcomeFlow_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeFlow(container: .preview(), actionHandler: { _ in })
+        WelcomeFlow(container: .preview())
     }
 }

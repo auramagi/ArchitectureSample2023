@@ -11,23 +11,21 @@ import SwiftUI
 public struct AppFlow<Container: AppUIContainer>: View {
     let container: Container
 
-    let userSettings: Container.UserSettingsRepositoryType.ViewDataType
-
     public init(container: Container) {
         self.container = container
-        self.userSettings = container.userSettingsRepository.makeData()
     }
     
     public var body: some View {
-        ZStack {
-            if userSettings.entity.didShowWelcome {
-                mainTabDestination
-            } else {
-                welcomeDestination
+        WithViewData(container.userSettingsRepository) { userSettings in
+            ZStack {
+                if userSettings.entity.didShowWelcome {
+                    mainTabDestination
+                } else {
+                    welcomeDestination
+                }
             }
+            .animation(.default, value: userSettings.entity.didShowWelcome)
         }
-        .animation(.default, value: userSettings.entity.didShowWelcome)
-        .modifier(userSettings)
         .modifier(DisplayableErrorAlertViewModifier(dependency: .init(error: { container.displayableErrorRepository.error }, clearError: container.displayableErrorRepository.clearError(id:))))
     }
 
@@ -36,12 +34,7 @@ public struct AppFlow<Container: AppUIContainer>: View {
     }
 
     @ViewBuilder var welcomeDestination: some View {
-        WelcomeFlow(container: container) { action in
-            switch action {
-            case .dismiss:
-                _ = userSettings.handle(.setDidShowWelcome(true))
-            }
-        }
+        WelcomeFlow(container: container)
     }
 }
 
