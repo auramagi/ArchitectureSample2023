@@ -18,7 +18,7 @@ public struct Tag: Hashable, Identifiable {
 
     public init(name: String, state: UUID = .init()) {
         self.name = name
-        self.state = .init()
+        self.state = state
     }
 }
 

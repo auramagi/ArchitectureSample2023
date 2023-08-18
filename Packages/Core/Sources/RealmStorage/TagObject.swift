@@ -13,13 +13,11 @@ public final class TagObject: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) public var name: String
 }
 
+let globalState = UUID()
+
 extension Tag {
     init(object: TagObject) {
-        if object.isInvalidated {
-            self.init(name: "Invalidated object")
-        } else {
-            self.init(name: object.name)
-        }
+        self.init(name: object.name, state: globalState)
     }
 }
 
@@ -42,7 +40,7 @@ public final class RealmTagRepository: TagRepository {
 public struct RealmTagCollection: ViewDataCollection {
     @ObservedResults(TagObject.self) public var data
 
-    public let id: KeyPath<TagObject, String> = \.name
+    public let id: KeyPath<TagObject, TagObject.ID> = \.id
 
     public func handle(_ action: TagCollectionAction) -> Task<Void, Never>? {
         switch action {
@@ -60,40 +58,40 @@ public struct RealmTagCollection: ViewDataCollection {
             fatalError()
         }
     }
-}
 
-public struct AAA: View {
-    @ObservedResults(TagObject.self) public var data
-
-    public init() { }
-    
-    public var body: some View {
-        SwiftUI.List {
-            ForEach(data) { e in
-                VStack {
-                    Color.red.modifier(
-                        RealmTag(object: e)
-                    )
-                }
-            }
-
-            Button("Add") {
-                withAnimation {
-                    let object = TagObject()
-                    object.name = UUID().uuidString
-                    $data.append(object)
-                }
-            }
-        }
-        .animation(.default, value: data)
+    public func body(content: Content) -> some View {
+        content
+            .animation(.default, value: data)
     }
 }
 
 public struct RealmTag: ViewData {
+    // A wrapper to store a fallback entity in case object is invalidated
+    private final class Wrapper: ObservableObject {
+        var entity: Tag
+
+        init(entity: Tag) {
+            self.entity = entity
+        }
+    }
+
     @ObservedRealmObject var object: TagObject
 
+    @StateObject private var wrapper: Wrapper
+
+    init(object: TagObject) {
+        self.object = object
+        self._wrapper = .init(wrappedValue: .init(entity: .init(object: object))) // assume object is not invalidated on first appearance
+    }
+
     public var entity: Tag {
-        .init(object: object)
+        if object.isInvalidated {
+            return wrapper.entity // return last mapped entity before invalidation
+        } else {
+            let entity = Tag(object: object)
+            wrapper.entity = entity
+            return entity
+        }
     }
 
     public func handle(_ action: TagAction) -> Task<Void, Never>? {
