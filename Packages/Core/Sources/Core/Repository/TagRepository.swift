@@ -8,7 +8,7 @@
 import Combine
 import SwiftUI
 
-public protocol TagViewDataCollectionBuilder: ViewDataCollectionBuilder<Tag, TagsContainerAction, TagsValueAction> { }
+public protocol TagViewDataCollectionRepository: ViewDataCollectionRepository<Tag, TagsContainerAction, TagsValueAction> { }
 
 public enum TagsContainerAction {
     case add(tag: Tag)
@@ -24,7 +24,7 @@ public enum TagsValueAction {
 
 // MARK: Mock implementation
 
-public struct MockTagRepository: TagViewDataCollectionBuilder {
+public struct MockTagRepository: TagViewDataCollectionRepository {
     public typealias Entity = Tag
 
     public typealias Object = MockTagObject
@@ -55,7 +55,7 @@ public struct MockTagRepository: TagViewDataCollectionBuilder {
     }
 }
 
-extension TagViewDataCollectionBuilder where Self == MockTagRepository {
+extension TagViewDataCollectionRepository where Self == MockTagRepository {
     public static func mock(tags: [Tag]) -> Self {
         .init(tags: tags)
     }
@@ -131,8 +131,8 @@ public final class MockTagObject: ObservableObject {
     }
 }
 
-struct TagsContainerView<ViewDataCollectionBuilder: TagViewDataCollectionBuilder>: View {
-    var tags: ViewDataCollectionBuilder
+struct TagsContainerView<ViewDataCollectionRepository: TagViewDataCollectionRepository>: View {
+    var tags: ViewDataCollectionRepository
 
     var body: some View {
         WithViewDataCollection(tags) { tags in
@@ -164,7 +164,7 @@ struct TagsContainerView<ViewDataCollectionBuilder: TagViewDataCollectionBuilder
 }
 
 struct MyView_Previews: PreviewProvider {
-    static let tags: some TagViewDataCollectionBuilder = .mock(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
+    static let tags: some TagViewDataCollectionRepository = .mock(tags: [.init(name: "1"), .init(name: "2"), .init(name: "3")])
     
     static var previews: some View {
         NavigationStack {

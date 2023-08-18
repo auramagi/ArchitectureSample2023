@@ -8,13 +8,30 @@
 import SwiftUI
 
 public protocol ViewData<Entity, Action>: DynamicViewContainer {
-    // MARK: Primary associated Types
-
     associatedtype Entity
-    
-    // MARK: External value
 
     var element: Entity { get }
+}
+
+public protocol ViewDataRepository<Entity, Action> {
+    associatedtype Entity
+
+    associatedtype Action
+
+    associatedtype Object = Void
+
+    associatedtype ViewDataType: ViewData where ViewDataType.Entity == Entity, ViewDataType.Action == Action
+
+    func makeData(object: Object) -> ViewDataType
+
+    associatedtype DataEnvironment: ViewModifier = EmptyModifier
+    var dataEnvironment: DataEnvironment { get }
+}
+
+public extension ViewDataRepository where DataEnvironment == EmptyModifier {
+    var dataEnvironment: EmptyModifier {
+        .identity
+    }
 }
 
 public protocol DynamicViewContainer: DynamicProperty, ViewModifier {

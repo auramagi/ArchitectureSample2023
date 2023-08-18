@@ -35,6 +35,6 @@ struct BreedListScreen_Previews: PreviewProvider {
     static let container = PreviewContainer()
 
     static var previews: some View {
-        BreedListScreen(breeds: container.localDogBreedRepository.viewData())
+        BreedListScreen(breeds: container.localDogBreedRepository)
     }
 }

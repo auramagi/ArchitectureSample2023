@@ -14,7 +14,7 @@ struct BreedListFlow<Container: AppUIContainer>: View {
     var body: some View {
         NavigationStack {
             BreedListScreen(
-                breeds: container.localDogBreedRepository.viewData()
+                breeds: container.localDogBreedRepository
             )
             .navigationTitle("Breeds")
             .navigationDestination(for: BreedListScreenDestination.self) { destination in

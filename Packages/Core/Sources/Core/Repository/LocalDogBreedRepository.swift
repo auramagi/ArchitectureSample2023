@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-public protocol LocalDogBreedRepositoryProtocol {
-    associatedtype ViewData: DogBreedViewData
+public protocol LocalDogBreedRepositoryProtocol: ViewDataCollectionRepository<BreedListItem, DogBreedViewDataAction, Void> {
 
-    func viewData() -> ViewData
 }
 
 public final class CoreLocalDogBreedRepository: LocalDogBreedRepositoryProtocol {
@@ -19,15 +17,13 @@ public final class CoreLocalDogBreedRepository: LocalDogBreedRepositoryProtocol 
     public init(getBreedList: @escaping () async throws -> BreedList) {
         self.getBreedList = getBreedList
     }
-    
-    public func viewData() -> some DogBreedViewData {
-        .make {
-            CoreDogBreedList(getBreedList: self.getBreedList)
-        } vd: { object in
-            MockDogBreedObject(element: object)
-        } environmentModifier: {
-            EmptyModifier.identity
-        }
+
+    public func makeCollection() -> CoreDogBreedList {
+        .init(getBreedList: getBreedList)
+    }
+
+    public func makeData(object: BreedListItem) -> MockDogBreedObject {
+        .init(element: object)
     }
 }
 
@@ -38,13 +34,11 @@ public final class MockLocalDogBreedRepository: LocalDogBreedRepositoryProtocol 
         self.data = data
     }
 
-    public func viewData() -> some DogBreedViewData {
-        .make {
-            MockDogBreedList(data: self.data)
-        } vd: { object in
-            MockDogBreedObject(element: object)
-        } environmentModifier: {
-            EmptyModifier.identity
-        }
+    public func makeCollection() -> MockDogBreedList {
+        .init(data: self.data)
+    }
+
+    public func makeData(object: BreedListItem) -> MockDogBreedObject {
+        .init(element: object)
     }
 }

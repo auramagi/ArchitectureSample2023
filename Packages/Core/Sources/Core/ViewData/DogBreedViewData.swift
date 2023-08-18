@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public typealias DogBreedViewData = ViewDataCollectionBuilder<BreedListItem, DogBreedViewDataAction, Void>
+public typealias DogBreedViewData = ViewDataCollectionRepository<BreedListItem, DogBreedViewDataAction, Void>
 
 public enum DogBreedViewDataAction {
     case refresh
