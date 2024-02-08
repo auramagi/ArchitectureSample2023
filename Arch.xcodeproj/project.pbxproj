@@ -136,7 +136,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		61EC61312A7AFF590026240D /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		A31AFA142A787E3500874E78 /* ArchWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ArchWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A31AFA162A787E3500874E78 /* ArchWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchWatchApp.swift; sourceTree = "<group>"; };
 		A31AFA1A2A787E3600874E78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -211,14 +210,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		61EC61302A7AFF590026240D /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				61EC61312A7AFF590026240D /* Core.h */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
 		A31AFA0D2A787B0D00874E78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,7 +269,6 @@
 				A31AFA2B2A787EB100874E78 /* MyIntent */,
 				A31AFA4F2A7888EF00874E78 /* MyWidget */,
 				A31AFA682A78890600874E78 /* MyWidgetWatch */,
-				61EC61302A7AFF590026240D /* Core */,
 				A34836042A7876DA0019C266 /* Products */,
 				A31AFA0D2A787B0D00874E78 /* Frameworks */,
 			);

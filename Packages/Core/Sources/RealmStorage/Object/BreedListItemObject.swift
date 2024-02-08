@@ -19,6 +19,12 @@ public final class BreedListItemObject: Object, ObjectKeyIdentifiable {
     @Persisted public var subBreeds: List<BreedListItemObject>
 }
 
+extension BreedListItemObject {
+    static func primaryKey(entity: ConcreteBreed) -> String {
+        "\(entity.breed);\(entity.subBreed ?? "")"
+    }
+}
+
 extension BreedListItem {
     init(object: BreedListItemObject) {
         if object.subBreeds.isEmpty {
@@ -45,7 +51,7 @@ extension BreedListItemObject {
 
     convenience init(entity: ConcreteBreed) {
         self.init()
-        self.id = "\(entity.breed);\(entity.subBreed ?? "")"
+        self.id = BreedListItemObject.primaryKey(entity: entity)
         self.breed = entity.breed
         self.subBreed = entity.subBreed
     }

@@ -12,12 +12,15 @@ import SwiftUI
 public final class RealmBreedRepository: DogBreedRepository {
     let configuration: Realm.Configuration
 
-    public init(configuration: Realm.Configuration) {
+    let _refresh: () async -> [BreedListItem]
+
+    public init(configuration: Realm.Configuration, refresh: @escaping () async -> [BreedListItem]) {
         self.configuration = configuration
+        self._refresh = refresh
     }
 
     public func makeCollection() -> RealmBreedViewDataCollection {
-        .init()
+        .init(refresh: _refresh)
     }
 
     public var dataCollectionEnvironment: RealmConfigurationViewModifier {
@@ -43,6 +46,8 @@ public struct RealmConfigurationViewModifier: ViewModifier {
 }
 
 public struct RealmBreedViewDataCollection: ViewDataCollection {
+    let refresh: () async -> [BreedListItem]
+
     @ObservedResults(BreedListObject.self) public var list
 
     public var data: RealmSwift.List<BreedListItemObject> {
@@ -54,13 +59,47 @@ public struct RealmBreedViewDataCollection: ViewDataCollection {
     public func body(content: Content) -> some View {
         content
             .animation(.default, value: data)
+            .task {
+                await handle(.refresh)
+            }
     }
 
     public func handle(_ action: DogBreedCollectionAction) -> Task<Void, Never>? {
         switch action {
         case .refresh:
-            return nil
+            return Task {
+                let newData = await refresh()
+
+                let object: BreedListObject = {
+                    if let object = list.first {
+                        return object
+                    } else {
+                        let object = BreedListObject()
+                        $list.append(object)
+                        return object
+                    }
+                }()
+
+
+            }
         }
+    }
+}
+
+private extension BreedListObject {
+    func update(newData: [BreedListItem]) {
+        let existing = breeds.map { BreedListItem(object: $0) }
+
+        let objects = newData.map { entity in
+            let object = {
+                if let object = realm?.object(ofType: BreedListItemObject.self, forPrimaryKey: BreedListItemObject.primaryKey(entity: entity.concreteBreed)) {
+                    return object
+                } else {
+                    return BreedListItemObject()
+                }
+            }()
+        }
+
     }
 }
 
